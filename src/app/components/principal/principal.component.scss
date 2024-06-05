@@ -1,0 +1,25 @@
+.color{
+   color: black !important;
+}
+ .cancel{
+    background-color: rgb(226, 30, 23);;
+ }
+ .click-me{
+    color: rgb(0, 0, 0);
+ }
+ figure:hover{
+     background-color: #337AB7 !important;
+     cursor: pointer;
+
+ }
+
+figure:hover .color{
+ //   background-color: #337AB7 !important;
+    color: #ffffff !important;
+    cursor: pointer;
+
+ }
+button{
+   width: 199px;
+   background-color: #D9534F ;
+}

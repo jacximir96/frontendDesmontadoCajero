@@ -1,0 +1,145 @@
+button{
+    cursor:pointer;
+}
+.w-full{
+    width: 100%;
+}
+.atras{
+    cursor: pointer;
+}
+.confirmar{
+    width: 100%;
+    height: 63px;
+    background-color: #337AB7;
+    color: white;
+    border-radius: 10px;
+}
+.cancelar{
+    width: 100%;
+    height: 63px;
+    margin-left: 16px;
+    background-color: #D9534F;
+    color: white;
+    border-radius: 10px;
+}
+.barra-superior{
+    margin-top: 0px;
+    margin-bottom: 16px;
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+.tarjeta-principal:hover{
+    background-color: rgb(217, 237, 255,30%);
+}
+.tarjeta-principal{
+cursor: pointer;
+border: 1px;
+margin-left: 0px;
+margin-right: 0px;
+margin-bottom: 18px;
+border-color:#F0F0F0;
+width: 100% !important; 
+border-style: solid;
+border-width: 2px;
+border-radius: 10px;
+}
+.cambio{
+    margin: 0px;
+    padding: 0px;
+}
+
+
+@media (width > 1200px) and (width < 1800px){
+    .col-xl-2{
+        flex: 25% !important;
+        max-width: 25% !important;
+    }
+    button{
+        width: 70% !important;
+    }
+    .buscar{
+        width: 100% !important;
+        padding-left: 16px;
+    }
+   
+}
+
+@media (width > 1800px){
+    button{
+        width: 199px !important;
+    }
+    .buscar{
+        width: 625px !important;
+        padding-left: 17px;
+    }
+    .tarjeta-principal{
+        width: 278px !important;
+    }
+    .barra-superior{
+        margin-top: 0px;
+        margin-bottom: 16px;
+        margin-left: auto;
+        margin-right: auto;
+        width: 1750px;
+    }
+    .tarjetas-contenedor{
+        width: 1750px;
+        margin: auto;
+    }
+    .cambio{
+        margin: 0px;
+        padding: 0px 0px 0px 10px;
+    }
+    .mensaje{
+        margin-left: auto;
+        margin-right: auto;
+        width: 1750px;
+    }
+    
+}
+@media (max-width: 1199px){
+    .cambio{
+        margin-bottom: 16px !important;
+    }
+    .buscar{
+        margin: 0px !important;
+        width: 100% !important;
+
+    }
+    button{
+        width: 100% !important;
+    }
+   .col-md-3{
+    padding-left: 0px;
+   }
+}
+
+.loader {
+    border: 16px solid #f3f3f3; /* Light grey */
+    border-top: 16px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+.contenedorLoading{
+    width: 100vw;
+    height: 80%;
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    display: flex;
+    align-items: center;
+    z-index: 9999;
+}

@@ -1,0 +1,74 @@
+
+.keyboard-base {
+    background-color: rgb(255, 255, 255);
+    display: grid;
+    grid-template-columns: repeat(21, 35px);
+    grid-template-rows: repeat(5, 60px);
+    border-radius: 10px;
+}
+
+
+.key {
+    background-color: rgb(243, 243, 243);
+    border: 0.1px solid #dddddd;
+    grid-column: span 2;
+    font-size: 20px;
+    text-align: center;
+    padding-top: 17px;
+    color: #959595;
+}
+
+.key:hover {
+  border: 1px solid #eeeeee;
+  background-color: #959595;
+  color: white;
+  
+}
+
+.delete {
+    grid-column: span 20;
+    color: white;
+    background-color: red;
+}
+
+.tab {
+    grid-column: span 3;
+}
+
+.backslash {
+    grid-column: span 3;
+}
+
+.capslock {
+    grid-column: span 4;
+}
+
+.return {
+    grid-column: span 4;
+}
+
+.leftshift {
+    grid-column: span 5;
+}
+
+.rightshift {
+    grid-column: span 5;
+}
+
+.leftctrl {
+    grid-column: span 3;
+}
+
+.command {
+    grid-column: span 3;
+    font-size: 14px;
+}
+
+.space {
+    grid-column: span 4;
+}
+.ok {
+    grid-column: span 10;
+    background-color: #5CB85C;
+    color: white;
+}

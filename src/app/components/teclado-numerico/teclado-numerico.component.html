@@ -1,0 +1,104 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+<div class="contenedor-teclado">
+    <div style="margin: 8px;display: flex;justify-content: flex-end;"><svg width="35" height="35" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M31.7188 0H3.28125C1.46973 0 0 1.63541 0 3.65116V30.4263C0 32.4421 1.46973 34.0775 3.28125 34.0775H31.7188C33.5303 34.0775 35 32.4421 35 30.4263V3.65116C35 1.63541 33.5303 0 31.7188 0ZM26.0039 22.0971C26.332 22.4622 26.332 23.0555 26.0039 23.4207L23.2354 26.5013C22.9072 26.8664 22.374 26.8664 22.0459 26.5013L17.5 21.3973L12.9541 26.5013C12.626 26.8664 12.0928 26.8664 11.7646 26.5013L8.99609 23.4207C8.66797 23.0555 8.66797 22.4622 8.99609 22.0971L13.583 17.0387L8.99609 11.9804C8.66797 11.6152 8.66797 11.0219 8.99609 10.6568L11.7646 7.57615C12.0928 7.21104 12.626 7.21104 12.9541 7.57615L17.5 12.6802L22.0459 7.57615C22.374 7.21104 22.9072 7.21104 23.2354 7.57615L26.0039 10.6568C26.332 11.0219 26.332 11.6152 26.0039 11.9804L21.417 17.0387L26.0039 22.0971Z" fill="black"/>
+        </svg>
+        </div>
+    <br>
+    <div  style="display: flex;justify-content: center;">
+        <span style="font-size: 24px;font-weight: 500;">Denominación: 50 </span>
+        
+    </div>
+    <div  style="display: flex;justify-content: center;">
+            Ingresar Cantidad
+        
+    </div>
+
+    <div  style="display: flex;justify-content: center;padding:5px;margin: 5px;">
+    <input class="text-center  mb-2 input-teclado" id="code" >
+</div>
+
+
+<div style="display: flex;justify-content: center;">
+  
+    <div class="btn-group-vertical button-custom-width py-2" role="group" aria-label="Basic example">
+      
+
+    <div class="btn-group">
+        <button type="button" class="btn btn-outline-secondary py-3 num-custom-width" style="border-top-left-radius:10px ;" onclick="document.getElementById('code').value=document.getElementById('code').value + '1';">1</button>
+        <button type="button" class="btn btn-outline-secondary py-3 num-custom-width" onclick="document.getElementById('code').value=document.getElementById('code').value + '2';">2</button>
+        <button type="button" class="btn btn-outline-secondary py-3 num-custom-width" style="border-top-right-radius:10px ;" onclick="document.getElementById('code').value=document.getElementById('code').value + '3';">3</button>
+    </div>
+    <div class="btn-group">
+        <button type="button" class="btn btn-outline-secondary py-3 num-custom-width" onclick="document.getElementById('code').value=document.getElementById('code').value + '4';">4</button>
+        <button type="button" class="btn btn-outline-secondary py-3 num-custom-width" onclick="document.getElementById('code').value=document.getElementById('code').value + '5';">5</button>
+        <button type="button" class="btn btn-outline-secondary py-3 num-custom-width" onclick="document.getElementById('code').value=document.getElementById('code').value + '6';">6</button>
+    </div>
+    <div class="btn-group">
+        <button type="button" class="btn btn-outline-secondary py-3 num-custom-width" onclick="document.getElementById('code').value=document.getElementById('code').value + '7';">7</button>
+        <button type="button" class="btn btn-outline-secondary py-3 num-custom-width" onclick="document.getElementById('code').value=document.getElementById('code').value + '8';">8</button>
+        <button type="button" class="btn btn-outline-secondary py-3 num-custom-width" onclick="document.getElementById('code').value=document.getElementById('code').value + '9';">9</button>
+    </div>
+    <div class="btn-group ">
+        <button type="button" class="btn btn-outline-secondary  py-3 num-custom-width" style="border-bottom-left-radius:10px ;"  onclick="document.getElementById('code').value=document.getElementById('code').value.slice(0, -1);">&lt;</button>
+        <button type="button" class="btn btn-outline-secondary py-3 num-custom-width"  onclick="document.getElementById('code').value=document.getElementById('code').value + '0';">0&nbsp;</button>
+        <button type="button" class="btn btn-outline-secondary py-3 num-custom-width" style="border-bottom-right-radius:10px ;" onclick="document.getElementById('code').value=document.getElementById('code').value + '.';">&nbsp;.&nbsp;</button>
+    </div>
+    <div class="btn-group py-3">
+        <button type="button" class="btn btn-primary py-3 ok" onclick="" style="color: white;"><svg width="22" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <mask id="mask0_1946_23524" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="22" height="30">
+            <rect width="22" height="30" fill="#D9D9D9"/>
+            </mask>
+            <g mask="url(#mask0_1946_23524)">
+            <path d="M11.9375 22.5L4.8125 15.375L6.59375 13.5938L11.9375 18.9375L23.4063 7.46875L25.1875 9.25L11.9375 22.5Z" fill="white"/>
+            </g>
+            </svg>
+             </button>
+        <button type="button" class="btn btn-primary py-3 exit" onclick=""> <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g filter="url(#filter0_d_1974_24283)">
+            <path d="M6.5 13.25L4.75 11.5L9.25 7L4.75 2.53125L6.5 0.78125L11 5.28125L15.4688 0.78125L17.2188 2.53125L12.7188 7L17.2188 11.5L15.4688 13.25L11 8.75L6.5 13.25Z" fill="white"/>
+            </g>
+            <defs>
+            <filter id="filter0_d_1974_24283" x="0.75" y="0.78125" width="20.4688" height="20.4688" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+            <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+            <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+            <feOffset dy="4"/>
+            <feGaussianBlur stdDeviation="2"/>
+            <feComposite in2="hardAlpha" operator="out"/>
+            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+            <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_1974_24283"/>
+            <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_1974_24283" result="shape"/>
+            </filter>
+            </defs>
+            </svg>
+            </button>
+
+    </div>
+</div>
+
+</div>
+
+</div>
+<div class="direccionales">
+    <button style="width: 235px;margin-right: 16px;background-color: #337AB7;border-color: #337AB7;height:63px ;border-radius: 10px;"><svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <mask id="mask0_1906_21242" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="30" height="30">
+        <rect width="30" height="30" fill="#D9D9D9"/>
+        </mask>
+        <g mask="url(#mask0_1906_21242)">
+        <path d="M15 20L16.75 18.25L14.75 16.25H20V13.75H14.75L16.75 11.75L15 10L10 15L15 20ZM15 27.5C13.2708 27.5 11.6458 27.1719 10.125 26.5156C8.60417 25.8594 7.28125 24.9688 6.15625 23.8438C5.03125 22.7188 4.14063 21.3958 3.48438 19.875C2.82812 18.3542 2.5 16.7292 2.5 15C2.5 13.2708 2.82812 11.6458 3.48438 10.125C4.14063 8.60417 5.03125 7.28125 6.15625 6.15625C7.28125 5.03125 8.60417 4.14063 10.125 3.48438C11.6458 2.82812 13.2708 2.5 15 2.5C16.7292 2.5 18.3542 2.82812 19.875 3.48438C21.3958 4.14063 22.7188 5.03125 23.8438 6.15625C24.9688 7.28125 25.8594 8.60417 26.5156 10.125C27.1719 11.6458 27.5 13.2708 27.5 15C27.5 16.7292 27.1719 18.3542 26.5156 19.875C25.8594 21.3958 24.9688 22.7188 23.8438 23.8438C22.7188 24.9688 21.3958 25.8594 19.875 26.5156C18.3542 27.1719 16.7292 27.5 15 27.5ZM15 25C17.7917 25 20.1562 24.0312 22.0938 22.0938C24.0312 20.1562 25 17.7917 25 15C25 12.2083 24.0312 9.84375 22.0938 7.90625C20.1562 5.96875 17.7917 5 15 5C12.2083 5 9.84375 5.96875 7.90625 7.90625C5.96875 9.84375 5 12.2083 5 15C5 17.7917 5.96875 20.1562 7.90625 22.0938C9.84375 24.0312 12.2083 25 15 25Z" fill="white"/>
+        </g>
+        </svg>
+        </button>
+    <button style="width: 235px; background-color: #337AB7;border-color: #337AB7;height: 63px;border-radius: 10px;">
+        <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <mask id="mask0_1906_21245" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="30" height="30">
+            <rect width="30" height="30" fill="#D9D9D9"/>
+            </mask>
+            <g mask="url(#mask0_1906_21245)">
+            <path d="M15 20L20 15L15 10L13.25 11.75L15.25 13.75H10V16.25H15.25L13.25 18.25L15 20ZM15 27.5C13.2708 27.5 11.6458 27.1719 10.125 26.5156C8.60417 25.8594 7.28125 24.9688 6.15625 23.8438C5.03125 22.7188 4.14063 21.3958 3.48438 19.875C2.82812 18.3542 2.5 16.7292 2.5 15C2.5 13.2708 2.82812 11.6458 3.48438 10.125C4.14063 8.60417 5.03125 7.28125 6.15625 6.15625C7.28125 5.03125 8.60417 4.14063 10.125 3.48438C11.6458 2.82812 13.2708 2.5 15 2.5C16.7292 2.5 18.3542 2.82812 19.875 3.48438C21.3958 4.14063 22.7188 5.03125 23.8438 6.15625C24.9688 7.28125 25.8594 8.60417 26.5156 10.125C27.1719 11.6458 27.5 13.2708 27.5 15C27.5 16.7292 27.1719 18.3542 26.5156 19.875C25.8594 21.3958 24.9688 22.7188 23.8438 23.8438C22.7188 24.9688 21.3958 25.8594 19.875 26.5156C18.3542 27.1719 16.7292 27.5 15 27.5ZM15 25C17.7917 25 20.1562 24.0312 22.0938 22.0938C24.0312 20.1562 25 17.7917 25 15C25 12.2083 24.0312 9.84375 22.0938 7.90625C20.1562 5.96875 17.7917 5 15 5C12.2083 5 9.84375 5.96875 7.90625 7.90625C5.96875 9.84375 5 12.2083 5 15C5 17.7917 5.96875 20.1562 7.90625 22.0938C9.84375 24.0312 12.2083 25 15 25Z" fill="white"/>
+            </g>
+            </svg>
+            
+    </button>
+</div>

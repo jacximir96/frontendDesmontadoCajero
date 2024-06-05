@@ -1,0 +1,920 @@
+<div id="accordion-open" data-accordion="open">
+    <table
+      class="divide-y divide-gray-200 dark:divide-gray-600"
+    >
+      <tr style="border-bottom-width: 3px;" class="text-center bg-gray-100 dark:bg-gray-700">
+        <th
+          scope="col"
+          class="p-4 text-xs tracking-wider text-center text-gray-900 uppercase dark:text-white"
+          style="width: 200px;"
+        >
+          Formas de pago
+        </th>
+        <th
+          scope="col"
+          class="p-4 text-xs tracking-wider text-center text-gray-900 uppercase dark:text-white"
+        >
+          Egresos
+        </th>
+        <th
+          scope="col"
+          class="p-4 text-xs tracking-wider text-center text-gray-900 uppercase dark:text-white"
+        >
+          Ingresos
+        </th>
+        <th
+          scope="col"
+          class="p-4 text-xs tracking-wider text-center text-gray-900 uppercase dark:text-white"
+        >
+          Retirados
+        </th>
+        <th
+          scope="col"
+          class="p-4 text-xs tracking-wider text-center text-gray-900 uppercase dark:text-white"
+        >
+          Transacciones
+        </th>
+        <th
+          scope="col"
+          class="p-4 text-xs tracking-wider text-center text-gray-900 uppercase dark:text-white"
+        >
+          Valor declarado
+          
+        </th>
+        <th
+          scope="col"
+          class="p-4 text-xs tracking-wider text-center text-gray-900 uppercase dark:text-white"
+        >
+          Pos calculado
+        </th>
+        <th
+          scope="col"
+          class="p-4 text-xs tracking-wider text-center text-gray-900 uppercase dark:text-white"
+        >
+          Diferencia
+        </th>
+        
+      </tr>
+      <tbody class="bg-white dark:bg-gray-800">
+        <tr class="text-center">
+          <td            style="width: 200px;"
+
+          class="inline-flex items-center p-4 space-x-2 font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">
+        <div  style="display: contents;">          <img src="../../../assets/images/dinero.png" width="35" height="35">
+        
+        <span style="margin-left: 8px;">Efectivo</span></div>
+         
+
+      </td>
+      <td class="p-4 font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">
+          0.00                </td>
+     
+          <td class="p-4 font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">
+                  0.00             </td>
+         
+          <td class="p-4 font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">
+              0.00                </td>
+         
+          <td class="p-4  font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">
+              4                </td>
+         
+          <td class="p-4 font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">
+            <button (click)="redirect()" style="background-color:#337AB7;padding: 20px;color:white;border-radius: 15px;"><b>Presione aquí</b></button>                </td> 
+          <td class="p-4  font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">
+             449.02             </td>
+         <td class="p-4 font-normal text-gray-500 whitespace-nowrap dark:text-gray-400">
+          <span style="color: red;">-449.02   <img src="../../../assets/images/triste.png" width="24" height="24" > </span>            </td>
+         
+      </tr>
+        <tr  class="text-center bg-gray-100 dark:bg-gray-700 "  data-accordion-target="#accordion-open-body" (click)="toggle('accordion-open-body-1')">
+
+          <td           style="width: 200px;"
+
+            class="bg-gray-100 dark:bg-gray-700 inline-flex items-center p-4 space-x-2 text-sm font-normal text-gray-500 text-center whitespace-nowrap dark:text-gray-400"
+          >
+                  <div>            <img src="https://cdn-icons-png.flaticon.com/256/446/446755.png" width="35" height="35" />
+                  </div>
+            <div>            <span>Tarjetas Datafast</span>
+            </div>
+
+          </td>
+          <td
+            class=" bg-gray-100 dark:bg-gray-700 p-4 text-md font-normal text-gray-500 text-center whitespace-nowrap dark:text-gray-400"
+          >
+            0.00
+          </td>
+
+          <td
+            class="bg-gray-100 dark:bg-gray-700 p-4 text-md font-normal text-gray-500 text-center whitespace-nowrap dark:text-gray-400"
+          >
+            0.00
+          </td>
+
+          <td
+            class="bg-gray-100 dark:bg-gray-700 p-4 text-md font-normal text-gray-500 text-center whitespace-nowrap dark:text-gray-400"
+          >
+            0.00
+          </td>
+
+          <td
+            class="bg-gray-100 dark:bg-gray-700 p-4 text-md font-normal text-gray-500 text-center whitespace-nowrap dark:text-gray-400"
+          >
+            1 <br>
+
+          </td>
+
+          <td
+            class="bg-gray-100 dark:bg-gray-700 p-4 text-md font-normal text-gray-500 text-center whitespace-nowrap dark:text-gray-400 "
+          >
+       
+          <button (click)="redirect()" style="background-color:#337AB7;padding: 20px;color:white;border-radius: 15px;width: 141.66px;"><b>4.75</b></button>            
+
+          <!-- <div class="flex items-center" style="justify-content: space-between">
+
+            <span >100.00 </span><input
+            checked
+            id="checked-checkbox"
+            type="checkbox"
+            value=""
+            class="w-8 h-8 text-blue-500 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-500 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+            />
+          </div> -->
+          </td>
+
+          <td
+            class="bg-gray-100 dark:bg-gray-700 p-4 text-md font-normal text-gray-500 whitespace-nowrap text-center dark:text-gray-400"
+          >
+            4.75
+          </td>
+          <td
+            class="bg-gray-100 dark:bg-gray-700 p-4 text-md font-normal text-gray-500 whitespace-nowrap dark:text-gray-400"
+          >
+            <span style="color:green"
+              >
+              0.00 <img
+              src="https://i.pinimg.com/originals/0c/cb/d8/0ccbd8b9fa942ceed47f0af8ced48ffb.png"
+              width="24"
+              height="24"
+            /></span
+            >
+          </td>
+        </tr>
+      <tr id="datafas" class="tarjets">
+        <td colspan="8"     >
+    <div style="margin-top: 35px;margin-bottom: 35px;" id="accordion-open-body-1" class="accordion-content" >
+     <div style="display: flex;justify-content: center;">
+      <table
+        class="min-w-full divide-y divide-gray-200 dark:divide-gray-600"
+        style="border-radius: 20px;border-width: thin;"
+      > 
+        
+        <tbody class="bg-white dark:bg-gray-800">
+          <tr class="text-center">
+            <th 
+              scope="col"
+              class="p-4 text-xs tracking-wider text-center text-gray-900 uppercase dark:text-white"
+            >
+              Formas de pago
+            </th>
+            <th
+              scope="col"
+              class="p-4 text-xs tracking-wider text-center text-gray-900 uppercase dark:text-white"
+            >
+              Retirados
+            </th>
+            <th
+              scope="col"
+              class="p-4 text-xs tracking-wider text-center text-gray-900 uppercase dark:text-white"
+            >
+              Transacciones 
+            </th>
+            <th
+              scope="col"
+              class="p-4 text-xs tracking-wider text-center text-gray-900 uppercase dark:text-white"
+            >
+              Valor declarado
+              
+            </th>
+            <th
+              scope="col"
+              class="p-4 text-xs tracking-wider text-center text-gray-900 uppercase dark:text-white"
+            >
+              Pos calculado
+            </th>
+            <th
+              scope="col"
+              class="p-4 text-xs tracking-wider text-center text-gray-900 uppercase dark:text-white"
+            >
+              Diferencia
+            </th>
+           
+          </tr>
+          <tr  class="text-center bg-gray-100 dark:bg-gray-700">
+            
+            <td
+              style="margin-top: 18px;"
+              class="inline-flex items-center p-4 space-x-2 text-sm font-normal text-gray-500 whitespace-nowrap dark:text-gray-400"
+            >
+            <span style="display: flex;align-items: center;"> 
+              <div>              <img src="../../../assets/images/visa.png" width="35" height="35" />
+              </div>
+<div>              &nbsp; &nbsp;  Visa
+</div>
+</span>
+            </td>
+        
+
+            <td
+              class="p-4 text-md font-normal text-gray-500 whitespace-nowrap dark:text-gray-400"
+            >
+              0.00
+            </td>
+
+            <td
+              class="p-4 text-md font-normal text-gray-500 whitespace-nowrap dark:text-gray-400"
+            >
+1            </td>
+            <td
+              class="p-4 text-md font-normal text-gray-500 whitespace-nowrap dark:text-gray-400"
+            >             
+              <!-- <button style="background-color:#337AB7;padding: 20px;color:white;border-radius: 15px;"><b>Presione aquí</b></button>               -->
+<input type="text">
+               <input
+                checked
+                id="checked-checkbox"
+                type="checkbox"
+                value=""
+                class="w-8 h-8 text-blue-500 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-500 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+              /> 
+            </td>
+
+            <td
+              class="p-4 text-md font-normal text-gray-500 whitespace-nowrap dark:text-gray-400"
+            >
+             4.75
+            </td>
+            <td
+              class="p-4 text-md font-normal text-gray-500 whitespace-nowrap dark:text-gray-400"
+            >
+              <span style="color: green"
+                >
+                0.00 <img
+                src="https://i.pinimg.com/originals/0c/cb/d8/0ccbd8b9fa942ceed47f0af8ced48ffb.png" width="24"
+                height="24"
+              /></span
+              >
+            </td>
+            
+            
+          </tr>
+          <tr >
+            <td colspan="8" class="text-center" >
+              <app-teclado-numerico></app-teclado-numerico>
+             </td>
+          </tr> 
+       
+        </tbody>
+      </table>
+    </div> 
+    </div>
+</td>
+</tr>
+      
+      <tr class="text-center" data-accordion-target="#accordion-open-body-2" >
+
+        <td           style="width: 200px;"
+
+          class=" inline-flex items-center p-4 space-x-2 text-sm font-normal text-gray-500 text-center whitespace-nowrap dark:text-gray-400"
+        >
+           <div>          <img src="https://cdn-icons-png.flaticon.com/256/3110/3110547.png" width="35" height="35" />
+           </div>
+          <div>
+            <span>Tarjetas Pin Pad</span>
+
+          </div>
+
+
+        </td>
+        <td
+          class="  p-4 text-md font-normal text-gray-500 text-center whitespace-nowrap dark:text-gray-400"
+        >
+          0.00
+        </td>
+
+        <td
+          class=" p-4 text-md font-normal text-gray-500 text-center whitespace-nowrap dark:text-gray-400"
+        >
+          0.00
+        </td>
+
+        <td
+          class=" p-4 text-md font-normal text-gray-500 text-center whitespace-nowrap dark:text-gray-400"
+        >
+        -4.70
+        </td>
+
+        <td
+          class=" p-4 text-md font-normal text-gray-500 text-center whitespace-nowrap dark:text-gray-400"
+        >
+          2 <br>
+
+        </td>
+
+        <td
+          class=" p-4 text-md font-normal text-gray-500 text-center whitespace-nowrap dark:text-gray-400"
+        >    
+        <button (click)="redirect()" style="background-color:#337AB7;padding: 20px;color:white;border-radius: 15px;"><b>Presione aquí</b></button>            
+    
+          <!-- <div class="flex items-center" style="justify-content: space-between">
+
+          <span >400.00</span><input
+          checked
+          id="checked-checkbox"
+          type="checkbox"
+          value=""
+          class="w-8 h-8 text-blue-500 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-500 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+          /></div> -->
+        </td>
+
+        <td
+          class="  p-4 text-md font-normal text-gray-500 whitespace-nowrap text-center dark:text-gray-400"
+        >
+        9.45
+        </td>
+        <td
+          class=" p-4 text-md font-normal text-gray-500 whitespace-nowrap dark:text-gray-400"
+        >
+        <span style="color: red"
+              >
+             -4.75 <img
+              src="../../../assets/images/triste.png"
+              width="24"
+              height="24"
+            /></span
+          >
+        </td>
+       
+      </tr>
+      <tr>
+        <td colspan="8" id="accordion-open-body-2" class="hidden" >
+  <div style="margin-top: 35px;margin-bottom: 35px;  ">
+   <div style="display: flex;justify-content: center;">
+    <table
+      class="min-w-full divide-y divide-gray-200 dark:divide-gray-600"
+      style="border-radius: 20px;border-width: thin;"
+    > 
+      
+      <tbody class="bg-white dark:bg-gray-800">
+        <tr class="text-center">
+          <th
+            scope="col"
+            class="p-4 text-xs tracking-wider text-center text-gray-900 uppercase dark:text-white"
+          >
+            Formas de pago
+          </th>
+          <th
+            scope="col"
+            class="p-4 text-xs tracking-wider text-center text-gray-900 uppercase dark:text-white"
+          >
+            Retirados
+          </th>
+          <th
+            scope="col"
+            class="p-4 text-xs tracking-wider text-center text-gray-900 uppercase dark:text-white"
+          >
+            Transacciones 
+          </th>
+          <th
+            scope="col"
+            class="p-4 text-xs tracking-wider text-center text-gray-900 uppercase dark:text-white"
+          >
+            Valor declarado
+            
+          </th>
+          <th
+            scope="col"
+            class="p-4 text-xs tracking-wider text-center text-gray-900 uppercase dark:text-white"
+          >
+            Pos calculado
+          </th>
+          <th
+            scope="col"
+            class="p-4 text-xs tracking-wider text-center text-gray-900 uppercase dark:text-white"
+          >
+            Diferencia
+          </th>
+         
+        </tr>
+        <tr  class="text-center bg-gray-100 dark:bg-gray-700">
+          
+          <td
+            class="p-4 space-x-2 text-sm font-normal text-gray-500 whitespace-nowrap dark:text-gray-400"
+          >
+         <span style="display: flex;align-items: center;"> <img src="../../../assets/images/visa.png" width="35" height="35" />
+
+          &nbsp; &nbsp;  Visa</span>
+          </td>
+      
+
+          <td
+            class="p-4 text-md font-normal text-gray-500 whitespace-nowrap dark:text-gray-400"
+          >
+            4.70
+          </td>
+
+          <td
+            class="p-4 text-md font-normal text-gray-500 whitespace-nowrap dark:text-gray-400"
+          >
+            1
+          </td>
+          <td
+            class="p-4 text-md font-normal text-gray-500 whitespace-nowrap dark:text-gray-400"
+          >  
+                <button (click)="redirect()" style="background-color:#337AB7;padding: 20px;color:white;border-radius: 15px;"><b>Presione aquí</b></button>            
+  
+<!--                    
+4.70 &nbsp; 
+            <input
+              checked
+              id="checked-checkbox"
+              type="checkbox"
+              value=""
+              class="w-8 h-8 text-blue-500 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-500 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+            />   -->
+          </td>
+
+          <td
+            class="p-4 text-md font-normal text-gray-500 whitespace-nowrap dark:text-gray-400"
+          >
+            4.70
+          </td>
+          <td
+            class="p-4 text-md font-normal text-gray-500 whitespace-nowrap dark:text-gray-400"
+          >
+            <span style="color:green"
+              >
+              0.00 <img
+              src="https://i.pinimg.com/originals/0c/cb/d8/0ccbd8b9fa942ceed47f0af8ced48ffb.png"
+              width="24"
+              height="24"
+            /></span
+            >
+          </td>
+          
+          
+        </tr>
+        <tr  class="text-center bg-gray-100 dark:bg-gray-700">
+          
+          <td
+            class="p-4 space-x-2 text-sm font-normal text-gray-500 whitespace-nowrap dark:text-gray-400"
+          >
+         <span style="display: flex;align-items: center;"> <img src="../../../assets/images/dinners.jpeg" width="35" height="35" />
+
+          &nbsp; &nbsp;  Dinners</span>
+          </td>
+      
+
+          <td
+            class="p-4 text-md font-normal text-gray-500 whitespace-nowrap dark:text-gray-400"
+          >
+            0.00
+          </td>
+
+          <td
+            class="p-4 text-md font-normal text-gray-500 whitespace-nowrap dark:text-gray-400"
+          >
+1         </td>
+          <td
+            class="p-4 text-md font-normal text-gray-500 whitespace-nowrap dark:text-gray-400"
+          >    
+          <button (click)="redirect()" style="background-color:#337AB7;padding: 20px;color:white;border-radius: 15px;"><b>Presione aquí</b></button>            
+
+<!--                    
+200.00 &nbsp; 
+            <input
+              checked
+              id="checked-checkbox"
+              type="checkbox"
+              value=""
+              class="w-8 h-8 text-blue-500 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-500 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+            />   -->
+          </td>
+
+          <td
+            class="p-4 text-md font-normal text-gray-500 whitespace-nowrap dark:text-gray-400"
+          >
+            4.75
+          </td>
+          <td
+            class="p-4 text-md font-normal text-gray-500 whitespace-nowrap dark:text-gray-400"
+          >
+            <span style="color: red"
+              >
+              -4.75 <img
+              src="../../../assets/images/triste.png"
+              width="24"
+              height="24"
+            /></span
+            >
+          </td>
+          
+          
+        </tr>
+        <tr></tr>
+       
+      </tbody>
+    </table>
+  </div> 
+  </div>
+</td>
+</tr>
+    
+     
+<tr class="text-center bg-gray-100" data-accordion-target="#accordion-open-body-3" >
+
+  <td           style="width: 200px;"
+
+    class=" inline-flex items-center p-4 space-x-2 text-sm font-normal text-gray-500 text-center whitespace-nowrap dark:text-gray-400"
+  >
+     <div>          <img src="https://cdn.pixabay.com/photo/2022/01/27/21/37/delivery-6973177_1280.png" width="35" height="35" />
+     </div>
+    <div>
+      <span>Agregadores</span>
+
+    </div>
+
+
+  </td>
+  <td
+    class="  p-4 text-md font-normal text-gray-500 text-center whitespace-nowrap dark:text-gray-400"
+  >
+    0.00
+  </td>
+
+  <td
+    class=" p-4 text-md font-normal text-gray-500 text-center whitespace-nowrap dark:text-gray-400"
+  >
+    0.00
+  </td>
+
+  <td
+    class=" p-4 text-md font-normal text-gray-500 text-center whitespace-nowrap dark:text-gray-400"
+  >
+    481.65
+  </td>
+
+  <td
+    class=" p-4 text-md font-normal text-gray-500 text-center whitespace-nowrap dark:text-gray-400"
+  >
+    5<br>
+
+  </td>
+
+  <td
+    class=" p-4 text-md font-normal text-gray-500 text-center whitespace-nowrap dark:text-gray-400"
+  >       <button (click)="redirect()" style="background-color:#337AB7;padding: 20px;color:white;border-radius: 15px;"><b>Presione aquí</b></button>            
+     
+       <!-- <div class="flex items-center" style="justify-content: space-between">
+
+    <span >200.00</span><input
+    checked
+    id="checked-checkbox"
+    type="checkbox"
+    value=""
+    class="w-8 h-8 text-blue-500 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-500 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+    /></div> -->
+  </td>
+
+  <td
+    class="  p-4 text-md font-normal text-gray-500 whitespace-nowrap text-center dark:text-gray-400"
+  >
+  481.65
+  </td>
+  <td
+    class=" p-4 text-md font-normal text-gray-500 whitespace-nowrap dark:text-gray-400"
+  >
+  <span style="color: green"
+        >
+       0.00 <img
+        src="https://i.pinimg.com/originals/0c/cb/d8/0ccbd8b9fa942ceed47f0af8ced48ffb.png"
+        width="24"
+        height="24"
+      /></span
+    >
+  </td>
+ 
+</tr>
+<tr>
+  <td colspan="8" id="accordion-open-body-3" class="hidden" >
+<div style="margin-top: 35px;margin-bottom: 35px;  ">
+<div style="display: flex;justify-content: center;">
+<table
+class="min-w-full divide-y divide-gray-200 dark:divide-gray-600"
+style="border-radius: 20px;border-width: thin;"
+> 
+
+<tbody class="bg-white dark:bg-gray-800">
+  <tr class="text-center">
+    <th
+      scope="col"
+      class="p-4 text-xs tracking-wider text-center text-gray-900 uppercase dark:text-white"
+    >
+      Formas de pago
+    </th>
+    <th
+    scope="col"
+    class="p-4 text-xs tracking-wider text-center text-gray-900 uppercase dark:text-white"
+  >
+    Egresos
+  </th>
+  <th
+  scope="col"
+  class="p-4 text-xs tracking-wider text-center text-gray-900 uppercase dark:text-white"
+>
+  Ingresos
+</th>
+    <th
+      scope="col"
+      class="p-4 text-xs tracking-wider text-center text-gray-900 uppercase dark:text-white"
+    >
+      Retirados
+    </th>
+    <th
+      scope="col"
+      class="p-4 text-xs tracking-wider text-center text-gray-900 uppercase dark:text-white"
+    >
+      Transacciones 
+    </th>
+    <th
+      scope="col"
+      class="p-4 text-xs tracking-wider text-center text-gray-900 uppercase dark:text-white"
+    >
+      Valor declarado
+      
+    </th>
+    <th
+      scope="col"
+      class="p-4 text-xs tracking-wider text-center text-gray-900 uppercase dark:text-white"
+    >
+      Pos calculado
+    </th>
+    <th
+      scope="col"
+      class="p-4 text-xs tracking-wider text-center text-gray-900 uppercase dark:text-white"
+    >
+      Diferencia
+    </th>
+   
+  </tr>
+  <tr  class="text-center bg-gray-100 dark:bg-gray-700">
+    
+    <td
+      class="p-4 space-x-2 text-sm font-normal text-gray-500 whitespace-nowrap dark:text-gray-400"
+    >
+   <span style="display: flex;align-items: center;"> <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1RaXuYB1hFaWT8vnnwY-TJBcMKWdT6JtEZ5yhd6ArOA&s" width="35" height="35" />
+
+    &nbsp; &nbsp;  Uber</span>
+    </td>
+
+
+    <td
+      class="p-4 text-md font-normal text-gray-500 whitespace-nowrap dark:text-gray-400"
+    >
+      0.00
+    </td>
+    <td
+    class="p-4 text-md font-normal text-gray-500 whitespace-nowrap dark:text-gray-400"
+  >
+    0.00
+  </td>
+  <td
+      class="p-4 text-md font-normal text-gray-500 whitespace-nowrap dark:text-gray-400"
+    >
+      481.65
+    </td>
+    <td
+      class="p-4 text-md font-normal text-gray-500 whitespace-nowrap dark:text-gray-400"
+    >
+      5
+    </td>
+    <td
+      class="p-4 text-md font-normal text-gray-500 whitespace-nowrap dark:text-gray-400"
+    >
+
+     <button (click)="redirect()" style="background-color:#337AB7;padding: 20px;color:white;border-radius: 15px;"><b>Presione aquí</b></button>            
+      <!-- 200.00
+     <input
+        checked
+        id="checked-checkbox"
+        type="checkbox"
+        value=""
+        class="w-8 h-8 text-blue-500 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-500 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+      />    -->
+    </td>
+
+    <td
+      class="p-4 text-md font-normal text-gray-500 whitespace-nowrap dark:text-gray-400"
+    >
+      481.65
+    </td>
+    <td
+      class="p-4 text-md font-normal text-gray-500 whitespace-nowrap dark:text-gray-400"
+    >
+      <span style="color:green"
+        >
+        0.00 <img
+        src="https://i.pinimg.com/originals/0c/cb/d8/0ccbd8b9fa942ceed47f0af8ced48ffb.png"
+        width="24"
+        height="24"
+      /></span
+      >
+    </td>
+    
+    
+  </tr>
+ 
+  <tr></tr>
+ 
+</tbody>
+</table>
+</div> 
+</div>
+</td>
+</tr>
+
+
+
+
+
+
+
+
+
+
+        <tr class="text-center"           style="display: none;"
+        >
+          <td           style="width: 200px;"
+
+            class="inline-flex items-center p-4 space-x-2 text-sm font-normal text-gray-500 whitespace-nowrap dark:text-gray-400"
+          > <div>
+            <svg
+              id="Layer_1"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 400 400"
+              width="45"
+              height="35"
+            >
+              <style>
+                .st0 {
+                  fill: #fff;
+                }
+              </style>
+              <path id="XMLID_44_" d="M0 0h400v400H0z" />
+              <g id="XMLID_34_">
+                <path
+                  id="XMLID_43_"
+                  class="st0"
+                  d="M109.9 173.9v30.3c0 10.1-4.5 14.3-15 14.3s-15-4.2-15-14.3v-31.6h-10c-.9 0-1.3.4-1.3 1.3v30.7c0 16.9 10.8 22.8 26.4 22.8 15.6 0 26.4-5.9 26.4-22.8v-32.1h-10.1c-.9.1-1.4.5-1.4 1.4z"
+                />
+                <path
+                  id="XMLID_42_"
+                  class="st0"
+                  d="M256.4 181.3c.8 0 1.2-.3 1.5-.9l2.9-7.2c.2-.4 0-.7-.4-.7h-40.7c-3.8 0-5.2 1.2-5.2 3.8v47c0 2.2 1.1 3.2 4 3.2h37.9c.8 0 1.2-.3 1.5-.9l2.9-7.2c.2-.4 0-.7-.4-.7h-34.7v-9.6c0-3.3 1.8-4.8 6.7-4.8h15.1c.8 0 1.2-.3 1.5-.9l2.8-7c.2-.4 0-.7-.4-.7h-25.7v-13.5h30.7z"
+                />
+                <path
+                  id="XMLID_38_"
+                  class="st0"
+                  d="M184.7 198.1c4.4-2.3 6.2-6.7 6.2-11.8 0-11.9-9.7-13.7-19.8-13.7h-23c-3.8 0-5.2 1.2-5.2 3.8v47c0 2.2 1.1 3.2 4 3.2h28.3c10.7 0 18.3-4.1 18.3-14.9.1-6.6-2.7-12-8.8-13.6zm-30.5-16.9H172c6 0 7.6 2.2 7.6 6.9s-1.7 6.9-7.6 6.9h-17.8v-13.8zm19.9 36.6h-19.9v-9.9c0-3.3 1.8-4.8 6.7-4.8h13.2c6.3 0 8.1 2.4 8.1 7.4.1 5-1.7 7.3-8.1 7.3z"
+                />
+                <path
+                  id="XMLID_35_"
+                  class="st0"
+                  d="M331.3 225.6l-12.1-20.8c6-1.5 10.9-5.5 10.9-15.6 0-13.1-8.1-16.6-21.5-16.6h-23.1c-3.8 0-5.2 1.2-5.2 3.8v48.9c0 .9.4 1.3 1.3 1.3h9.9v-15.7c0-3.3 1.8-4.8 6.7-4.8h9.9l10.9 19.7c.3.6.7.9 1.5.9h10.3c.7-.2.7-.8.5-1.1zm-21.1-28h-18.8v-16.3h18.8c7 0 8.6 2.7 8.6 8.2 0 5.4-1.6 8.1-8.6 8.1z"
+                />
+              </g>
+            </svg>
+          </div>
+          <div>            Uber
+          </div>
+          </td>
+          <td
+            class="p-4 text-md font-normal text-gray-500 whitespace-nowrap dark:text-gray-400"
+          >
+            0.00
+          </td>
+
+          <td
+            class="p-4 text-md font-normal text-gray-500 whitespace-nowrap dark:text-gray-400"
+          >
+            0.00
+          </td>
+
+          <td
+            class="p-4 text-md font-normal text-gray-500 whitespace-nowrap dark:text-gray-400"
+          >
+            0.00
+          </td>
+
+          <td
+            class="p-4 text-md font-normal text-gray-500 whitespace-nowrap dark:text-gray-400"
+          >
+            0.00
+          </td>
+          <td
+            class="p-4 text-md font-normal text-gray-500 whitespace-nowrap dark:text-gray-400"
+          >
+          <div class="flex items-center" style="justify-content: space-between">
+                          <span >0.00</span>
+              <input
+                checked
+                id="checked-checkbox"
+                type="checkbox"
+                value=""
+                class="w-8 h-8 text-blue-500 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue500 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+              />
+             
+            </div>
+          </td>
+
+          <td
+            class="p-4 text-md font-normal text-gray-500 whitespace-nowrap dark:text-gray-400"
+          >
+            0.00
+          </td>
+          <td
+            class="p-4 text-md font-normal text-gray-500 whitespace-nowrap dark:text-gray-400"
+          >
+            <span style="color: red"
+              >
+              -20.00 <img
+              src="../../../assets/images/triste.png"
+              width="24"
+              height="24"
+            /></span
+            >
+          </td>
+        </tr>
+       
+        <tr  class="text-center bg-gray-100 dark:bg-gray-700 results"  >
+          <td class="inline-flex items-center p-4 space-x-2 text-sm font-normal text-black-500  "
+          >
+           
+            <strong>Totales</strong>
+          </td>
+          <td
+            class="p-4 text-md font-normal text-black-500 whitespace-nowrap dark:text-gray-400 results"
+           
+          >
+          $ 0.00
+          </td>
+
+          <td
+            class="p-4 text-md font-normal text-black-500 whitespace-nowrap dark:text-gray-400 results"
+          
+          > $ 0.00
+          </td>
+
+          <td
+            class="p-4 text-md font-normal text-black-500 whitespace-nowrap dark:text-gray-400 results"
+          
+          >
+            $ 481.65
+          </td>
+
+          <td
+            class="p-4 text-md font-normal text-black-500 whitespace-nowrap dark:text-gray-400 results"
+           
+          >
+            $ 0.00
+          </td>
+          <td
+            class="p-4 text-md font-normal text-black-500 whitespace-nowrap dark:text-gray-400 results"
+           
+          >
+            $ 4.75
+                   
+          </td>
+
+          <td
+            class="p-4 text-md font-normal text-black-500 whitespace-nowrap dark:text-gray-400 results"
+           
+          >
+          $ 0.00
+          </td>
+          <td
+            class="p-4 text-md font-normal text-gray-500 whitespace-nowrap dark:text-gray-400 results"
+          >
+            <span style="color: red"
+              >
+             $ -4.75</span
+            >
+          </td>
+        </tr>
+        
+      </tbody>
+    </table>
+  </div>
+
+  <!-- <div class="p-4 mb-4 text-sm text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400" role="alert">
+    <span class="font-medium">Información !</span> El campo hasta hace referencia a la fecha límite a verificar el movimiento. 
+  </div> -->

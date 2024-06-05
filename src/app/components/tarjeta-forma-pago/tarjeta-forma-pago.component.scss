@@ -1,0 +1,97 @@
+button{
+    cursor:pointer;
+}
+
+.barra-superior{
+    margin-top: 0px;
+    margin-bottom: 16px;
+    margin-left: 0px;
+    margin-right: 0px;
+}
+.totales{
+    background-color: #337AB7;width: 261px;height: 278px;border-radius: 10px;
+position:fixed;
+    left:calc(100vw - 320px);
+    right:auto;
+    bottom:0px;
+    z-index:0;
+}
+.totales:hover{
+    background-color: rgb(51, 122, 183,70%);
+}
+.tarjeta-principal:hover{
+    background-color: rgb(217, 237, 255,30%);
+}
+.tarjeta-principal{
+cursor: pointer;
+border: 1px;
+margin-left: 0px;
+margin-right: 0px;
+margin-bottom: 18px;border-color:#F0F0F0;width: 100%; border-style: solid;
+border-width: 2px;border-radius: 10px;
+}
+.cambio{
+    margin: 0px;
+    padding: 0px;
+}
+
+
+@media (width > 1200px) and (width < 1800px){
+    .col-xl-2{
+        flex: 25% !important;
+        max-width: 25% !important;
+    }
+    button{
+        width: 70% !important;
+    }
+    .buscar{
+        width: 100% !important;
+        padding-left: 16px;
+    }
+ 
+}
+
+@media (width > 1800px){
+    button{
+        width: 199px !important;
+    }
+    .buscar{
+        width: 625px !important;
+        padding-left: 17px;
+    }
+    .tarjeta-principal{
+        width: 278px !important;
+    }
+    .barra-superior{
+        margin-top: 0px;
+        margin-bottom: 16px;
+        margin-left: auto;
+        margin-right: auto;
+        width: 1750px;
+    }
+    .tarjetas-contenedor{
+        width: 1750px;
+        margin: auto;
+    }
+    .cambio{
+        margin: 0px;
+        padding: 0px 0px 0px 10px;
+    }
+    
+}
+@media (max-width: 1199px){
+    .cambio{
+        margin-bottom: 16px !important;
+    }
+    .buscar{
+        margin: 0px !important;
+        width: 100% !important;
+
+    }
+    button{
+        width: 100% !important;
+    }
+   .col-md-3{
+    padding-left: 0px;
+   }
+}

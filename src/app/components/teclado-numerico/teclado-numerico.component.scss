@@ -1,0 +1,46 @@
+.button-custom-width{
+    max-width: 360px;
+    width: 90%;
+}
+.ok{
+    background-color: #337AB7!important;
+    border-color: #337AB7!important;
+    border-radius: 10px !important;
+    margin-right: 8px !important;
+}
+.exit{
+background-color: #D9534F !important;
+border-color: rgb(217, 83, 79) !important;
+border-radius: 10px !important;
+margin-left: 8px !important;
+
+}
+.num-custom-width{
+    width: 120px !important;
+    height: 80px !important;
+    font-size: 20px !important;
+    border-color: #000000 !important ;
+}
+.direccionales{
+    width: 100%;
+    display: flex; 
+    justify-content: center;
+    margin-top: 16px;
+}
+.input-teclado{
+    border-radius: 10px;height: 63px;width:412px ;border-width: 1px;
+}
+.contenedor-teclado{
+    width: 100%;border-width: 1px;border-radius: 10px;border: solid;border-color:#F0F0F0 
+}
+@media (width <= 768px){
+.direccionales{
+    display: none;
+}
+.num-custom-width{
+    width: 100% !important;
+}
+.input-teclado{
+    width: 100% !important;
+}
+}

@@ -1,0 +1,25 @@
+
+    
+    <div  id="modal"  class="modal">
+        <div class=" p-4 w-full max-w-md max-h-full">
+            <div class="bg-white rounded-lg shadow dark:bg-gray-700">
+                <div class="p-4 md:p-5 text-center">
+                   
+                    <h3 class="mb-5 text-lg font-normal  dark:text-gray-400" style="color: black;"><b>{{title}}</b></h3>
+                    
+                    <div class="flex justify-center">
+                    <img src="../../../assets/images/error.png" alt="" width="80px" height="80px">
+                </div><br>
+                <h3 class="mb-5 text-lg font-normal  dark:text-gray-400" style="color: black;">{{description}}</h3>
+                
+
+
+                <button (click)="close()" type="button" class="text-white text-center flex justify-center bg-blue-500 hover:bg-blue-300 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-8 py-3 text-center" >
+                        Ok
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+  

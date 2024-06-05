@@ -1,0 +1,31 @@
+img{
+    display: inline;
+    vertical-align: sub;
+}
+td{
+    height: 92px;
+}
+
+.results{
+    border-width: 3px;
+            border-style: solid;
+            border-color: rgb(233 233 233);
+}
+.accordion-content {
+    max-height: 0 !important;
+    overflow: hidden  !important;
+    transition: max-height 0.50s ease-in  !important; 
+  }
+  .accordion-content.expanded {
+    max-height: 100vh  !important; /* Ajusta según sea necesario */
+  }
+
+  .tarjets{
+    display: none !important;
+  }
+  
+  .tarjets.expand{
+    display: table-row !important;
+  }
+
+ 
