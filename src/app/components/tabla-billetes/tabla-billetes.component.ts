@@ -12,7 +12,22 @@ export class TablaBilletesComponent   {
  @Input() arrayLista!:any[];
   array:any[] =[];
   visible:boolean = false;
+  inputRecibido!: string;
+  denominacion! : string;
+
+  recibirMensaje(valor: any) {
+    this.inputRecibido = valor[0];
+    this.cambiarValor(valor[1]);
+  }
+  cambiarValor(id:string){
+      const inputElement = document.getElementById(id) as HTMLInputElement;
+      if (inputElement) {
+        inputElement.value = this.inputRecibido;
+      }
+    
+  }
    ngOnInit() {
+   this.array = this.arrayLista;
     // try {
     //   let billetes = await this.billetesServicio.obtenerDenominaciones('10.104.19.201')
     //   this.array = billetes.resolucion;
@@ -37,8 +52,22 @@ export class TablaBilletesComponent   {
       }
     });
   }
-  teclado(){
-    this.visible = true
+  teclado(denominacion:string,id:string){
+    this.visible = true;
+    this.denominacion = denominacion;
+  this.arrayLista.forEach(res =>{
+    this.fondoFila(res.Billete_Denominacion_IDBilleteDenominacion,'white');
+  })
+     this.fondoFila(id,"ghostwhite"); 
+  }
+   fondoFila(id:string,color:string){
+    const inputElement = document.getElementById(id) as HTMLInputElement;
+    if (inputElement) {
+      inputElement.style.backgroundColor = color;
+    }
+   }
+  placeholder(valor:any){
+    return valor == 0 ? 'Presione aquí':valor
   }
 }
 

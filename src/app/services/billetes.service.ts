@@ -12,7 +12,16 @@ export class BilletesService {
    
   obtenerDenominaciones(ip:string):Promise<any>{
     return new Promise((resolve, reject) => {
-      this.http.post(environment.apiural + routes.POST_OBTENER_EFECTIVO_PROCESO,{"ipEstacion":ip,"proceso": "arqueo"    })
+      this.http.post(environment.apiural + routes.POST_OBTENER_EFECTIVO_PROCESO,{"ipEstacion":ip,"proceso":"retiro"})
+        .subscribe({
+          next: (response) => resolve(response),
+          error: (error) => reject(error)
+        });
+    });
+  }
+  obtenerFormasPago(ip:string):Promise<any>{
+    return new Promise((resolve, reject) => {
+      this.http.post(environment.apiural + routes.POST_CONSULTAR_RETIROS_ESTACION,{"ipEstacion":ip})
         .subscribe({
           next: (response) => resolve(response),
           error: (error) => reject(error)

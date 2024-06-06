@@ -132,11 +132,29 @@ arrayAgregadores:any[]=[
   },
   
 ]
+arrayFormas!:any[] ;
 arrayBilletes:any[] = [];
 constructor(private billetesServicio : BilletesService){}
   async ngOnInit() {
-  try {
-    let billetes = await this.billetesServicio.obtenerDenominaciones('10.104.19.201')
+    try {
+      let formasPago = await this.billetesServicio.obtenerFormasPago('10.242.2.18')
+      this.arrayFormas = formasPago.resolucion;
+      this.arrayFormas.forEach(item => {
+        if(item.Formapago_fmp_descripcion == "EFECTIVO")
+        item['image'] = 'Rectangle 290.svg';
+        if(item.Formapago_fmp_descripcion == "RETENCION")
+          item['image'] = 'Rectangle 290.svg';
+      item['estado'] = true;
+      item['rule'] = 'block';
+
+      });
+      console.log(this.arrayFormas);
+     // this.ordenarArray('Billete_Denominacion_btd_Tipo');
+    } catch (error) {
+      console.log(error)
+    }
+    try {
+    let billetes = await this.billetesServicio.obtenerDenominaciones('10.242.2.18')
     this.arrayBilletes = billetes.resolucion;
     this.ordenarArray('Billete_Denominacion_btd_Tipo');
   } catch (error) {
@@ -157,10 +175,12 @@ ordenarArray(field: string) {
 
 
  ocultarTarjetas(dato:any){
-this.array.forEach(element => {
-  if(element.title == dato)
-  { if(element.title=='Efectivo')
+this.arrayFormas.forEach(element => {
+  if(element.Formapago_fmp_descripcion == dato)
+  { 
+    if(element.Formapago_fmp_descripcion=='EFECTIVO')
     this.efectivo = true;
+
   element.rule = "block";
   element.estado = true
   } else {
@@ -177,8 +197,7 @@ this.array.forEach(element => {
   this.totales = true;
   this.hide = "457px";
   this.validaMonto = false;
-  this.array.forEach(element => {
-    console.log(element.title);
+  this.arrayFormas.forEach(element => {
     element.estado =  true;
     element.rule = "block";
   });

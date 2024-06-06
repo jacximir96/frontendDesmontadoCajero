@@ -22,6 +22,7 @@ import { ModalComponent } from './components/modal/modal.component';
 import { MenuPrincipalService } from './services/menu-principal.service';
 import { RolesService } from './services/roles.service';
 import { AccesoDenegadoComponent } from './components/acceso-denegado/acceso-denegado.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { AccesoDenegadoComponent } from './components/acceso-denegado/acceso-den
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   providers: [MenuPrincipalService,RolesService],
   bootstrap: [AppComponent],

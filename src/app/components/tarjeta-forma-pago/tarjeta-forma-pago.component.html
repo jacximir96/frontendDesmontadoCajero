@@ -30,23 +30,28 @@
     </div>
     </div>
 <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6" style="display: flex; justify-content: end; margin: 0px;padding: 0px;">
-<button routerLink="/agregar-formapago" style="display: flex;justify-content: center;align-items: center;color: white;width: 100%;height: 63px;background-color: #4DBE49;border-radius: 10px;">
+<!-- <button routerLink="/agregar-formapago" style="display: flex;justify-content: center;align-items: center;color: white;width: 100%;height: 63px;background-color: #4DBE49;border-radius: 10px;">
    Agregar Forma Pago
-</button>
+</button> -->
      <button (click)="confirmarButton()" style="width: 100%;height: 63px;margin-left: 16px;background-color: #337AB7;color: white;border-radius: 10px;">Confirmar</button>
      <button style="width: 100%;height: 63px;margin-left: 16px;background-color: #D9534F;color: white;border-radius: 10px;">Cancelar</button>
 </div>
     </div>
     
-<div class="row tarjetas-contenedor" >   
-<div *ngFor="let item of array" class="col-sm-6 col-md-6 col-lg-4 col-xl-2 " style="display:{{item.rule}}">
-<div  *ngIf="item.estado" Class="tarjeta-principal" style="height:{{hide}};" (click)="ocultarTarjetas(item.title)" >
-<div style="margin-left: 16px;margin-top:6px">
-    <span>{{item.title}}</span>
+<div class="row tarjetas-contenedor" >  
+ 
+<div *ngFor="let item of arrayFormas" class="col-sm-6 col-md-6 col-lg-4 col-xl-2 " style="display:{{item.rule}}">
+
+    <div  *ngIf="item.estado" Class="tarjeta-principal" style="height:{{hide}};" (click)="ocultarTarjetas(item.Formapago_fmp_descripcion)" >
+
+    <div style="margin-left: 16px;margin-top:6px">
+    <span>{{item.Formapago_fmp_descripcion}}</span>
 </div>
 <br><br>
 <div style="display: flex;justify-content: center;">
-    <img src="../../../assets/images/{{item.image}}" alt="">
+    <!-- <img src="../../../assets/images/{{item.image}}" alt=""> -->
+  <img src="../../../assets/images/{{item.image}}" alt=""> 
+
 </div>
 <br>
 <div class="row" style="margin-right: 0px">
@@ -64,7 +69,7 @@
         <div class="row" style="width: 100%;margin-bottom: 4px;margin-left: 8px;border: solid;border-width: 2px;border-color: #F0F0F0;border-radius: 10px;">
             <div  style="text-align: center;width: 20px;background-color: #E2F7E2;border-radius: 50px;;">#</div>
             
-            <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8" style="display: flex;justify-content: end;padding: 0px;">{{item.transacciones}}</div>
+            <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8" style="display: flex;justify-content: end;padding: 0px;">{{item.numero_transacciones}}</div>
         
     </div>
     <div class="row" style="width: 100%;margin-bottom: 4px;margin-left: 8px;border: solid;border-width: 2px;border-color: #F0F0F0;border-radius: 10px;">
@@ -99,19 +104,19 @@
     <div class="col-xl-5 col-lg-5 col-md-5 col-sm-5 " style="padding-left: 0px !important;">
         <div class="row" style="width: 100%;margin-bottom: 4px;margin-left: 8px;border: solid;border-width: 2px;border-color: #F0F0F0;border-radius: 10px;">
             <div  style="text-align: center;width: 20px;background-color: #E2F7E2;border-radius: 50px;;">#</div>
-            <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8" style=" display: flex;justify-content: end;padding: 0px;">{{item.ingresos}}</div>
+            <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8" style=" display: flex;justify-content: end;padding: 0px;">{{item.ingreso}}</div>
             </div>
     <div class="row" style="width: 100%;margin-bottom: 4px;margin-left: 8px;border: solid;border-width: 2px;border-color: #F0F0F0;border-radius: 10px;">
         <div  style="text-align: center;width: 20px;background-color: #E2F7E2;border-radius: 50px;;">#</div>
-        <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8" style=" display: flex;justify-content: end;padding: 0px;">{{item.egresos}}</div>
+        <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8" style=" display: flex;justify-content: end;padding: 0px;">{{item.egreso}}</div>
     </div>
 <div class="row" style="width: 100%;margin-bottom: 4px;margin-left: 8px;border: solid;border-width: 2px;border-color: #F0F0F0;border-radius: 10px;">
     <div  style="text-align: center;width: 20px;background-color: #E2F7E2;border-radius: 50px;;">#</div>
-    <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8" style=" display: flex;justify-content: end;padding: 0px;">{{item.retirado}}</div>
+    <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8" style=" display: flex;justify-content: end;padding: 0px;">{{item.total_retirado}}</div>
 </div>
 <div class="row" style="width: 100%;margin-bottom: 4px;margin-left: 8px;border: solid;border-width: 2px;border-color: #F0F0F0;border-radius: 10px;">
     <div  style="text-align: center;width: 20px;background-color: #E2F7E2;border-radius: 50px;;">#</div>
-    <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8" style=" display: flex;justify-content: end;padding: 0px;">{{item.valorDeclarado}}</div>
+    <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8" style=" display: flex;justify-content: end;padding: 0px;">{{item.total_pagar}}</div>
 
 </div>
 <div class="row" style=" width: 100%;margin-bottom: 4px;margin-left: 8px;margin-right: 8px;border: solid;border-width: 2px;background-color: #F0C2CB;border-color: #F0F0F0;border-radius: 10px;">

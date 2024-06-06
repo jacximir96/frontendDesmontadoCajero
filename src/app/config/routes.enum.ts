@@ -12,5 +12,6 @@ export enum routes{
     POST_DESASIGNAR_USUARIO = 'DesasignarUsuario',
     POST_AGRUPAR_FORMAS_PAGO = 'AgruparFormasPago',
     POST_OBTENER_DENOMINACION_BILLETES = 'ObtenerDenominacionBilletes',
-    POST_OBTENER_EFECTIVO_PROCESO = 'ObtenerEfectivoProcesoEstacion'
+    POST_OBTENER_EFECTIVO_PROCESO = 'ObtenerEfectivoProcesoEstacion',
+    POST_CONSULTAR_RETIROS_ESTACION = 'ConsolidarTransaccionesRetirosEstacion'
 }
