@@ -13,5 +13,6 @@ export enum routes{
     POST_AGRUPAR_FORMAS_PAGO = 'AgruparFormasPago',
     POST_OBTENER_DENOMINACION_BILLETES = 'ObtenerDenominacionBilletes',
     POST_OBTENER_EFECTIVO_PROCESO = 'ObtenerEfectivoProcesoEstacion',
-    POST_CONSULTAR_RETIROS_ESTACION = 'ConsolidarTransaccionesRetirosEstacion'
+    POST_CONSULTAR_RETIROS_ESTACION = 'ConsolidarTransaccionesRetirosEstacion',
+    POST_TOTAL_VENTA_ESTACION = 'CalcularTotalVentasEstacion'
 }

@@ -1,0 +1,8 @@
+{
+    "/api": {
+      "target": "http://maxpoint_desmontado_cajero_app.test:7890/",
+      "secure": false,
+      "changeOrigin": true
+    }
+}
+  

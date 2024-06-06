@@ -51,7 +51,7 @@ href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap-grid.min.
             <td class="text-sm font-normal text-gray-500 " style="width: 100%;">
             <!-- <button style="background-color:#337AB7;padding: 20px;color:white;border-radius: 15px;"><b>Presione aquí</b></button>     
                          -->
-                        <input   id="{{item.Billete_Denominacion_btd_Valor}}"  (click)="teclado(item.Billete_Denominacion_btd_Valor,item.Billete_Denominacion_IDBilleteDenominacion)" [placeholder]="placeholder(item.Billete_Estacion_bte_cantidad)" class="input">            
+                        <input   id="{{item.Billete_Denominacion_btd_Valor}}"  (click)="teclado(item.Billete_Denominacion_btd_Valor,item.Billete_Denominacion_IDBilleteDenominacion,item.Billete_Estacion_bte_cantidad)" [placeholder]="placeholder" class="input">            
                     </td>
                
                     <td style=" justify-content: center;" class="flex items-center   text-sm font-normal text-gray-500 "  >
@@ -64,7 +64,7 @@ href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap-grid.min.
     
            <tr class="teclado-tabla ">
     <td colspan="3">
-        <app-teclado-numerico [denominacion]="denominacion" (valor)="recibirMensaje($event)"></app-teclado-numerico>
+        <app-teclado-numerico [denominacion]="denominacion" (valor)="recibirMensaje($event)" (flecha)="direccion($event)" (confirmacion)="confirmarValor()" ></app-teclado-numerico>
     </td> 
            </tr>
         </tbody>
@@ -73,7 +73,7 @@ href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap-grid.min.
     </div>
     
 <div class="col-xl-7 col-lg-7 col-md-12 col-sm-12 col-12" *ngIf="visible">
-    <table  >
+    <table  id="tabla">
     <thead style="border-bottom-width: 1px;" >
         <tr class="text-center" >
             <th scope="col" 
@@ -117,7 +117,7 @@ href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap-grid.min.
         <td class="text-sm font-normal text-gray-500 " style="width: 100%;">
         <!-- <button style="background-color:#337AB7;padding: 20px;color:white;border-radius: 15px;"><b>Presione aquí</b></button>     
                      -->
-                     <input id="{{item.Billete_Denominacion_btd_Valor}}" (click)="teclado(item.Billete_Denominacion_btd_Valor,item.Billete_Denominacion_IDBilleteDenominacion)" [placeholder]="placeholder(item.Billete_Estacion_bte_cantidad)" class="input">            
+                     <input id="{{item.Billete_Denominacion_btd_Valor}}" (click)="teclado(item.Billete_Denominacion_btd_Valor,item.Billete_Denominacion_IDBilleteDenominacion,item.Billete_Estacion_bte_cantidad)" [placeholder]="placeholder" class="input">            
                     </td>
            
                 <td style=" justify-content: center;" class="flex items-center   text-sm font-normal text-gray-500 "  >
@@ -130,7 +130,7 @@ href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap-grid.min.
 
        <tr class="teclado-tabla ">
 <td colspan="3">
-    <app-teclado-numerico [denominacion]="denominacion" (valor)="recibirMensaje($event)" ></app-teclado-numerico>
+    <app-teclado-numerico [denominacion]="denominacion" (valor)="recibirMensaje($event)" (flecha)="direccion($event)" (confirmacion)="confirmarValor()" ></app-teclado-numerico>
 </td> 
        </tr>
     </tbody>
@@ -138,7 +138,7 @@ href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap-grid.min.
 
 </div>
 <div class="col-xl-5 col-lg-5 col-md-4 col-sm-4 teclado" *ngIf="visible">
-    <app-teclado-numerico [denominacion]="denominacion" (valor)="recibirMensaje($event)" ></app-teclado-numerico>
+    <app-teclado-numerico [denominacion]="denominacion" (valor)="recibirMensaje($event)" (flecha)="direccion($event)" (cerrar)="ocultar($event)" (confirmacion)="confirmarValor()"></app-teclado-numerico>
 </div> 
 
 

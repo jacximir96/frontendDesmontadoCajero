@@ -28,4 +28,13 @@ export class BilletesService {
         });
     });
   }
+  obtenerTotales(ip:string):Promise<any>{
+    return new Promise((resolve, reject) => {
+      this.http.post(environment.apiural + routes.POST_CALCULAR_VENTAS_ESTACION,{"ipEstacion":ip})
+        .subscribe({
+          next: (response) => resolve(response),
+          error: (error) => reject(error)
+        });
+    });
+  }
 }

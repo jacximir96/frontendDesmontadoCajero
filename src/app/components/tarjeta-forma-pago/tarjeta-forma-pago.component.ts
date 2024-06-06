@@ -134,16 +134,21 @@ arrayAgregadores:any[]=[
 ]
 arrayFormas!:any[] ;
 arrayBilletes:any[] = [];
+arrayTotales!:any[];
+
 constructor(private billetesServicio : BilletesService){}
-  async ngOnInit() {
+
+
+
+async ngOnInit() {
     try {
-      let formasPago = await this.billetesServicio.obtenerFormasPago('10.242.2.18')
+      let formasPago = await this.billetesServicio.obtenerFormasPago('10.242.2.20')
       this.arrayFormas = formasPago.resolucion;
       this.arrayFormas.forEach(item => {
         if(item.Formapago_fmp_descripcion == "EFECTIVO")
         item['image'] = 'Rectangle 290.svg';
-        if(item.Formapago_fmp_descripcion == "RETENCION")
-          item['image'] = 'Rectangle 290.svg';
+        if(item.Formapago_fmp_descripcion == "RETENCION FUENTE")
+          item['image'] = 'creditos.png';
       item['estado'] = true;
       item['rule'] = 'block';
 
@@ -154,12 +159,28 @@ constructor(private billetesServicio : BilletesService){}
       console.log(error)
     }
     try {
-    let billetes = await this.billetesServicio.obtenerDenominaciones('10.242.2.18')
+    let billetes = await this.billetesServicio.obtenerDenominaciones('10.242.2.20')
     this.arrayBilletes = billetes.resolucion;
     this.ordenarArray('Billete_Denominacion_btd_Tipo');
   } catch (error) {
     console.log(error)
   }
+  try {
+    let totales = await this.billetesServicio.obtenerTotales('10.242.2.20')
+    this.arrayTotales = totales.resolucion;
+  } catch (error) {
+    console.log(error)
+  }
+}
+recibeValor(dato:any){
+  console.log(dato);
+  this.arrayFormas.forEach((result:any)=>{
+    if(result.Formapago_fmp_descripcion == 'EFECTIVO')
+      {
+        result.total_pagar=  parseInt(result.total_pagar)+(dato[0]*parseInt(dato[1]));
+        result.diferencia=  parseInt(result.diferencia) +(dato[0]*parseInt(dato[1]));
+      }
+  });
 }
 ordenarArray(field: string) {
   this.arrayBilletes.sort((a, b) => {
