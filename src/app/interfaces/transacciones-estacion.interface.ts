@@ -34,7 +34,8 @@ export interface Detalle {
     imagen:                          string;
     monto_validado?:                 boolean; //Campo interno
     Formapago_padre?:                string;  //Campo interno
-    styleDisplay?:                   string; //Campo interno
+    styleDisplay?:                   string;  //Campo interno
+    cardSeleccionada?:               boolean; //Campo interno
 }
 
 export interface Resumen {

@@ -198,6 +198,7 @@ export class TarjetaFormaPagoComponent implements OnInit{
     this.validaMonto = true;
     this.validarMontoFormaPago = detalleFormaPago;
     this.validaMontoWidth = detalleFormaPago.monto_validado ? '249px' : '301px';
+    detalleFormaPago.cardSeleccionada = true;
   }
 
   cancelarMontos(){
@@ -231,6 +232,7 @@ export class TarjetaFormaPagoComponent implements OnInit{
         }
       })
     })
+    detalleFormaPago.cardSeleccionada = false;
 
     /*this.transaccionesAgregadores.forEach(formaDePago => {
       if(formaDePago.Formapago_fmp_descripcion == detalleFormaPago.Formapago_fmp_descripcion){
@@ -252,10 +254,7 @@ export class TarjetaFormaPagoComponent implements OnInit{
 
   cerrarValidaMonto() {
     this.validaMonto = false;
-    this.arrayAgregadores.forEach(element => {
-      element.color = "white";
-
-    });
+    this.validarMontoFormaPago.cardSeleccionada = false;
   }
 
   confirmarButton() {
