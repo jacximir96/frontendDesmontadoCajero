@@ -21,18 +21,21 @@ const routes: Routes = [
   { path: '', component: MenuComponent },
   { path: 'desmontado', component: DesmontadoComponent },
   { path: 'retiro', component: RetiroComponent ,canActivate:[rolesGuard],data: { expectedRoles: ['admin'] }},
-  { path: 'arqueo', component: FormasPagoComponent },
+  //{ path: 'arqueo', component: FormasPagoComponent },
   { path: 'header', component: HeaderComponent },
   { path: 'teclado', component: TecladoNumericoComponent },
   // { path: 'efectivo', component: EfectivoComponent },
   { path: 'tabla', component: TablaBilletesComponent },
-  { path: 'arqueo', component: FormasPagoComponent ,canActivate:[rolesGuard],data: { expectedRoles: ['admin'] }},
+  //{ path: 'arqueo', component: FormasPagoComponent ,canActivate:[rolesGuard],data: { expectedRoles: ['admin'] }},
   { path: 'tecladoCompleto', component: TecladoComponent },
   { path: 'tarjeta-formapago', component: TarjetaFormaPagoComponent },
   { path: 'agregar-formapago', component: AgregarFormaPagoComponent,canActivate:[rolesGuard],data: { expectedRoles: ['admin'] } },
   { path: 'arqueo-caja', component: ArqueoCajaComponent,canActivate:[rolesGuard],data: { expectedRoles: ['admin'] } },
   { path: 'access-denied', component: AccesoDenegadoComponent},
-  { path: 'billetes', component: TablaBilletesComponent}
+  { path: 'billetes', component: TablaBilletesComponent},
+
+
+  { path: 'arqueo', component: ArqueoCajaComponent ,canActivate:[rolesGuard],data: { expectedRoles: ['admin'] }},
 
 
 

@@ -1,6 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Resolucion } from 'src/app/interfaces/home/home.interface';
+import { HomeService } from 'src/app/services/home-service';
 import { MenuPrincipalService } from 'src/app/services/menu-principal.service';
+import { environment } from 'src/environments/environment.local'
 
 @Component({
   selector: 'app-principal',
@@ -11,7 +14,29 @@ import { MenuPrincipalService } from 'src/app/services/menu-principal.service';
 export class PrincipalComponent {
   mensaje: string = "";
   error: boolean = false;
-  constructor(private validaUsuarioService: MenuPrincipalService, private router: Router) { }
+  dataUser: Resolucion | [] = [];
+
+  constructor(
+    private validaUsuarioService: MenuPrincipalService, 
+    private router: Router,
+    private homeService: HomeService) 
+  { }
+
+  async ngOnInit(){
+    try {
+      //let result = await this.homeService.obtenerFondoAsignadoEstacion(environment.ip_estacion)
+      //this.dataUser = result.resolucion;*/
+      this.homeService.obtenerFondoAsignadoEstacion2(environment.ip_estacion)
+        .subscribe(result => {
+          this.dataUser = result.resolucion
+      });
+      this.dataUser = this.homeService.cacheStore;
+      console.log(this.dataUser);
+     // this.ordenarArray('Billete_Denominacion_btd_Tipo');
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
 
   async validaUsuario(ruta:string) {

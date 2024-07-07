@@ -13,6 +13,15 @@ export enum routes{
     POST_AGRUPAR_FORMAS_PAGO = 'AgruparFormasPago',
     POST_OBTENER_DENOMINACION_BILLETES = 'ObtenerDenominacionBilletes',
     POST_OBTENER_EFECTIVO_PROCESO = 'ObtenerEfectivoProcesoEstacion',
-    POST_CONSULTAR_RETIROS_ESTACION = 'ConsolidarTransaccionesRetirosEstacion',
-    POST_TOTAL_VENTA_ESTACION = 'CalcularTotalVentasEstacion'
+    POST_CONSULTAR_RETIROS_ESTACION = 'RDE_ConsolidarTransaccionesEstacion',
+    POST_TOTAL_VENTA_ESTACION = 'CalcularTotalVentasEstacion',
+
+    /**Routes Arqueo de Caja */
+    POST_RDE_CONSOLIDAR_TRANSACCIONES_ESTACION = 'RDE_ConsolidarTransaccionesEstacion',
+    POST_RDE_CONSOLIDAR_TRANSACCIONES_AGREGADORES_ESTACION = 'RDE_ConsolidarTransaccionesAgregadoresEstacion',
+
+
+    /**Routes Home Page */
+    GET_OBTENER_OPCIONES_MENUS = 'ObtenerOpcionesMenus',
+    POST_OBTENER_FONDO_ASIGNADO_ESTACION = 'ObtenerFondoAsignadoUsuarioEstacion'
 }

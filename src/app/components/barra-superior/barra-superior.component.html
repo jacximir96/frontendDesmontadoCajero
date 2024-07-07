@@ -1,0 +1,49 @@
+<div class="row barra-superior">
+    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6 cambio">
+        <div class="row buscar">
+            <div class=" relative col-lg-12 col-md-12 col-sm-12" style="margin: 0px ;padding: 0px "
+                *ngIf="true">
+                <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                    <svg width="21" height="22" viewBox="0 0 21 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M20.5668 18.5737L16.5526 14.3907C16.3715 14.202 16.1259 14.0971 15.8682 14.0971H15.2119C16.3231 12.616 16.9834 10.7532 16.9834 8.72675C16.9834 3.90606 13.235 0 8.60891 0C3.98278 0 0.234375 3.90606 0.234375 8.72675C0.234375 13.5474 3.98278 17.4535 8.60891 17.4535C10.5536 17.4535 12.3412 16.7654 13.7625 15.6075V16.2913C13.7625 16.5599 13.8631 16.8158 14.0443 17.0046L18.0584 21.1875C18.4369 21.5819 19.0489 21.5819 19.4233 21.1875L20.5627 20.0002C20.9412 19.6058 20.9412 18.9681 20.5668 18.5737ZM8.60891 14.0971C5.76237 14.0971 3.45535 11.6972 3.45535 8.72675C3.45535 5.7605 5.75835 3.35644 8.60891 3.35644C11.4554 3.35644 13.7625 5.7563 13.7625 8.72675C13.7625 11.693 11.4595 14.0971 8.60891 14.0971Z"
+                            fill="black" />
+                    </svg>
+
+                </div>
+                <input type="search" id="default-search"
+                    style="width: 100%;height: 63px;margin: 0px 16px 0px 0px;padding: 0px;"
+                    class="w-custom  block w-full p-4 ps-5 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="" required />
+
+            </div>
+
+            <div class=" relative col-lg-8 col-md-9 col-sm-6 col-6" style="width: 100%;margin: 0px;padding: 0px; "
+                *ngIf="false">
+                <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                    <svg width="21" height="22" viewBox="0 0 21 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M20.5668 18.5737L16.5526 14.3907C16.3715 14.202 16.1259 14.0971 15.8682 14.0971H15.2119C16.3231 12.616 16.9834 10.7532 16.9834 8.72675C16.9834 3.90606 13.235 0 8.60891 0C3.98278 0 0.234375 3.90606 0.234375 8.72675C0.234375 13.5474 3.98278 17.4535 8.60891 17.4535C10.5536 17.4535 12.3412 16.7654 13.7625 15.6075V16.2913C13.7625 16.5599 13.8631 16.8158 14.0443 17.0046L18.0584 21.1875C18.4369 21.5819 19.0489 21.5819 19.4233 21.1875L20.5627 20.0002C20.9412 19.6058 20.9412 18.9681 20.5668 18.5737ZM8.60891 14.0971C5.76237 14.0971 3.45535 11.6972 3.45535 8.72675C3.45535 5.7605 5.75835 3.35644 8.60891 3.35644C11.4554 3.35644 13.7625 5.7563 13.7625 8.72675C13.7625 11.693 11.4595 14.0971 8.60891 14.0971Z"
+                            fill="black" />
+                    </svg>
+
+                </div>
+                <input type="search" id="default-search" style="height: 63px;"
+                    class="w-custom  block w-full p-4 ps-5 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="" required />
+
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6"
+        style="display: flex; justify-content: end; margin: 0px;padding: 0px;">
+        <!-- <button routerLink="/agregar-formapago" style="display: flex;justify-content: center;align-items: center;color: white;width: 100%;height: 63px;background-color: #4DBE49;border-radius: 10px;">
+   Agregar Forma Pago
+</button> -->
+        <button
+            style="width: 100%;height: 63px;margin-left: 16px;background-color: #337AB7;color: white;border-radius: 10px;">Confirmar</button>
+        <button
+            style="width: 100%;height: 63px;margin-left: 16px;background-color: #D9534F;color: white;border-radius: 10px;"
+            routerLink="/">Cancelar</button>
+    </div>
+</div>

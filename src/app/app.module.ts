@@ -23,6 +23,7 @@ import { MenuPrincipalService } from './services/menu-principal.service';
 import { RolesService } from './services/roles.service';
 import { AccesoDenegadoComponent } from './components/acceso-denegado/acceso-denegado.component';
 import { FormsModule } from '@angular/forms';
+import { BarraSuperiorComponent } from './components/barra-superior/barra-superior.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { FormsModule } from '@angular/forms';
     TarjetaFormaPagoComponent,
     AgregarFormaPagoComponent,
     ModalComponent,
-    AccesoDenegadoComponent
+    AccesoDenegadoComponent,
+    BarraSuperiorComponent
   ],
   imports: [
     BrowserModule,
