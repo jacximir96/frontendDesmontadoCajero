@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { TotalVentaEstacion } from 'src/app/interfaces/arqueo-caja/arqueo-caja.interface';
+import { DenominacionBilleteConfirmado } from 'src/app/interfaces/arqueo-caja/denominacion-billete-confirmado.interface';
 import { DenominacionesBilletes } from 'src/app/interfaces/arqueo-caja/denominacion-billete-response.interface';
 import { ConsolidarTransaccionesAgregadoresEstacion } from 'src/app/interfaces/transacciones-agregadores.interface';
 import { ConsolidarTransaccionesDatafastEstacion } from 'src/app/interfaces/transacciones-datafast.interface';
@@ -98,7 +99,7 @@ export class TarjetaFormaPagoComponent implements OnInit{
       let billetes = await this.billetesServicio.obtenerDenominaciones(environment.ip_estacion)
       this.arrayBilletes = billetes.resolucion;
       this.arrayBilletes.forEach(denominacion => {
-        denominacion.valorDeclarado = parseFloat((0.00).toFixed(2));
+        denominacion.valorDeclarado = '0.00';
       })
       this.ordenarArray('Billete_Denominacion_btd_Tipo');
     } catch (error) {
@@ -117,18 +118,24 @@ export class TarjetaFormaPagoComponent implements OnInit{
   }
 
   recibeValor(dato: any) {
-    console.log(dato);
+    const denominacionBilleteConfirmado = dato[0] as DenominacionBilleteConfirmado; 
+    let totalConfirmadoBillete = 0;
     this.transaccionesEstacion.resolucion[0].formas_pagos.forEach((result: FormasPago) => {
-      console.log(result);
       if (result.resumen.Formapago_fmp_descripcion == 'EFECTIVO') {
-        result.resumen.total_pagar = result.resumen.total_pagar + (dato[0] * parseInt(dato[1]));
-        result.resumen.diferencia = result.resumen.diferencia + (dato[0] * parseInt(dato[1]));
+        totalConfirmadoBillete = parseFloat(denominacionBilleteConfirmado.Billete_Denominacion_btd_Valor!) * parseFloat(denominacionBilleteConfirmado.valorImputRecibido!);
+        result.resumen.total_pagar = result.resumen.total_pagar + totalConfirmadoBillete;
+        result.resumen.diferencia = result.resumen.diferencia + totalConfirmadoBillete;
         //Check de completado
         result.resumen.monto_validado = (result.resumen.diferencia >= 0) ? true : false;
+        this.arrayBilletes.forEach(billete => {
+          if(billete.Billete_Denominacion_IDBilleteDenominacion == denominacionBilleteConfirmado.Billete_Denominacion_IDBilleteDenominacion){
+            billete.valorDeclarado = totalConfirmadoBillete.toFixed(2);
+          }
+        })
       }
     });
     //Totales
-    this.arrayTotales[0].total_diferencia_formas_pago = this.arrayTotales[0].total_diferencia_formas_pago + (dato[0] * parseInt(dato[1]));
+    this.arrayTotales[0].total_diferencia_formas_pago = this.arrayTotales[0].total_diferencia_formas_pago + totalConfirmadoBillete;
   }
 
   ordenarArray(field: string) {

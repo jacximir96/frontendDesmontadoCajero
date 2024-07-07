@@ -17,7 +17,7 @@ export interface DenominacionesBilletes {
     Billete_Denominacion_btd_Tipo:              BilleteDenominacionBtdTipo;
     Billete_Denominacion_btd_Valor:             number;
     Billete_Denominacion_btd_Descripcion:       string;
-    valorDeclarado?:                            number;
+    valorDeclarado?:                            string;
 }
 
 export enum BilleteDenominacionBtdTipo {

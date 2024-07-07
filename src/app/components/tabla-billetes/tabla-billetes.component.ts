@@ -25,7 +25,7 @@ export class TablaBilletesComponent implements OnInit{
 
   confirmarValor(){
     this.denominacionBilleteConfirmado.valorImputRecibido = this.inputRecibido;
-    this.total.emit([this.denominacion,this.inputRecibido]);
+    this.total.emit([this.denominacionBilleteConfirmado]);
   }
 
   recibirMensaje(valor: any) {
@@ -86,10 +86,8 @@ export class TablaBilletesComponent implements OnInit{
     const rows = table?.getElementsByTagName('tr');
     const rowsInputs: HTMLInputElement[] = [];
      
-    let posicion = -1;
     let arrayId = [];
     if (rows) {
-
       //Obtener los elementos 
       for (let i = 1; i < rows.length; i++) {
         if(rows[i].id)
@@ -101,15 +99,12 @@ export class TablaBilletesComponent implements OnInit{
         rowsInputs.push(input);
       })
     }
-
-
     let currentIndexFocus = this.focusNextInput(rowsInputs);
+    currentIndexFocus = (flecha == 'adelante') ? currentIndexFocus+1 : currentIndexFocus-1;
     console.log(currentIndexFocus);
-    rowsInputs[currentIndexFocus!+1].focus();
-    let IDenominacionBillete = rowsInputs[currentIndexFocus!+1].closest('tr')!.id;
-    this.teclado(rowsInputs[currentIndexFocus!+1].id.toString(), IDenominacionBillete);
-    //rowsInputs[currentIndexFocus!+1].focus();
-    //rowsInputs[currentIndexFocus!+1].dispatchEvent(eventoKeypress);
+    rowsInputs[currentIndexFocus].focus();
+    let IDenominacionBillete = rowsInputs[currentIndexFocus].closest('tr')!.id;
+    this.teclado(rowsInputs[currentIndexFocus].id.toString(), IDenominacionBillete);
   }
 
   focusNextInput(rowsInputs: HTMLInputElement[]) {
@@ -118,12 +113,13 @@ export class TablaBilletesComponent implements OnInit{
       let tr = rowsInputs[i].closest('tr');
       if(tr!.style.backgroundColor == 'ghostwhite'){
         focusCurrentIndex = i;
+        if(rowsInputs[i].value == ''){
+          rowsInputs[i].placeholder = this.placeholder
+        }
       }
     }
     return focusCurrentIndex;
   }
-
-  
 
   ocultar(valor: any) {
     this.visible = valor;
