@@ -67,22 +67,11 @@ export class TarjetaFormaPagoComponent implements OnInit{
   transaccionesEstacion!: ConsolidarTransaccionesEstacion;
   transaccionesDetalleAll: Detalle[] = [];
   transaccionesDetalleActual: Detalle[] = [];
+  billetesConfirmados: DenominacionBilleteConfirmado[] = [];
 
   constructor(private billetesServicio: BilletesService) { }
 
   async ngOnInit() {
-    /*try {
-      let formasPago = await this.billetesServicio.obtenerFormasPago(environment.ip_estacion)
-      this.arrayFormas = formasPago;
-      this.arrayFormas.resolucion[0].formas_pagos.forEach(item  => {
-        item.resumen.estado = true;
-        item.resumen.rule = 'block';
-
-      });
-      console.log(this.arrayFormas);
-    } catch (error) {
-      console.log(error)
-    }*/
     try {
       let transaccionesEstacionResponse = await this.billetesServicio.obtenerTransaccionesEstacion(environment.ip_estacion)
       this.transaccionesEstacion = transaccionesEstacionResponse;
@@ -113,8 +102,6 @@ export class TarjetaFormaPagoComponent implements OnInit{
     } catch (error) {
       console.log(error)
     }
-
-    
   }
 
   recibeValor(dato: any) {
@@ -123,7 +110,7 @@ export class TarjetaFormaPagoComponent implements OnInit{
     this.transaccionesEstacion.resolucion[0].formas_pagos.forEach((result: FormasPago) => {
       if (result.resumen.Formapago_fmp_descripcion == 'EFECTIVO') {
         totalConfirmadoBillete = parseFloat(denominacionBilleteConfirmado.Billete_Denominacion_btd_Valor!) * parseFloat(denominacionBilleteConfirmado.valorImputRecibido!);
-        result.resumen.total_pagar = result.resumen.total_pagar + totalConfirmadoBillete;
+        denominacionBilleteConfirmado.totalConfirmado = totalConfirmadoBillete;
         result.resumen.diferencia = result.resumen.diferencia + totalConfirmadoBillete;
         //Check de completado
         result.resumen.monto_validado = (result.resumen.diferencia >= 0) ? true : false;
@@ -132,10 +119,30 @@ export class TarjetaFormaPagoComponent implements OnInit{
             billete.valorDeclarado = totalConfirmadoBillete.toFixed(2);
           }
         })
+        let billeteConfirmado:DenominacionBilleteConfirmado = denominacionBilleteConfirmado;
+        this.billetesConfirmados.push(billeteConfirmado);
       }
     });
     //Totales
     this.arrayTotales[0].total_diferencia_formas_pago = this.arrayTotales[0].total_diferencia_formas_pago + totalConfirmadoBillete;
+  }
+
+  cancelarMontosEfectivos(){
+    let totalConfirmado = 0;
+    if(this.billetesConfirmados.length > 0){
+      this.billetesConfirmados.forEach(billete => {
+        console.log(billete);
+        totalConfirmado += billete.totalConfirmado!;
+      })
+      console.log(totalConfirmado);
+      this.transaccionesEstacion.resolucion[0].formas_pagos.forEach((result: FormasPago) => {
+        if (result.resumen.Formapago_fmp_descripcion == 'EFECTIVO') {
+          result.resumen.diferencia = result.resumen.diferencia - totalConfirmado;
+        }
+      })
+    }
+    this.billetesConfirmados = [];
+    this.inicio();
   }
 
   ordenarArray(field: string) {
@@ -152,8 +159,6 @@ export class TarjetaFormaPagoComponent implements OnInit{
 
   ocultarTarjetas(dato: string) {
     this.transaccionesDetalleActual = [];
-    console.log(dato);
-    let flag = false;
     this.transaccionesEstacion.resolucion[0].formas_pagos.forEach(formaPago => {
       if(formaPago.resumen.Formapago_fmp_descripcion == 'EFECTIVO' && formaPago.resumen.Formapago_fmp_descripcion == dato){
         this.efectivo = true;
@@ -210,7 +215,6 @@ export class TarjetaFormaPagoComponent implements OnInit{
   }
 
   cancelarMontos(){
-    console.log("cancelando");
     this.transaccionesDetalleActual.forEach(formaDePago => {
       this.confirmarMonto(formaDePago, true);
     })
@@ -242,22 +246,9 @@ export class TarjetaFormaPagoComponent implements OnInit{
     })
     detalleFormaPago.cardSeleccionada = false;
 
-    /*this.transaccionesAgregadores.forEach(formaDePago => {
-      if(formaDePago.Formapago_fmp_descripcion == detalleFormaPago.Formapago_fmp_descripcion){
-        formaDePago.diferencia = 0;
-        formaDePago.monto_validado = true;
-      }
-    })*/
     this.validarMontoFormaPago.monto_validado = true;
     this.validaMontoWidth = detalleFormaPago.monto_validado ? '249px' : '301px';
-    /*this.confirmar = true;
-    this.validaMonto = false;
-    this.arrayAgregadores.forEach(element => {
-      if (element.title == title) {
-        element.validado = true;
-        element.color = "white";
-      }
-    });*/
+
   }
 
   cerrarValidaMonto() {

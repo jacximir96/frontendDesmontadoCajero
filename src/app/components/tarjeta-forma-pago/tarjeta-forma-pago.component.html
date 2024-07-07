@@ -51,7 +51,10 @@
         <button *ngIf="this.totales"
             style="width: 100%;height: 63px;margin-left: 16px;background-color: #D9534F;color: white;border-radius: 10px;"
             routerLink="/">Cancelar</button>
-        <button *ngIf="!this.totales" (click)="cancelarMontos()"
+        <button *ngIf="!this.totales && !this.efectivo" (click)="cancelarMontos()"
+            style="width: 100%;height: 63px;margin-left: 16px;background-color: #D9534F;color: white;border-radius: 10px;"
+            >Cancelar</button>
+        <button *ngIf="this.efectivo" (click)="cancelarMontosEfectivos()"
             style="width: 100%;height: 63px;margin-left: 16px;background-color: #D9534F;color: white;border-radius: 10px;"
             >Cancelar</button>
     </div>
