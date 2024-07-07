@@ -1,6 +1,7 @@
-import { DenominacionBilleteConfirmado } from './../../interfaces/arqueo-caja/denominacion-billete-confirmado.interface';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { DenominacionesBilletes } from 'src/app/interfaces/arqueo-caja/arqueo-caja.interface';
+import { DenominacionesBilletes } from 'src/app/interfaces/arqueo-caja/denominacion-billete-response.interface';
+import { DenominacionBilleteConfirmado } from './../../interfaces/arqueo-caja/denominacion-billete-confirmado.interface';
+
 
 @Component({
   selector: 'app-tabla-billetes',

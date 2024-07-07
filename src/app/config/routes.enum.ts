@@ -11,7 +11,7 @@ export enum routes{
     POST_CALCULAR_VENTAS_ESTACION = 'CalcularTotalVentasEstacion',
     POST_DESASIGNAR_USUARIO = 'DesasignarUsuario',
     POST_AGRUPAR_FORMAS_PAGO = 'AgruparFormasPago',
-    POST_OBTENER_DENOMINACION_BILLETES = 'ObtenerDenominacionBilletes',
+    POST_OBTENER_DENOMINACION_BILLETES = 'ADE_ObtenerDenominacionBilleteMonedaComprometidoArqueoDineroEstacion',
     POST_OBTENER_EFECTIVO_PROCESO = 'ObtenerEfectivoProcesoEstacion',
     POST_CONSULTAR_RETIROS_ESTACION = 'RDE_ConsolidarTransaccionesEstacion',
     POST_TOTAL_VENTA_ESTACION = 'CalcularTotalVentasEstacion',

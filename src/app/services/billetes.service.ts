@@ -2,10 +2,10 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment.local';
 import { routes } from '../config/routes.enum';
-import { CalcularTotalVentasEstacion, ObtenerDenominacionBilletes } from '../interfaces/arqueo-caja/arqueo-caja.interface';
-import { ConsolidarTransaccionesDatafastEstacion } from '../interfaces/transacciones-datafast.interface';
+import { CalcularTotalVentasEstacion } from '../interfaces/arqueo-caja/arqueo-caja.interface';
 import { ConsolidarTransaccionesAgregadoresEstacion } from '../interfaces/transacciones-agregadores.interface';
 import { ConsolidarTransaccionesEstacion } from '../interfaces/transacciones-estacion.interface';
+import { DenominacionBilleteResponse } from '../interfaces/arqueo-caja/denominacion-billete-response.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -14,9 +14,9 @@ export class BilletesService {
 
  constructor ( private http:HttpClient) { }
    
-  obtenerDenominaciones(ip:string):Promise<ObtenerDenominacionBilletes>{
-    return new Promise<ObtenerDenominacionBilletes>((resolve, reject) => {
-      this.http.post<ObtenerDenominacionBilletes>(environment.apiural + routes.POST_OBTENER_DENOMINACION_BILLETES,{"ipEstacion":ip,"proceso":"retiro"})
+  obtenerDenominaciones(ip:string):Promise<DenominacionBilleteResponse>{
+    return new Promise<DenominacionBilleteResponse>((resolve, reject) => {
+      this.http.post<DenominacionBilleteResponse>(environment.apiural + routes.POST_OBTENER_DENOMINACION_BILLETES,{"ipEstacion":ip,"proceso":"retiro"})
         .subscribe({
           next: (response) => resolve(response),
           error: (error) => reject(error)
