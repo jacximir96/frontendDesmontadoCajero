@@ -21,6 +21,7 @@ export class HeaderComponent implements OnInit{
     try {
       let result = await this.headerService.obtenerFondoAsignadoEstacion(environment.ip_estacion)
       this.user = result.resolucion.usr_descripcion;
+      this.user = localStorage.getItem('user')!;
     } catch (error) {
       console.log(error)
     }

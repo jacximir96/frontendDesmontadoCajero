@@ -1,6 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { DenominacionesBilletes } from 'src/app/interfaces/arqueo-caja/denominacion-billete-response.interface';
 import { DenominacionBilleteConfirmado } from './../../interfaces/arqueo-caja/denominacion-billete-confirmado.interface';
+import { BilletesService } from 'src/app/services/billetes.service';
+import { environment } from 'src/environments/environment.local';
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -10,9 +13,13 @@ import { DenominacionBilleteConfirmado } from './../../interfaces/arqueo-caja/de
 })
 export class TablaBilletesComponent implements OnInit{
 
-  constructor() { }
+  constructor(private billetesServicio: BilletesService) { }
+
   @Input() 
   public arrayDenominacionesBilletes!: DenominacionesBilletes[];
+
+  @Input() 
+  public IDFormaPagoEfectivo!: string;
 
   @Output() total = new EventEmitter<any[]>();;
   visible: boolean = false;
@@ -22,6 +29,7 @@ export class TablaBilletesComponent implements OnInit{
   denominacionBilleteConfirmado: DenominacionBilleteConfirmado = {};
   arrayIds: any[] = [];
   placeholder: string = "Presione aquí";
+  aperturoCajon: boolean = false;
 
   confirmarValor(){
     this.denominacionBilleteConfirmado.valorImputRecibido = this.inputRecibido;
@@ -40,6 +48,7 @@ export class TablaBilletesComponent implements OnInit{
   }
   ngOnInit() {
     //this.arrayBillletes = this.arrayDenominacionesBilletes;
+    console.log(this.IDFormaPagoEfectivo);
   }
 
   urlBilletesMonedas(tipo: string) {
@@ -58,6 +67,9 @@ export class TablaBilletesComponent implements OnInit{
     });
   }
   teclado(denominacion: string, id: string, cantidad?: number) {
+    if(!this.aperturoCajon){
+      this.aperturarCajon();
+    }
 
     const input = document.getElementById(denominacion.toString()) as HTMLInputElement;
     if (input) {
@@ -123,6 +135,25 @@ export class TablaBilletesComponent implements OnInit{
 
   ocultar(valor: any) {
     this.visible = valor;
+  }
+
+  async aperturarCajon(){
+      let aperturaCajonResponse = await this.billetesServicio.aperturaCajon(environment.ip_estacion, this.IDFormaPagoEfectivo);
+      if(!aperturaCajonResponse.error && aperturaCajonResponse.resolucion){
+          this.aperturoCajon = true;
+      }else{
+        Swal.fire({
+          customClass: {
+            confirmButton: "text-white bg-blue-700 hover:bg-blue-800",
+
+          },
+          title: 'Error!',
+          text: aperturaCajonResponse.mensaje,
+          icon: 'error',
+          confirmButtonText: 'OK',
+          footer: '<p>Por favor comuniquese con Administración</p>'
+        })
+      }
   }
 
 }

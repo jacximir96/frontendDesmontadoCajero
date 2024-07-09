@@ -11,7 +11,7 @@ export enum routes{
     POST_CALCULAR_VENTAS_ESTACION = 'CalcularTotalVentasEstacion',
     POST_DESASIGNAR_USUARIO = 'DesasignarUsuario',
     POST_AGRUPAR_FORMAS_PAGO = 'AgruparFormasPago',
-    POST_OBTENER_DENOMINACION_BILLETES = 'ADE_ObtenerDenominacionBilleteMonedaComprometidoArqueoDineroEstacion',
+    POST_OBTENER_DENOMINACION_BILLETES = 'RDE_ObtenerDenominacionBilleteMonedaComprometidoRetiroDineroEstacion',
     POST_OBTENER_EFECTIVO_PROCESO = 'ObtenerEfectivoProcesoEstacion',
     POST_CONSULTAR_RETIROS_ESTACION = 'RDE_ConsolidarTransaccionesEstacion',
     POST_TOTAL_VENTA_ESTACION = 'CalcularTotalVentasEstacion',
@@ -23,5 +23,8 @@ export enum routes{
 
     /**Routes Home Page */
     GET_OBTENER_OPCIONES_MENUS = 'ObtenerOpcionesMenus',
-    POST_OBTENER_FONDO_ASIGNADO_ESTACION = 'ObtenerFondoAsignadoUsuarioEstacion'
+    POST_OBTENER_FONDO_ASIGNADO_ESTACION = 'ObtenerFondoAsignadoUsuarioEstacion',
+
+    /**Aperturar Cajon */
+    POS_APERTURAR_CAJON = 'ACE_AbrirCajaEstacionServicioAPIAperturaCaja'
 }

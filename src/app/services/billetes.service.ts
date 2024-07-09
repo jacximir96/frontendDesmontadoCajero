@@ -6,6 +6,7 @@ import { CalcularTotalVentasEstacion } from '../interfaces/arqueo-caja/arqueo-ca
 import { ConsolidarTransaccionesAgregadoresEstacion } from '../interfaces/transacciones-agregadores.interface';
 import { ConsolidarTransaccionesEstacion } from '../interfaces/transacciones-estacion.interface';
 import { DenominacionBilleteResponse } from '../interfaces/arqueo-caja/denominacion-billete-response.interface';
+import { AperturaCajaResponse } from '../interfaces/arqueo-caja/apertura-caja-response.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -66,6 +67,21 @@ export class BilletesService {
           next: (response) => resolve(response),
           error: (error) => reject(error)
         });
+    });
+  }
+
+  aperturaCajon(ip: string, idFormaPago: string):Promise<AperturaCajaResponse>{
+    return new Promise<AperturaCajaResponse>((resolve, reject) => {
+      this.http.post<AperturaCajaResponse>(
+        environment.apiural + routes.POS_APERTURAR_CAJON,
+        {
+          "ipEstacion":ip,
+          "idFormaPago":idFormaPago
+        }
+      ).subscribe({
+        next: (response) => resolve(response),
+        error: (error) => reject(error)
+      });
     });
   }
 }

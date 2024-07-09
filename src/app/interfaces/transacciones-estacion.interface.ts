@@ -40,6 +40,7 @@ export interface Detalle {
 
 export interface Resumen {
     Formapago_fmp_descripcion:       string;
+    Formapago_IDFormapago:           string;
     total_pagar:                     number;
     diferencia:                      number;
     total_retirado:                  number;

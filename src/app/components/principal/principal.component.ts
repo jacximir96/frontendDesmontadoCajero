@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
 import { Resolucion } from 'src/app/interfaces/home/home.interface';
 import { HomeService } from 'src/app/services/home-service';
@@ -19,7 +20,8 @@ export class PrincipalComponent {
   constructor(
     private validaUsuarioService: MenuPrincipalService, 
     private router: Router,
-    private homeService: HomeService) 
+    private homeService: HomeService,
+    private route: ActivatedRoute) 
   { }
 
   async ngOnInit(){
@@ -32,6 +34,9 @@ export class PrincipalComponent {
       });
       this.dataUser = this.homeService.cacheStore;
       console.log(this.dataUser);
+
+      const parametro = this.route.snapshot.queryParamMap.get('user') ? this.route.snapshot.queryParamMap.get('user') : localStorage.getItem('user');
+      localStorage.setItem('user', parametro!);
      // this.ordenarArray('Billete_Denominacion_btd_Tipo');
     } catch (error) {
       console.log(error)

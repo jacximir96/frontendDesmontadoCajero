@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { TotalVentaEstacion } from 'src/app/interfaces/arqueo-caja/arqueo-caja.interface';
 import { DenominacionBilleteConfirmado } from 'src/app/interfaces/arqueo-caja/denominacion-billete-confirmado.interface';
@@ -7,6 +7,7 @@ import { ConsolidarTransaccionesAgregadoresEstacion } from 'src/app/interfaces/t
 import { ConsolidarTransaccionesDatafastEstacion } from 'src/app/interfaces/transacciones-datafast.interface';
 import { ConsolidarTransaccionesEstacion, FormasPago, TransaccionesEstacion, Detalle } from 'src/app/interfaces/transacciones-estacion.interface';
 import { BilletesService } from 'src/app/services/billetes.service';
+import { TarjetaFormaPagoComponenteLogica } from 'src/app/utils/TarjetaFormaDePagoComponenteLogica';
 import { environment } from 'src/environments/environment.local';
 
 @Component({
@@ -68,29 +69,27 @@ export class TarjetaFormaPagoComponent implements OnInit{
   transaccionesDetalleAll: Detalle[] = [];
   transaccionesDetalleActual: Detalle[] = [];
   billetesConfirmados: DenominacionBilleteConfirmado[] = [];
+  cajonAperturado: boolean = false;
+  tarjetaFormaDePagoComponenteLogica?: TarjetaFormaPagoComponenteLogica;
+  IDFormaPagoEfectivo: string = '';
 
   constructor(private billetesServicio: BilletesService) { }
 
+  @Input() public proceso!: string;
+
   async ngOnInit() {
+    this.tarjetaFormaDePagoComponenteLogica = new TarjetaFormaPagoComponenteLogica(this.billetesServicio, this.proceso);
     try {
-      let transaccionesEstacionResponse = await this.billetesServicio.obtenerTransaccionesEstacion(environment.ip_estacion)
-      this.transaccionesEstacion = transaccionesEstacionResponse;
-      transaccionesEstacionResponse.resolucion[0].formas_pagos.forEach(formaDePago  => {
-        formaDePago.resumen.estado = true;
-        formaDePago.resumen.rule = 'block';
-      });
-      this.generaTransaccionesDetalleAll();
+      let transaccionEstacionResponse = await this.tarjetaFormaDePagoComponenteLogica.obtenerTransaccionesEstacion();
+      this.transaccionesEstacion = transaccionEstacionResponse;
+      this.transaccionesDetalleAll = this.tarjetaFormaDePagoComponenteLogica.transaccionesDetalleAll;
       
     } catch (error) {
       console.log(error)
     }
     try {
-      let billetes = await this.billetesServicio.obtenerDenominaciones(environment.ip_estacion)
+      let billetes = await this.tarjetaFormaDePagoComponenteLogica.obtenerDenominacionesBilletes();
       this.arrayBilletes = billetes.resolucion;
-      this.arrayBilletes.forEach(denominacion => {
-        denominacion.valorDeclarado = '0.00';
-      })
-      this.ordenarArray('Billete_Denominacion_btd_Tipo');
     } catch (error) {
       console.log(error)
     }
@@ -98,7 +97,6 @@ export class TarjetaFormaPagoComponent implements OnInit{
     try {
       let totales = await this.billetesServicio.obtenerTotales(environment.ip_estacion)
       this.arrayTotales = totales.resolucion;
-      console.log(this.arrayTotales);
     } catch (error) {
       console.log(error)
     }
@@ -128,33 +126,8 @@ export class TarjetaFormaPagoComponent implements OnInit{
   }
 
   cancelarMontosEfectivos(){
-    let totalConfirmado = 0;
-    if(this.billetesConfirmados.length > 0){
-      this.billetesConfirmados.forEach(billete => {
-        console.log(billete);
-        totalConfirmado += billete.totalConfirmado!;
-      })
-      console.log(totalConfirmado);
-      this.transaccionesEstacion.resolucion[0].formas_pagos.forEach((result: FormasPago) => {
-        if (result.resumen.Formapago_fmp_descripcion == 'EFECTIVO') {
-          result.resumen.diferencia = result.resumen.diferencia - totalConfirmado;
-        }
-      })
-    }
-    this.billetesConfirmados = [];
+    this.tarjetaFormaDePagoComponenteLogica!.cancelarMontosEfectivos(this.billetesConfirmados, this.transaccionesEstacion);
     this.inicio();
-  }
-
-  ordenarArray(field: string) {
-    this.arrayBilletes.sort((a: any, b: any) => {
-      if (a[field] < b[field]) {
-        return -1;
-      } else if (a[field] > b[field]) {
-        return 1;
-      } else {
-        return 0;
-      }
-    });
   }
 
   ocultarTarjetas(dato: string) {
@@ -165,6 +138,7 @@ export class TarjetaFormaPagoComponent implements OnInit{
         formaPago.resumen.estado = true;
         this.detallesAMostrar = '';
         this.hide = "calc(100vh";
+        this.IDFormaPagoEfectivo = formaPago.resumen.Formapago_IDFormapago;
       }else if(formaPago.resumen.Formapago_fmp_descripcion == dato){
         this.detallesAMostrar = formaPago.resumen.Formapago_fmp_descripcion;
         this.efectivo = false;
@@ -196,21 +170,11 @@ export class TarjetaFormaPagoComponent implements OnInit{
     })
   }
 
-  generaTransaccionesDetalleAll(){
-    this.transaccionesDetalleAll = [];
-    this.transaccionesEstacion.resolucion[0].formas_pagos.forEach(formasDePago => {
-      formasDePago.detalle.forEach(formaDePago => {
-        formaDePago.Formapago_padre = formasDePago.resumen.Formapago_fmp_descripcion;
-        formaDePago.monto_validado = (formaDePago.diferencia >= 0) ? true : false;
-        this.transaccionesDetalleAll.push(formaDePago);
-      })
-    })
-  }
-
   seleccionarFormaPago(detalleFormaPago: Detalle) {
     this.validaMonto = true;
     this.validarMontoFormaPago = detalleFormaPago;
     this.validaMontoWidth = detalleFormaPago.monto_validado ? '249px' : '301px';
+    this.transaccionesDetalleAll.forEach( formaDePago => formaDePago.cardSeleccionada = false )
     detalleFormaPago.cardSeleccionada = true;
   }
 
@@ -219,7 +183,7 @@ export class TarjetaFormaPagoComponent implements OnInit{
       this.confirmarMonto(formaDePago, true);
     })
     this.inicio();
-    this.generaTransaccionesDetalleAll();
+    this.transaccionesDetalleAll = this.tarjetaFormaDePagoComponenteLogica!.transaccionesDetalleAll;
   }
 
   confirmarMonto(detalleFormaPago: Detalle, reverse: boolean) {
@@ -244,6 +208,7 @@ export class TarjetaFormaPagoComponent implements OnInit{
         }
       })
     })
+
     detalleFormaPago.cardSeleccionada = false;
 
     this.validarMontoFormaPago.monto_validado = true;
