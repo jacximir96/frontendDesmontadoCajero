@@ -24,6 +24,9 @@ import { RolesService } from './services/roles.service';
 import { AccesoDenegadoComponent } from './components/acceso-denegado/acceso-denegado.component';
 import { FormsModule } from '@angular/forms';
 import { BarraSuperiorComponent } from './components/barra-superior/barra-superior.component';
+import { ToastComponent } from './components/toast/toast.component';
+import { FilterItemsFormaPagoPipe } from './pipes/filter-items-forma-pago.pipe';
+import { FilterItemsFormaPagoDetallePipe } from './pipes/filter-items-forma-pago-detalle.pipe';
 
 @NgModule({
   declarations: [
@@ -44,7 +47,10 @@ import { BarraSuperiorComponent } from './components/barra-superior/barra-superi
     AgregarFormaPagoComponent,
     ModalComponent,
     AccesoDenegadoComponent,
-    BarraSuperiorComponent
+    BarraSuperiorComponent,
+    ToastComponent,
+    FilterItemsFormaPagoPipe,
+    FilterItemsFormaPagoDetallePipe
   ],
   imports: [
     BrowserModule,

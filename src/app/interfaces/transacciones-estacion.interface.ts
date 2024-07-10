@@ -36,6 +36,7 @@ export interface Detalle {
     Formapago_padre?:                string;  //Campo interno
     styleDisplay?:                   string;  //Campo interno
     cardSeleccionada?:               boolean; //Campo interno
+    valorDeclarado?:                 number;  //Campo interno
 }
 
 export interface Resumen {
@@ -52,6 +53,7 @@ export interface Resumen {
     estado?:                         boolean;
     rule?:                           string;
     monto_validado?:                 boolean;
+    valorDeclarado?:                 number;  //Campo interno
 }
 
 // Converts JSON strings to/from your types

@@ -45,4 +45,9 @@ export class TecladoNumericoComponent {
     this.confirmacion.emit();
   }
 
+  limpiarInput(){
+    this.inputValue = ''
+    this.valor.emit([this.inputValue, this.denominacion]);
+  }
+
 }

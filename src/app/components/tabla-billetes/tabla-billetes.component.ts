@@ -71,6 +71,9 @@ export class TablaBilletesComponent implements OnInit{
       this.aperturarCajon();
     }
 
+    const rowsInputBilletes = this.getRowsInputBillete();
+    const currentIndexInput = this.focusNextInput(rowsInputBilletes);
+
     const input = document.getElementById(denominacion.toString()) as HTMLInputElement;
     if (input) {
       input.placeholder = '';
@@ -92,8 +95,7 @@ export class TablaBilletesComponent implements OnInit{
     }
   }
 
-  direccion(flecha: string) {
-    console.log(flecha);
+  getRowsInputBillete(){
     const table = document.getElementById('tabla');
     const rows = table?.getElementsByTagName('tr');
     const rowsInputs: HTMLInputElement[] = [];
@@ -111,6 +113,11 @@ export class TablaBilletesComponent implements OnInit{
         rowsInputs.push(input);
       })
     }
+    return rowsInputs;
+  }
+
+  direccion(flecha: string) {
+    const rowsInputs = this.getRowsInputBillete();
     let currentIndexFocus = this.focusNextInput(rowsInputs);
     currentIndexFocus = (flecha == 'adelante') ? currentIndexFocus+1 : currentIndexFocus-1;
     console.log(currentIndexFocus);

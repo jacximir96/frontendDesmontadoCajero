@@ -21,7 +21,7 @@ export interface DenominacionesBilletes {
 }
 
 export enum BilleteDenominacionBtdTipo {
-    Billete = "BILLETE   ",
-    Moneda = "MONEDA    ",
+    Billete = "BILLETE",
+    Moneda = "MONEDA",
 }
 

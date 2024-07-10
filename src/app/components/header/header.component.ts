@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
-import { Resolucion } from 'src/app/interfaces/home/home.interface';
+import { InfoCajero } from 'src/app/interfaces/home/home.interface';
 import { HeaderService } from 'src/app/services/header.service';
 import { environment } from 'src/environments/environment.local';
 

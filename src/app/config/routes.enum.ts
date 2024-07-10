@@ -19,6 +19,7 @@ export enum routes{
     /**Routes Arqueo de Caja */
     POST_RDE_CONSOLIDAR_TRANSACCIONES_ESTACION = 'RDE_ConsolidarTransaccionesEstacion',
     POST_RDE_CONSOLIDAR_TRANSACCIONES_AGREGADORES_ESTACION = 'RDE_ConsolidarTransaccionesAgregadoresEstacion',
+    POST_ACE_IMPRIMIR_ARQUEO = 'ACE_ImprimirArqueo',
 
 
     /**Routes Home Page */

@@ -69,6 +69,7 @@ export interface TotalVentaEstacion {
     total_retiros_formas_pago:    number;
     total_ingreso_caja:           number;
     total_egreso_caja:            number;
+    valorDeclarado?:              number;     
 }
 
 /**DataFast */

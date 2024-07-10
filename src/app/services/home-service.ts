@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment.local';
 import { routes } from '../config/routes.enum';
-import { ObtenerFondoAsignadoUsuarioEstacion, Resolucion } from '../interfaces/home/home.interface';
+import { ObtenerFondoAsignadoUsuarioEstacion, InfoCajero } from '../interfaces/home/home.interface';
 import { Observable, tap } from 'rxjs';
 
 @Injectable({
@@ -10,7 +10,7 @@ import { Observable, tap } from 'rxjs';
 })
 export class HomeService {
 
-  public cacheStore: Resolucion = {
+  public cacheStore: InfoCajero = {
     magnitud: '',
     usr_descripcion: ''
   };

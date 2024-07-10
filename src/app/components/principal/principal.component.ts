@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Router } from '@angular/router';
-import { Resolucion } from 'src/app/interfaces/home/home.interface';
+import { InfoCajero } from 'src/app/interfaces/home/home.interface';
 import { HomeService } from 'src/app/services/home-service';
 import { MenuPrincipalService } from 'src/app/services/menu-principal.service';
 import { environment } from 'src/environments/environment.local'
@@ -15,7 +15,7 @@ import { environment } from 'src/environments/environment.local'
 export class PrincipalComponent {
   mensaje: string = "";
   error: boolean = false;
-  dataUser: Resolucion | [] = [];
+  dataUser: InfoCajero | [] = [];
 
   constructor(
     private validaUsuarioService: MenuPrincipalService, 
@@ -26,18 +26,8 @@ export class PrincipalComponent {
 
   async ngOnInit(){
     try {
-      //let result = await this.homeService.obtenerFondoAsignadoEstacion(environment.ip_estacion)
-      //this.dataUser = result.resolucion;*/
-      this.homeService.obtenerFondoAsignadoEstacion2(environment.ip_estacion)
-        .subscribe(result => {
-          this.dataUser = result.resolucion
-      });
-      this.dataUser = this.homeService.cacheStore;
-      console.log(this.dataUser);
-
       const parametro = this.route.snapshot.queryParamMap.get('user') ? this.route.snapshot.queryParamMap.get('user') : localStorage.getItem('user');
       localStorage.setItem('user', parametro!);
-     // this.ordenarArray('Billete_Denominacion_btd_Tipo');
     } catch (error) {
       console.log(error)
     }

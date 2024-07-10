@@ -11,7 +11,7 @@
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                             </svg>
                         </div>
-                        <input type="search" id="default-search" class="block w-full ps-10 text-sm text-gray-900 border border-gray-50 rounded-lg bg-black bg-opacity-10 focus:ring-blue-500 focus:border-blue-500  dark:text-neutral-950 dark:focus:ring-blue-500 dark:focus:border-blue-500" style="height: 63px;" />
+                        <input type="search" [(ngModel)]="filtroFormaDePago" name="filtroFormaDePago" class="block w-full ps-10 text-lg text-gray-900 border border-gray-50 rounded-lg bg-black bg-opacity-10 focus:ring-blue-500 focus:border-blue-500  dark:text-neutral-950 dark:focus:ring-blue-500 dark:focus:border-blue-500" style="height: 63px;" />
                     </div>
                 </form>
 
@@ -27,7 +27,7 @@
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                             </svg>
                         </div>
-                        <input type="search" id="default-search" class="block w-full ps-10 text-sm text-gray-900 border border-gray-50 rounded-lg bg-black bg-opacity-10 focus:ring-blue-500 focus:border-blue-500  dark:text-neutral-950 dark:focus:ring-blue-500 dark:focus:border-blue-500" style="height: 63px;" />
+                        <input type="search" [(ngModel)]="filtroFormaDePagoDetalle" name="filtroFormaDePagoDetalle" class="block w-full ps-10 text-lg text-gray-900 border border-gray-50 rounded-lg bg-black bg-opacity-10 focus:ring-blue-500 focus:border-blue-500  dark:text-neutral-950 dark:focus:ring-blue-500 dark:focus:border-blue-500" style="height: 63px;" />
                     </div>
                 </form>
 
@@ -38,8 +38,8 @@
             </div>
         </div>
     </div>
-    <div class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-6"
-        style="display: flex; justify-content: end; margin: 0px;padding: 0px;">
+    <div class="w-96"
+        style="display: flex; justify-content: end; margin: 0px;padding: 0px; margin-left: auto;">
         <!-- <button routerLink="/agregar-formapago" style="display: flex;justify-content: center;align-items: center;color: white;width: 100%;height: 63px;background-color: #4DBE49;border-radius: 10px;">
    Agregar Forma Pago
 </button> -->
@@ -58,10 +58,10 @@
     <div class="row tarjetas-contenedor flex-wrap">
 
         <!-- Formas de Pago Cards principales-->
-        <div *ngFor="let item of transaccionesEstacion.resolucion[0].formas_pagos"
+        <div *ngFor="let item of transaccionesEstacion.resolucion[0].formas_pagos | filterItemsFormaPago:filtroFormaDePago"
             class="w-full md:w-1/3 lg:w-1/4 2xl:w-1/5 px-3" style="display:{{item.resumen.rule}}">
             <div *ngIf="item.resumen.estado" Class="tarjeta-principal" style="height:{{hide}};"
-                (click)="ocultarTarjetas(item.resumen.Formapago_fmp_descripcion)">
+                (click)="ocultarTarjetas(item)">
                 <div class="row mt-2 h-5">
                     <div class="col-9 flex" style="justify-content: start; padding-left: 0x;"><span
                             class="ml-3">{{item.resumen.Formapago_fmp_descripcion | titlecase}}</span></div>
@@ -176,7 +176,7 @@
                                 $
                             </div>
                             <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8"
-                                style=" display: flex;justify-content: end;padding: 0px;">{{item.resumen.total_pagar|
+                                style=" display: flex;justify-content: end;padding: 0px;">{{item.resumen.valorDeclarado|
                                 number}}
                             </div>
 
@@ -196,7 +196,7 @@
             </div>
         </div>
 
-        <div *ngFor="let detalleFormaPago of this.transaccionesDetalleAll" class="w-full md:w-1/3 lg:w-1/4 2xl:w-1/5 px-3"
+        <div *ngFor="let detalleFormaPago of this.transaccionesDetalleAll | filterItemsFormaPagoDetalle:filtroFormaDePagoDetalle" class="w-full md:w-1/3 lg:w-1/4 2xl:w-1/5 px-3"
             style="display:{{detalleFormaPago.styleDisplay}}">
             <div *ngIf="this.detallesAMostrar == detalleFormaPago.Formapago_padre">
                 <div Class="tarjeta-principal " [ngClass]="{
@@ -325,7 +325,7 @@
                                 </div>
                                 <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8"
                                     style=" display: flex;justify-content: end;padding: 0px;">
-                                    {{detalleFormaPago.total_pagar| number}}
+                                    {{detalleFormaPago.valorDeclarado| number}}
                                 </div>
 
                             </div>
@@ -473,7 +473,7 @@
         </div> -->
 
         <!-- Grid de Billetes -->
-        <div *ngIf="efectivo">
+        <div *ngIf="efectivo" class="w-4/5 px-3">
             <app-tabla-billetes [arrayDenominacionesBilletes]="arrayBilletes"
                 (total)="recibeValor($event)" [IDFormaPagoEfectivo]="this.IDFormaPagoEfectivo"></app-tabla-billetes>
         </div>
@@ -673,7 +673,7 @@
                             style="text-align: center;width: 20px;background-color: #E2F7E2;border-radius: 50px;;">$
                         </div>
                         <div class="col-6" style="min-width: 80px; display: flex;justify-content: end;padding: 0px;">
-                            0.00
+                            {{arrayTotales[0].valorDeclarado | number}}
                         </div>
                     </div>
                     <div *ngIf="arrayTotales[0].total_diferencia_formas_pago < 0" class="row"
@@ -704,11 +704,11 @@
         <div *ngIf="totales" class="btn-monto-asignado">
             <button type="button"
                 class="focus:outline-none text-white text-white bg-[#FF9119] hover:bg-[#FF9119]/80 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-md px-4 py-2.5 me-2 dark:focus:ring-yellow-900"
-                style="width: 262px !important;">Fondo Asignado: $50.00</button>
+                style="width: 262px !important;">Fondo Asignado: ${{this.userCajero.magnitud}}</button>
         </div>
 
         <!-- Div para validar el monto por agregador -->
-        <div *ngIf="validaMonto" class="col-xl-3 col-md-4 start-0" style="margin-top: 0px; width: 100%;">
+        <div *ngIf="validaMonto" class="col-xl-4 col-md-4 order-last absolute top-0 right-0 m-4" style="margin-top: 0px; width: 100%; margin-left: auto;">
             <div
                 style="width: 100%;height: {{this.validaMontoWidth}}; border:solid; border-width: 2px;border-radius: 10px;border-color: #F0F0F0;">
                 <div class="row" style="padding-left: 8px;">

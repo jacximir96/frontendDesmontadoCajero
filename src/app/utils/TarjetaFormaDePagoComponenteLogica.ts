@@ -33,6 +33,7 @@ export class TarjetaFormaPagoComponenteLogica {
         transaccionesEstacionResponse.resolucion[0].formas_pagos.forEach(formaDePago  => {
             formaDePago.resumen.estado = true;
             formaDePago.resumen.rule = 'block';
+            formaDePago.resumen.valorDeclarado = 0.00;
         });
         this.generaTransaccionesDetalleAll(transaccionesEstacionResponse);
         return transaccionesEstacionResponse;
@@ -45,6 +46,7 @@ export class TarjetaFormaPagoComponenteLogica {
           formasDePago.detalle.forEach(formaDePago => {
             formaDePago.Formapago_padre = formasDePago.resumen.Formapago_fmp_descripcion;
             formaDePago.monto_validado = (formaDePago.diferencia >= 0) ? true : false;
+            formaDePago.valorDeclarado = 0.00;
             this.transaccionesDetalleAll.push(formaDePago);
           })
         })

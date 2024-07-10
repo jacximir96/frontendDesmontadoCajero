@@ -6,11 +6,11 @@
 
 export interface ObtenerFondoAsignadoUsuarioEstacion {
     error:      boolean;
-    resolucion: Resolucion;
+    resolucion: InfoCajero;
     mensaje:    string;
 }
 
-export interface Resolucion {
+export interface InfoCajero {
     magnitud:        string;
     usr_descripcion: string;
 }
