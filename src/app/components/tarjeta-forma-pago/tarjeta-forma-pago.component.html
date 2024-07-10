@@ -95,24 +95,20 @@
 
                     </div>
                     <div class="col-xl-5 col-lg-5 col-md-5 col-sm-5" style="padding-left: 0px !important;">
-                        <div class="row"
-                            style="width: 100%;margin-bottom: 4px;margin-left: 8px;border: solid;border-width: 2px;border-color: #F0F0F0;border-radius: 10px;">
-                            <div style="text-align: center;width: 20px;background-color: #E2F7E2;border-radius: 50px;;">
+                        <div class="rounded-full flex div-valores-dato">
+                            <div class="rounded-full div-valores-dollar">
                                 #
                             </div>
 
-                            <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8"
-                                style="display: flex;justify-content: end;padding: 0px;">
+                            <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8 div-valores-monto">
                                 {{item.resumen.num_transacciones}}</div>
 
                         </div>
-                        <div class="row"
-                            style="width: 100%;margin-bottom: 4px;margin-left: 8px;border: solid;border-width: 2px;border-color: #F0F0F0;border-radius: 10px;">
-                            <div style="text-align: center;width: 20px;background-color: #E2F7E2;border-radius: 50px;;">
+                        <div class="rounded-full flex div-valores-dato">
+                            <div class="rounded-full div-valores-dollar">
                                 $
                             </div>
-                            <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8"
-                                style=" display: flex;justify-content: end;padding: 0px;">{{item.resumen.total_pagar |
+                            <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8 div-valores-monto">{{item.resumen.total_pagar |
                                 number}}
                             </div>
 
@@ -142,46 +138,38 @@
 
                     </div>
                     <div class="col-xl-5 col-lg-5 col-md-5 col-sm-5 " style="padding-left: 0px !important;">
-                        <div class="row"
-                            style="width: 100%;margin-bottom: 4px;margin-left: 8px;border: solid;border-width: 2px;border-color: #F0F0F0;border-radius: 10px;">
-                            <div style="text-align: center;width: 20px;background-color: #E2F7E2;border-radius: 50px;;">
+                        <div class="rounded-full flex div-valores-dato">
+                            <div class="rounded-full div-valores-dollar">
                                 $
                             </div>
-                            <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8"
-                                style=" display: flex;justify-content: end;padding: 0px;">{{item.resumen.ingreso |
+                            <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8 div-valores-monto">{{item.resumen.ingreso |
                                 number}}</div>
                         </div>
-                        <div class="row"
-                            style="width: 100%;margin-bottom: 4px;margin-left: 8px;border: solid;border-width: 2px;border-color: #F0F0F0;border-radius: 10px;">
-                            <div style="text-align: center;width: 20px;background-color: #E2F7E2;border-radius: 50px;;">
+                        <div class="rounded-full flex div-valores-dato">
+                            <div class="rounded-full div-valores-dollar">
                                 $
                             </div>
-                            <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8"
-                                style=" display: flex;justify-content: end;padding: 0px;">{{item.resumen.egreso|
+                            <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8 div-valores-monto">{{item.resumen.egreso|
                                 number}}</div>
                         </div>
-                        <div class="row"
-                            style="width: 100%;margin-bottom: 4px;margin-left: 8px;border: solid;border-width: 2px;border-color: #F0F0F0;border-radius: 10px;">
-                            <div style="text-align: center;width: 20px;background-color: #E2F7E2;border-radius: 50px;;">
+                        <div class="rounded-full flex div-valores-dato">
+                            <div class="rounded-full div-valores-dollar">
                                 $
                             </div>
-                            <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8"
-                                style=" display: flex;justify-content: end;padding: 0px;">{{item.resumen.total_retirado|
+                            <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8 div-valores-monto">{{item.resumen.total_retirado|
                                 number}}
                             </div>
                         </div>
-                        <div class="row"
-                            style="width: 100%;margin-bottom: 4px;margin-left: 8px;border: solid;border-width: 2px;border-color: #F0F0F0;border-radius: 10px;">
-                            <div style="text-align: center;width: 20px;background-color: #E2F7E2;border-radius: 50px;;">
+                        <div class="rounded-full flex div-valores-dato">
+                            <div class="rounded-full div-valores-dollar">
                                 $
                             </div>
-                            <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8"
-                                style=" display: flex;justify-content: end;padding: 0px;">{{item.resumen.valorDeclarado|
+                            <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8 div-valores-monto">{{item.resumen.valorDeclarado|
                                 number}}
                             </div>
 
                         </div>
-                        <div class="row" style=" width: 100%;margin-bottom: 4px;margin-left: 8px;margin-right: 8px;border: solid;border-width: 2px;border-color: #F0F0F0;border-radius: 10px;">
+                        <div class="rounded-full flex div-valores-dato">
                             <div [ngSwitch]="true" class="diferencia-img">
                                 <img *ngSwitchCase= "item.resumen.diferencia < 0" src="../../../assets/images/enojado.png" width="60px" height="60px" alt="">
                                 <img *ngSwitchCase= "item.resumen.diferencia == 0" src="../../../assets/images/carita-felicidad.png" width="60px" height="60px" alt="">
@@ -237,26 +225,20 @@
 
                         </div>
                         <div class="col-xl-5 col-lg-5 col-md-5 col-sm-5" style="padding-left: 0px !important;">
-                            <div class="row"
-                                style="width: 100%;margin-bottom: 4px;margin-left: 8px;border: solid;border-width: 2px;border-color: #F0F0F0;border-radius: 10px;">
-                                <div
-                                    style="text-align: center;width: 20px;background-color: #E2F7E2;border-radius: 50px;;">
+                            <div class="rounded-full flex div-valores-dato">
+                                <div class="rounded-full div-valores-dollar">
                                     #
                                 </div>
 
-                                <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8"
-                                    style="display: flex;justify-content: end;padding: 0px;">
+                                <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8 div-valores-monto">
                                     {{detalleFormaPago.numero_transacciones}}</div>
 
                             </div>
-                            <div class="row"
-                                style="width: 100%;margin-bottom: 4px;margin-left: 8px;border: solid;border-width: 2px;border-color: #F0F0F0;border-radius: 10px;">
-                                <div
-                                    style="text-align: center;width: 20px;background-color: #E2F7E2;border-radius: 50px;;">
+                            <div class="rounded-full flex div-valores-dato">
+                                <div class="rounded-full div-valores-dollar">
                                     $
                                 </div>
-                                <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8"
-                                    style=" display: flex;justify-content: end;padding: 0px;">
+                                <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8 div-valores-monto">
                                     {{detalleFormaPago.total_pagar| number}}
                                 </div>
 
@@ -269,7 +251,6 @@
                         <div class="col-xl-7 col-lg-7 col-md-7 col-sm-7">
                             <div style="margin-left: 8px;height: 32px;">
                                 <span>Ingresos</span>
-
                             </div>
                             <div style="margin-left: 8px;height: 32px;">
                                 <span>Egresos</span>
@@ -286,52 +267,39 @@
 
                         </div>
                         <div class="col-xl-5 col-lg-5 col-md-5 col-sm-5 " style="padding-left: 0px !important;">
-                            <div class="row"
-                                style="width: 100%;margin-bottom: 4px;margin-left: 8px;border: solid;border-width: 2px;border-color: #F0F0F0;border-radius: 10px;">
-                                <div
-                                    style="text-align: center;width: 20px;background-color: #E2F7E2;border-radius: 50px;;">
+                            <div class="rounded-full flex div-valores-dato">
+                                <div class="rounded-full div-valores-dollar">
                                     $
                                 </div>
-                                <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8"
-                                    style=" display: flex;justify-content: end;padding: 0px;">{{detalleFormaPago.ingreso
+                                <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8 div-valores-monto">{{detalleFormaPago.ingreso
                                     | number}}</div>
                             </div>
-                            <div class="row"
-                                style="width: 100%;margin-bottom: 4px;margin-left: 8px;border: solid;border-width: 2px;border-color: #F0F0F0;border-radius: 10px;">
-                                <div
-                                    style="text-align: center;width: 20px;background-color: #E2F7E2;border-radius: 50px;;">
+                            <div class="rounded-full flex div-valores-dato">
+                                <div class="rounded-full div-valores-dollar">
                                     $
                                 </div>
-                                <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8"
-                                    style=" display: flex;justify-content: end;padding: 0px;">{{detalleFormaPago.egreso|
+                                <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8 div-valores-monto">{{detalleFormaPago.egreso|
                                     number}}</div>
                             </div>
-                            <div class="row"
-                                style="width: 100%;margin-bottom: 4px;margin-left: 8px;border: solid;border-width: 2px;border-color: #F0F0F0;border-radius: 10px;">
-                                <div
-                                    style="text-align: center;width: 20px;background-color: #E2F7E2;border-radius: 50px;;">
+                            <div class="rounded-full flex div-valores-dato">
+                                <div class="rounded-full div-valores-dollar">
                                     $
                                 </div>
-                                <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8"
-                                    style=" display: flex;justify-content: end;padding: 0px;">
+                                <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8 div-valores-monto">
                                     {{detalleFormaPago.total_retirado| number}}
                                 </div>
                             </div>
-                            <div class="row"
-                                style="width: 100%;margin-bottom: 4px;margin-left: 8px;border: solid;border-width: 2px;border-color: #F0F0F0;border-radius: 10px;">
-                                <div
-                                    style="text-align: center;width: 20px;background-color: #E2F7E2;border-radius: 50px;;">
+                            <div class="rounded-full flex div-valores-dato">
+                                <div class="rounded-full div-valores-dollar">
                                     $
                                 </div>
-                                <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8"
-                                    style=" display: flex;justify-content: end;padding: 0px;">
+                                <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8 div-valores-monto">
                                     {{detalleFormaPago.valorDeclarado| number}}
                                 </div>
 
                             </div>
 
-                            <div class="row"
-                                style=" width: 100%;margin-bottom: 4px;margin-left: 8px;margin-right: 8px;border: solid;border-width: 2px;border-color: #F0F0F0;border-radius: 10px;">
+                            <div class="rounded-full flex div-valores-dato">
                                 <div [ngSwitch]="true" class="diferencia-img">
                                     <img *ngSwitchCase="detalleFormaPago.diferencia < 0"
                                         src="../../../assets/images/enojado.png" width="60px" height="60px" alt="">

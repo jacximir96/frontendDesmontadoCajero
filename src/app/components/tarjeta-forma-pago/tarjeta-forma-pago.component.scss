@@ -66,6 +66,27 @@ border-width: 2px;border-radius: 10px;
     border-radius: 10px;
 }
 
+.div-valores-dollar{
+    text-align: 
+    center;width: 24px;
+    background-color: #E2F7E2;
+}
+
+.div-valores-dato{
+    width: 100%;
+    margin-bottom: 4px;
+    margin-left: 8px;
+    border: solid;
+    border-width: 2px;
+    border-color: #F0F0F0;
+}
+
+.div-valores-monto{
+    display: flex;
+    justify-content: end;
+    padding-right: 4px;
+}
+
 
 @media (width > 1200px) and (width < 1800px){
     .col-xl-2{
