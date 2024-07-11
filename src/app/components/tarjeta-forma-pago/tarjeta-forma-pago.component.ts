@@ -135,12 +135,18 @@ export class TarjetaFormaPagoComponent implements OnInit{
     let totalConfirmadoBillete = 0;
     this.transaccionesEstacion.resolucion[0].formas_pagos.forEach((result: FormasPago) => {
       if (result.resumen.Formapago_fmp_descripcion == 'EFECTIVO') {
+        console.log('Antes',result.resumen.diferencia);
         totalConfirmadoBillete = parseFloat(denominacionBilleteConfirmado.Billete_Denominacion_btd_Valor!) * parseFloat(denominacionBilleteConfirmado.valorImputRecibido!);
         denominacionBilleteConfirmado.totalConfirmado = totalConfirmadoBillete;
         result.resumen.diferencia = result.resumen.diferencia + totalConfirmadoBillete;
         result.resumen.valorDeclarado = result.resumen.valorDeclarado! + totalConfirmadoBillete
         //Check de completado
         result.resumen.monto_validado = (result.resumen.diferencia >= 0) ? true : false;
+        if(result.resumen.diferencia.toFixed(2) == '0.00' || result.resumen.diferencia.toFixed(2) == '-0.00'){
+          result.resumen.monto_validado = true;
+          result.resumen.diferencia = 0.00;
+        }
+        console.log('Despues',result.resumen.diferencia.toFixed(2));
         this.arrayBilletes.forEach(billete => {
           if(billete.Billete_Denominacion_IDBilleteDenominacion == denominacionBilleteConfirmado.Billete_Denominacion_IDBilleteDenominacion){
             billete.valorDeclarado = totalConfirmadoBillete.toFixed(2);
@@ -176,7 +182,6 @@ export class TarjetaFormaPagoComponent implements OnInit{
         this.efectivo = false;
         formaPago.resumen.estado = true;
         this.detallesAMostrar = formaPago.resumen.Formapago_fmp_descripcion;
-        this.hide = "calc(67vh)";
       }else{
         formaPago.resumen.rule = 'none';
       }
@@ -193,6 +198,7 @@ export class TarjetaFormaPagoComponent implements OnInit{
     this.totales = true;
     this.hide = "487px";
     this.validaMonto = false;
+    this.seleccionoFormaDePago = false;
     this.transaccionesEstacion.resolucion[0].formas_pagos.forEach(element => {
       element.resumen.estado = true;
       element.resumen.rule = "block";

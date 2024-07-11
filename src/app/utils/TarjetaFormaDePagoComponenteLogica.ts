@@ -66,6 +66,8 @@ export class TarjetaFormaPagoComponenteLogica {
           transaccionesEstacion.resolucion[0].formas_pagos.forEach((result: FormasPago) => {
             if (result.resumen.Formapago_fmp_descripcion == 'EFECTIVO') {
               result.resumen.diferencia = result.resumen.diferencia - totalConfirmado;
+              result.resumen.valorDeclarado = 0.00;
+              result.resumen.monto_validado = result.resumen.diferencia >=0 ? true : false;
             }
           })
         }

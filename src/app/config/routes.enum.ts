@@ -10,7 +10,7 @@ export enum routes{
     POST_CONSOLIDAR_TRANSACCIONES_ESTACION_FORMA_PAGO_TARJETA = 'ConsolidarTransaccionesEstacionFormaPagoTarjetaIn',
     POST_CALCULAR_VENTAS_ESTACION = 'CalcularTotalVentasEstacion',
     POST_DESASIGNAR_USUARIO = 'DesasignarUsuario',
-    POST_AGRUPAR_FORMAS_PAGO = 'AgruparFormasPago',
+    POST_AGRUPAR_FORMAS_PAGO = 'TD_ObtenerFormaPago',
     POST_OBTENER_DENOMINACION_BILLETES = 'RDE_ObtenerDenominacionBilleteMonedaComprometidoRetiroDineroEstacion',
     POST_OBTENER_EFECTIVO_PROCESO = 'ObtenerEfectivoProcesoEstacion',
     POST_CONSULTAR_RETIROS_ESTACION = 'RDE_ConsolidarTransaccionesEstacion',

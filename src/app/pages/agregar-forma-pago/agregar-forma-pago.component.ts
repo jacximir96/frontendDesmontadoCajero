@@ -104,7 +104,7 @@ export class AgregarFormaPagoComponent {
 
    async formasPago(){
     try {
-      let formasPago = await this.formasPagoService.agruparFormasPago('10.104.19.201')
+      let formasPago = await this.formasPagoService.agruparFormasPago('127.0.0.1')
       this.array = Object.keys(formasPago.resolucion).map(key => {
         return { name: key, items: formasPago.resolucion[key] };
       });

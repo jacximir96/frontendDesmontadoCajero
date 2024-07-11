@@ -53,7 +53,7 @@ export class BilletesService {
   }
   obtenerTotales(ip:string):Promise<CalcularTotalVentasEstacion>{
     return new Promise<CalcularTotalVentasEstacion>((resolve, reject) => {
-      this.http.get<CalcularTotalVentasEstacion>(environment.apilocal + routes.POST_CALCULAR_VENTAS_ESTACION)
+      this.http.post<CalcularTotalVentasEstacion>(environment.apiural + routes.POST_CALCULAR_VENTAS_ESTACION, {'ipEstacion': ip})
         .subscribe({
           next: (response) => resolve(response),
           error: (error) => reject(error)

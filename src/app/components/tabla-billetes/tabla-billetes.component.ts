@@ -149,7 +149,7 @@ export class TablaBilletesComponent implements OnInit{
       if(!aperturaCajonResponse.error && aperturaCajonResponse.resolucion){
           this.aperturoCajon = true;
       }else{
-        Swal.fire({
+        /*Swal.fire({
           customClass: {
             confirmButton: "text-white bg-blue-700 hover:bg-blue-800",
 
@@ -159,7 +159,7 @@ export class TablaBilletesComponent implements OnInit{
           icon: 'error',
           confirmButtonText: 'OK',
           footer: '<p>Por favor comuniquese con Administración</p>'
-        })
+        })*/
       }
   }
 
