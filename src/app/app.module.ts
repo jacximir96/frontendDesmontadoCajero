@@ -27,6 +27,7 @@ import { BarraSuperiorComponent } from './components/barra-superior/barra-superi
 import { ToastComponent } from './components/toast/toast.component';
 import { FilterItemsFormaPagoPipe } from './pipes/filter-items-forma-pago.pipe';
 import { FilterItemsFormaPagoDetallePipe } from './pipes/filter-items-forma-pago-detalle.pipe';
+import { CajaChicaComponent } from './pages/caja-chica/caja-chica.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { FilterItemsFormaPagoDetallePipe } from './pipes/filter-items-forma-pago
     BarraSuperiorComponent,
     ToastComponent,
     FilterItemsFormaPagoPipe,
-    FilterItemsFormaPagoDetallePipe
+    FilterItemsFormaPagoDetallePipe,
+    CajaChicaComponent
   ],
   imports: [
     BrowserModule,

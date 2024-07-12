@@ -1,17 +1,17 @@
-<div class="row barra-superior">
+<div class="row barra-superior m-auto">
     <div class="2xl:w-2/3 md:w-full cambio">
         <div class="row buscar">
             <div class=" relative col-lg-12 col-md-12 col-sm-12"
                 *ngIf="totales == true">
-                <form class="w-2/3">   
+                <form class="w-2/3" (click)="onFocusClick($event)">   
                     <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
                     <div class="relative">
                         <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                            <svg class="w-6 h-6 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                            <svg class="w-6 h-6 text-black dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                             </svg>
                         </div>
-                        <input type="search" [(ngModel)]="filtroFormaDePago" name="filtroFormaDePago" class="block w-full ps-10 text-lg text-gray-900 rounded-lg border-solid border-2 border-gray-400 focus:ring-blue-500 focus:border-blue-500  dark:text-neutral-950 dark:focus:ring-blue-500 dark:focus:border-blue-500" style="height: 63px;" />
+                        <input id="inputField" (input)="onInputChange($event)" type="search" [(ngModel)]="filtroFormaDePago" name="filtroFormaDePago" class="block w-full ps-10 text-lg text-gray-900 rounded-lg border-solid border-2 border-gray-400 focus:ring-blue-500 focus:border-blue-500  dark:text-neutral-950 dark:focus:ring-blue-500 dark:focus:border-blue-500" style="height: 63px;" />
                     </div>
                 </form>
 
@@ -19,11 +19,11 @@
 
             <div class=" relative col-lg-8 col-md-9 col-sm-6 col-6" style="width: 100%;"
                 *ngIf="totales == false">
-                <form class="w-full">   
+                <form class="w-full" (click)="onFocusClick($event)">   
                     <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
                     <div class="relative">
                         <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                            <svg class="w-6 h-6 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                            <svg class="w-6 h-6 text-black dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                             </svg>
                         </div>
@@ -43,8 +43,11 @@
         <!--<button *ngIf="this.proceso == 'RDE_' "  routerLink="/agregar-formapago" style="display: flex;justify-content: center;align-items: center;color: white;width: 100%;height: 63px;background-color: #4DBE49;border-radius: 10px;">
             Agregar Forma Pago
         </button>-->
-        <button *ngIf="proceso == 'RDE_'" type="button" style="height: 63px;" class="text-white bg-[#4DBE49] hover:bg-[#4DBE49]/90 focus:ring-4 focus:outline-none focus:ring-[#4DBE49]/50 font-medium rounded-lg text-center inline-flex items-center mb-2 justify-center w-32">
+        <button *ngIf="proceso == 'DDC_'" type="button" style="height: 63px;" class="text-white bg-[#4DBE49] hover:bg-[#4DBE49]/90 focus:ring-4 focus:outline-none focus:ring-[#4DBE49]/50 font-medium rounded-lg text-center inline-flex items-center mb-2 justify-center w-32">
             <img src="../../../assets/images/image-mas.png" alt="">
+        </button>
+        <button routerLink="/caja-chica" *ngIf="proceso == 'RDE_'" type="button" style="height: 63px;" class="text-white bg-yellow-400 hover:bg-yellow-400 focus:ring-4 focus:outline-none focus:ring-[#4DBE49]/50 font-medium rounded-lg text-center inline-flex items-center mb-2 justify-center w-1/2">
+            <span>Caja Chica</span>
         </button>
         <button *ngIf="this.totales" (click)="confirmarButton()" class="styleButtonConfirmar">Confirmar</button>
         <button *ngIf="!this.totales" (click)="inicio()" class="styleButtonConfirmar">Confirmar</button>
@@ -1340,3 +1343,5 @@
         </div>-->
     </div>
 </div>
+
+<app-teclado [valueKeyboard]="this.filtro" (onValueTeclado)="this.getValorTeclado($event)"></app-teclado>

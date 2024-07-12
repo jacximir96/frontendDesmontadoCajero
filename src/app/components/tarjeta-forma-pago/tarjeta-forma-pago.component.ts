@@ -1,5 +1,5 @@
 import { ArqueoService } from '../../services/arqueo-service';
-import { Component, Input, OnInit } from '@angular/core';
+import { AfterContentInit, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { TotalVentaEstacion } from 'src/app/interfaces/arqueo-caja/arqueo-caja.interface';
@@ -14,11 +14,14 @@ import { BilletesService } from 'src/app/services/billetes.service';
 import { HeaderService } from 'src/app/services/header.service';
 import { TarjetaFormaPagoComponenteLogica } from 'src/app/utils/TarjetaFormaDePagoComponenteLogica';
 import { environment } from 'src/environments/environment.local';
+import SimpleKeyboard from 'simple-keyboard';
+
 
 @Component({
   selector: 'app-tarjeta-forma-pago',
   templateUrl: './tarjeta-forma-pago.component.html',
-  styleUrls: ['./tarjeta-forma-pago.component.scss']
+  styleUrls: ['./tarjeta-forma-pago.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class TarjetaFormaPagoComponent implements OnInit{
   efectivo: boolean = false;
@@ -40,38 +43,6 @@ export class TarjetaFormaPagoComponent implements OnInit{
     mostrar: false
   }
 
-  arrayAgregadores: any[] = [
-    {
-      title: 'Uber',
-      image: 'uber.png',
-      transacciones: '4',
-      posCalculado: '$449.02',
-      valorDeclarado: '$0.00',
-      diferencia: '-$449.02',
-      ingresos: '$0.00',
-      egresos: '$0.00',
-      retirado: '$0.00',
-      estado: true,
-      validado: false,
-      color: "white"
-    },
-    {
-      title: 'Pedidos ya',
-      image: 'pedidosya.png',
-      transacciones: '4',
-      posCalculado: '$449.02',
-      valorDeclarado: '$0.00',
-      diferencia: '-$449.02',
-      ingresos: '$0.00',
-      egresos: '$0.00',
-      retirado: '$0.00',
-      estado: true,
-      validado: false,
-      seleccionado: false,
-      color: "white"
-    },
-
-  ]
   arrayFormas!: ConsolidarTransaccionesEstacion;
   arrayBilletes!: DenominacionesBilletes[];
   arrayTotales!: TotalVentaEstacion[];
@@ -87,6 +58,9 @@ export class TarjetaFormaPagoComponent implements OnInit{
   seleccionoFormaDePago: boolean = false;
   filtroFormaDePago:string = '';
   filtroFormaDePagoDetalle:string = '';
+  keyboard!: SimpleKeyboard;
+
+  filtro: string = '';
 
   constructor(
     private billetesServicio: BilletesService,
@@ -97,7 +71,73 @@ export class TarjetaFormaPagoComponent implements OnInit{
 
   @Input() public proceso!: string;
 
+  onValueTeclado(valueTeclado: string):void{
+    console.log('Tarjeta', valueTeclado);
+    this.filtroFormaDePago = valueTeclado;
+  }
+
+  onFocusClick(event: MouseEvent){
+    const input = event.target as HTMLInputElement;
+    input.classList.remove('opacity-0');
+    input.classList.add('opacity-100');
+    
+    document.getElementById('keyboardModal')!.classList.remove('opacity-0','hidden');
+    document.getElementById('keyboardModal')!.classList.add('opacity-100');
+  }
+
+  onChange = (input: string) => {
+    this.filtroFormaDePago = input
+    console.log("Input changed", input);
+  };
+
+  onKeyPress = (button: string) => {
+    console.log("Button pressed", button);
+    if(button == "{enter}"){
+      document.getElementById('keyboardModal')!.classList.remove('opacity-100','block');
+      document.getElementById('keyboardModal')!.classList.add('opacity-0','hidden');
+    }
+    
+    /**
+     * If you want to handle the shift and caps lock buttons
+     */
+    if (button === "{shift}" || button === "{lock}") this.handleShift();
+  };
+
+  onInputChange = (event: any) => {
+    this.keyboard.setInput(event.target.value);
+  };
+
+  handleShift = () => {
+    let currentLayout = this.keyboard.options.layoutName;
+    let shiftToggle = currentLayout === "default" ? "shift" : "default";
+
+    this.keyboard.setOptions({
+      layoutName: shiftToggle
+    });
+  };
+
+  getValorTeclado(valor: string):  void{
+    console.log(valor);
+    if(this.seleccionoFormaDePago && valor === '{bksp}' && this.filtroFormaDePagoDetalle.length === 0) return
+    if(!this.seleccionoFormaDePago && valor === '{bksp}' && this.filtroFormaDePago.length === 0) return
+    
+    if(this.seleccionoFormaDePago){
+      if(valor === '{bksp}'){
+        this.filtroFormaDePagoDetalle = this.filtroFormaDePagoDetalle.slice(0,-1);
+      }else{
+        this.filtroFormaDePagoDetalle = this.filtroFormaDePagoDetalle + valor;
+      }
+    }else{
+      if(valor === '{bksp}'){
+        this.filtroFormaDePago = this.filtroFormaDePago.slice(0,-1);
+      }else{
+        this.filtroFormaDePago = this.filtroFormaDePago + valor;
+      }
+    }    
+  }
+
   async ngOnInit() {
+    //this.keyboard.setInput(this.filtroFormaDePago);
     this.tarjetaFormaDePagoComponenteLogica = new TarjetaFormaPagoComponenteLogica(this.billetesServicio, this.proceso);
     try {
       let transaccionEstacionResponse = await this.tarjetaFormaDePagoComponenteLogica.obtenerTransaccionesEstacion();
@@ -305,10 +345,6 @@ export class TarjetaFormaPagoComponent implements OnInit{
     this.arrayFormas.resolucion[0].formas_pagos.filter(formasDePago => {
       formasDePago.resumen.Formapago_fmp_descripcion.toLocaleLowerCase().includes('data')
     })
-  }
-
-  filtrarDetalleFormasDePago(){
-
   }
 
   mostrarDiv() {

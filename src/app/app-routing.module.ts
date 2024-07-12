@@ -15,6 +15,7 @@ import { TarjetaFormaPagoComponent } from './components/tarjeta-forma-pago/tarje
 import { AgregarFormaPagoComponent } from './pages/agregar-forma-pago/agregar-forma-pago.component';
 import { rolesGuard } from './guards/roles.guard';
 import { AccesoDenegadoComponent } from './components/acceso-denegado/acceso-denegado.component';
+import { CajaChicaComponent } from './pages/caja-chica/caja-chica.component';
 
 const routes: Routes = [
 
@@ -36,6 +37,7 @@ const routes: Routes = [
 
 
   { path: 'arqueo', component: ArqueoCajaComponent ,canActivate:[rolesGuard],data: { expectedRoles: ['admin'] }},
+  { path: 'caja-chica', component: CajaChicaComponent ,canActivate:[rolesGuard],data: { expectedRoles: ['admin'] }},
 
 
 
