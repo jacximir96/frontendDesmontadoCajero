@@ -2,6 +2,7 @@ export interface Toast{
     mensaje: string;
     type: string;
     mostrar: boolean;
+    fixed?:  boolean;
 }
 
 export enum TypeToast {

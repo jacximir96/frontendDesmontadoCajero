@@ -15,7 +15,7 @@ export class TecladoComponent {
   @Output()
   public onValueTeclado: EventEmitter<string> = new EventEmitter();
 
-  getValorTeclado(): void{
+  emitValorTeclado(): void{
     console.log('teclado', this.valueKeyboard);
     this.onValueTeclado.emit(this.caracterIngresado);
   }
@@ -31,7 +31,7 @@ export class TecladoComponent {
   onChange = (input: string) => {
     this.valueKeyboard = input;
     console.log("Input changed", input);
-    this.getValorTeclado();
+    this.emitValorTeclado();
   };
 
   onKeyPress = (button: string) => {

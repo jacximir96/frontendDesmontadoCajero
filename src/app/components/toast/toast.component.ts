@@ -12,7 +12,8 @@ export class ToastComponent implements OnInit{
   toast: Toast = {
     mensaje: '',
     type: 'success',
-    mostrar: false
+    mostrar: false,
+    fixed: false
   };
 
   duration: number = 3000; // Duración predeterminada de 3 segundos
@@ -23,10 +24,14 @@ export class ToastComponent implements OnInit{
       this.toast.mensaje = notificacion.mensaje;
       this.toast.type = notificacion.type;
       this.toast.mostrar = notificacion.mostrar;
-      setTimeout(() => {
-        this.toast.mostrar = false;
-        localStorage.removeItem('notificacion')
-      }, 3000);
+      this.toast.fixed = (notificacion.fixed) ? notificacion.fixed : false;
+      if(!this.toast.fixed){
+          setTimeout(() => {
+          this.toast.mostrar = false;
+          localStorage.removeItem('notificacion')
+        }, 3000);
+      }
+      
     }
     
   }

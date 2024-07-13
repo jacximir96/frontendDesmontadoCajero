@@ -28,6 +28,7 @@ import { ToastComponent } from './components/toast/toast.component';
 import { FilterItemsFormaPagoPipe } from './pipes/filter-items-forma-pago.pipe';
 import { FilterItemsFormaPagoDetallePipe } from './pipes/filter-items-forma-pago-detalle.pipe';
 import { CajaChicaComponent } from './pages/caja-chica/caja-chica.component';
+import { CalendarComponent } from './components/calendar/calendar.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { CajaChicaComponent } from './pages/caja-chica/caja-chica.component';
     ToastComponent,
     FilterItemsFormaPagoPipe,
     FilterItemsFormaPagoDetallePipe,
-    CajaChicaComponent
+    CajaChicaComponent,
+    CalendarComponent
   ],
   imports: [
     BrowserModule,

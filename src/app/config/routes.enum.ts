@@ -24,8 +24,11 @@ export enum routes{
 
     /**Routes Home Page */
     GET_OBTENER_OPCIONES_MENUS = 'ObtenerOpcionesMenus',
-    POST_OBTENER_FONDO_ASIGNADO_ESTACION = 'ObtenerFondoAsignadoUsuarioEstacion',
+    POST_OBTENER_FONDO_ASIGNADO_ESTACION = 'ADE_ObtenerFondoAsignadoUsuarioEstacion',
 
     /**Aperturar Cajon */
-    POS_APERTURAR_CAJON = 'ACE_AbrirCajaEstacionServicioAPIAperturaCaja'
+    POS_APERTURAR_CAJON = 'ACE_AbrirCajaEstacionServicioAPIAperturaCaja',
+
+    /**CajaChica */
+    POS_OBTENER_VALOR_CAJA_CHICA = 'ObtenerValorCajaChica',
 }
