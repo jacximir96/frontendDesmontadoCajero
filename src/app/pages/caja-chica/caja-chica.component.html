@@ -1,4 +1,4 @@
-<app-header [title]="title"></app-header>
+<app-header [title]="this.dataLogic!.title"></app-header>
 <div class="grid-cols-1 px-56 pt-20">
     <app-toast></app-toast>
     <!--Fecha y Total-->
@@ -6,17 +6,17 @@
         <div class="grid grid-cols-2 gap-3 text-center">
             <div>
                 <label for="input1" class="block text-4xl font-medium text-black text-center pb-3">Fecha:</label>
-                <input id="input1" (focus)="pressInputFecha()" type="text" class="mt-1 w-2/5 h-16 border-gray-300 rounded-md shadow-sm focus:border-blue-500 text-3xl" value="{{this.currentDate}}">
+                <input id="input1" (focus)="pressInputFecha()" type="text" class="mt-1 w-2/5 h-16 border-gray-300 rounded-md shadow-sm focus:border-blue-500 text-3xl" value="{{this.dataLogic!.currentDate}}">
             </div>
             <div>
                 <label for="input2" class="block text-4xl font-medium text-black text-center pb-3">Total:</label>
-                <input id="input2" type="text" class="mt-1 w-2/5 h-16 border-black border rounded-md shadow-sm focus:border-blue-500 text-3xl" value="{{this.valorCajaChica}}">
+                <input id="input2" type="text" class="mt-1 w-2/5 h-16 border-black border rounded-md shadow-sm focus:border-blue-500 text-3xl" value="{{this.dataLogic!.valorCajaChica}}">
             </div>
         </div>
     </div>
 </div>
 
-<app-calendar [displayCalendar]="displayCalendar" (onValueFecha)="this.getValorFecha($event)"></app-calendar>
+<app-calendar [displayCalendar]="this.dataLogic!.displayCalendar" (onValueFecha)="this.getValorFecha($event)"></app-calendar>
 
 <div class="flex px-96 pt-20 gap-40">
     <button (click)="consultarValor()" class="text-white bg-btn-success text-2xl h-16 focus:ring-4 focus:outline-none font-medium rounded-lg text-center inline-flex items-center mb-2 justify-center w-1/2">Consultar Valor</button>
