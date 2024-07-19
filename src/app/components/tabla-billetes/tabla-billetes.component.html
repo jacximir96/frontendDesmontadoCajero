@@ -6,24 +6,24 @@
                 <thead style="border-bottom-width: 1px;">
                     <tr class="text-center">
                         <th scope="col"
-                            class="denominacion-g p-3 text-sm tracking-wider  text-gray-900"
+                            class="denominacion-g p-3 text-sm tracking-wider  text-gray-900 font-['Poppins-SemiBold']"
                             style="text-align: left; padding-top: 0px !important;">
                             <div class="texto">Billetes</div>
                             Denominaciones
                         </th>
                         <th scope="col"
-                            class="denominacion p-3 text-sm tracking-wider  text-gray-900"
+                            class="denominacion p-3 text-sm tracking-wider  text-gray-900 font-['Poppins-SemiBold']"
                             style="text-align: left; padding-top: 0px !important;">
                             <div class="texto">Billetes</div>
                             Denomina <br> ciones
                         </th>
-                        <th scope="col" class="p-3 text-sm tracking-wider  text-gray-900">
+                        <th scope="col" class="p-3 text-sm tracking-wider  text-gray-900 font-['Poppins-SemiBold']">
                             <div>&nbsp;</div>
 
                             Cantidad
                         </th>
                         <th scope="col" style="text-align: right;"
-                            class="p-3 text-sm  tracking-wider  text-gray-900">
+                            class="p-3 text-sm  tracking-wider  text-gray-900 font-['Poppins-SemiBold']">
                             <div>&nbsp;</div>
 
                             Total
@@ -48,8 +48,8 @@
                         <td class="text-sm font-normal text-gray-500 " style="width: 100%;">
                             <!-- <button style="background-color:#337AB7;padding: 20px;color:white;border-radius: 15px;"><b>Presione aquí</b></button>     
                          -->
-                            <input id="{{item.Billete_Denominacion_btd_Valor}}"
-                                (click)="teclado(item.Billete_Denominacion_btd_Valor.toString(),item.Billete_Denominacion_IDBilleteDenominacion,item.Billete_Denominacion_btd_Valor)"
+                            <input id="{{item.Billete_Denominacion_btd_Valor}}-{{item.Billete_Denominacion_btd_Tipo}}"
+                                (click)="teclado(item.Billete_Denominacion_btd_Valor.toString(),item.Billete_Denominacion_IDBilleteDenominacion,item.Billete_Denominacion_btd_Tipo)"
                                 [placeholder]="placeholder" class="input text-sm">
                         </td>
 
@@ -64,7 +64,7 @@
 
                     <tr class="teclado-tabla ">
                         <td colspan="3">
-                            <app-teclado-numerico [denominacion]="denominacion" (valor)="recibirMensaje($event)"
+                            <app-teclado-numerico [denominacion]="denominacion" [imagenMonedaBillete]="imagenMonedaBillete" [valueInputTablaBillete]="valueInputActual" (valor)="recibirMensaje($event)"
                                 (flecha)="direccion($event)" (confirmacion)="confirmarValor()"></app-teclado-numerico>
                         </td>
                     </tr>
@@ -78,24 +78,24 @@
                 <thead style="border-bottom-width: 1px;">
                     <tr class="text-center">
                         <th scope="col"
-                            class="denominacion-g p-3 text-sm tracking-wider  text-gray-900"
+                            class="denominacion-g p-3 text-sm tracking-wider  text-gray-900 font-['Poppins-SemiBold']"
                             style="text-align: left; padding-top: 0px !important;">
                             <div class="texto">Billetes</div>
                             Denominaciones
                         </th>
                         <th scope="col"
-                            class="denominacion p-3 text-sm tracking-wider  text-gray-900"
+                            class="denominacion p-3 text-sm tracking-wider  text-gray-900 font-['Poppins-SemiBold']"
                             style="text-align: left; padding-top: 0px !important;">
                             <div class="texto">Billetes</div>
                             Denomina <br> ciones
                         </th>
-                        <th scope="col" class="p-3 text-sm tracking-wider  text-gray-900">
+                        <th scope="col" class="p-3 text-sm tracking-wider  text-gray-900 font-['Poppins-SemiBold']">
                             <div>&nbsp;</div>
 
                             Cantidad
                         </th>
                         <th scope="col" style="text-align: right;"
-                            class="p-3 text-sm  tracking-wider  text-gray-900">
+                            class="p-3 text-sm  tracking-wider  text-gray-900 font-['Poppins-SemiBold']">
                             <div>&nbsp;</div>
 
                             Total
@@ -118,10 +118,8 @@
 
                         </td>
                         <td class="text-xs font-normal text-gray-500 " style="width: 100%;">
-                            <!-- <button style="background-color:#337AB7;padding: 20px;color:white;border-radius: 15px;"><b>Presione aquí</b></button>     
-                     -->
-                            <input id="{{item.Billete_Denominacion_btd_Valor}}"
-                                (click)="teclado(item.Billete_Denominacion_btd_Valor.toString() ,item.Billete_Denominacion_IDBilleteDenominacion,item.Billete_Denominacion_btd_Valor)"
+                            <input id="{{item.Billete_Denominacion_btd_Valor}}-{{item.Billete_Denominacion_btd_Tipo}}"
+                                (click)="teclado(item.Billete_Denominacion_btd_Valor.toString() ,item.Billete_Denominacion_IDBilleteDenominacion,item.Billete_Denominacion_btd_Tipo)"
                                 [placeholder]="placeholder" class="input text-sm">
                         </td>
 
@@ -136,7 +134,7 @@
 
                     <tr class="teclado-tabla ">
                         <td colspan="3">
-                            <app-teclado-numerico [denominacion]="denominacion" (valor)="recibirMensaje($event)"
+                            <app-teclado-numerico [denominacion]="denominacion" [imagenMonedaBillete]="imagenMonedaBillete" [valueInputTablaBillete]="valueInputActual"  (valor)="recibirMensaje($event)"
                                 (flecha)="direccion($event)" (confirmacion)="confirmarValor()"></app-teclado-numerico>
                         </td>
                     </tr>
@@ -145,7 +143,7 @@
 
         </div>
         <div class="col-xl-5 col-lg-5 col-md-4 col-sm-4 teclado" *ngIf="visible">
-            <app-teclado-numerico [denominacion]="denominacion" (valor)="recibirMensaje($event)"
+            <app-teclado-numerico [denominacion]="denominacion" [imagenMonedaBillete]="imagenMonedaBillete" [valueInputTablaBillete]="valueInputActual" (valor)="recibirMensaje($event)"
                 (flecha)="direccion($event)" (cerrar)="ocultar($event)"
                 (confirmacion)="confirmarValor()"></app-teclado-numerico>
         </div>

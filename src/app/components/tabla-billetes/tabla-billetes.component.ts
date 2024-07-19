@@ -24,7 +24,10 @@ export class TablaBilletesComponent implements OnInit{
   @Output() total = new EventEmitter<any[]>();;
   visible: boolean = false;
   inputRecibido!: string;
+  valueInputActual: string = '';
   denominacion!: string;
+  tipoDenominacion!: string;
+  imagenMonedaBillete: string = '';
   IDDedominacionBillete!: string;
   denominacionBilleteConfirmado: DenominacionBilleteConfirmado = {};
   arrayIds: any[] = [];
@@ -41,7 +44,7 @@ export class TablaBilletesComponent implements OnInit{
     this.cambiarValor(valor[1]);
   }
   cambiarValor(id: string) {
-    const inputElement = document.getElementById(id) as HTMLInputElement;
+    const inputElement = document.getElementById(`${id}-${this.tipoDenominacion}`) as HTMLInputElement;
     if (inputElement) {
       inputElement.value = this.inputRecibido;
     }
@@ -66,7 +69,7 @@ export class TablaBilletesComponent implements OnInit{
       }
     });
   }
-  teclado(denominacion: string, id: string, cantidad?: number) {
+  teclado(denominacion: string, id: string, tipoDenominacion: string) {
     if(!this.aperturoCajon){
       this.aperturarCajon();
     }
@@ -74,12 +77,15 @@ export class TablaBilletesComponent implements OnInit{
     const rowsInputBilletes = this.getRowsInputBillete();
     const currentIndexInput = this.focusNextInput(rowsInputBilletes);
 
-    const input = document.getElementById(denominacion.toString()) as HTMLInputElement;
+    const input = document.getElementById(`${denominacion.toString()}-${tipoDenominacion}`) as HTMLInputElement;
     if (input) {
       input.placeholder = '';
+      this.valueInputActual = (input.value) ? input.value : '';
     }
     this.visible = true;
     this.denominacion = denominacion.toString();
+    this.tipoDenominacion = tipoDenominacion;
+    this.imagenMonedaBillete = this.tipoDenominacion.trim() == 'BILLETE' ? 'billetes-nuevo.png' : 'monedas-nuevo.png';
     this.denominacionBilleteConfirmado.Billete_Denominacion_btd_Valor = denominacion;
     this.denominacionBilleteConfirmado.Billete_Denominacion_IDBilleteDenominacion = id;
     this.arrayDenominacionesBilletes.forEach(res => {
@@ -120,15 +126,15 @@ export class TablaBilletesComponent implements OnInit{
     const rowsInputs = this.getRowsInputBillete();
     let currentIndexFocus = this.focusNextInput(rowsInputs);
     currentIndexFocus = (flecha == 'adelante') ? currentIndexFocus+1 : currentIndexFocus-1;
-    console.log(currentIndexFocus);
     rowsInputs[currentIndexFocus].focus();
     let IDenominacionBillete = rowsInputs[currentIndexFocus].closest('tr')!.id;
-    this.teclado(rowsInputs[currentIndexFocus].id.toString(), IDenominacionBillete);
+    var arrayDeCadenas = rowsInputs[currentIndexFocus].id.toString().split('-');
+    this.teclado(arrayDeCadenas[0], IDenominacionBillete, arrayDeCadenas[1]);
   }
 
   focusNextInput(rowsInputs: HTMLInputElement[]) {
     let focusCurrentIndex = 0;
-    for (let i = 1; i < rowsInputs.length; i++) {
+    for (let i = 0; i < rowsInputs.length; i++) {
       let tr = rowsInputs[i].closest('tr');
       if(tr!.style.backgroundColor == 'ghostwhite'){
         focusCurrentIndex = i;

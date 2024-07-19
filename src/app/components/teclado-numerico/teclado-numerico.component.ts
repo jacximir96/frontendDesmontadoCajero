@@ -8,18 +8,19 @@ import { Component, EventEmitter, Input, Output, SimpleChanges, ViewEncapsulatio
 })
 export class TecladoNumericoComponent {
   @Input() denominacion!: string
+  @Input() imagenMonedaBillete!: string;
   @Output() valor = new EventEmitter<any[]>();
   @Output() flecha = new EventEmitter<string>();
   @Output() cerrar = new EventEmitter<boolean>();
   @Output() confirmacion = new EventEmitter<void>();
 
   inputValue: string = '';
-  imagen: string = '';
+  imagen: string = this.imagenMonedaBillete;
   
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['denominacion']) {
       this.inputValue = "";
-      this.imagen = parseInt(this.denominacion) >= 1 ? 'billetes-nuevo.png' : 'monedas-nuevo.png'
+      //this.imagen = parseInt(this.denominacion) >= 1 ? 'billetes-nuevo.png' : 'monedas-nuevo.png'
     }
   }
 

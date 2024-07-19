@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./arqueo-caja.component.scss']
 })
 export class ArqueoCajaComponent {
-  proceso: string = 'ADE_';
+  proceso: string = 'ARQUEO';
 }

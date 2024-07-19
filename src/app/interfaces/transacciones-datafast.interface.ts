@@ -1,19 +1,20 @@
-export interface ConsolidarTransaccionesDatafastEstacion {
+// To parse this data:
+//
+//   import { Convert, ResponseDataFast } from "./file";
+//
+//   const responseDataFast = Convert.toResponseDataFast(json);
+
+export interface ResponseDataFast {
     error:      boolean;
-    resolucion: TransaccionesDatafastEstacion[];
+    resolucion: Resolucion[];
     mensaje:    string;
 }
 
-export interface TransaccionesDatafastEstacion {
-    resumen: Resumen;
-    detalle: Detalle[];
-}
-
-export interface Detalle {
+export interface Resolucion {
     Estacion_est_nombre:                string;
     Control_Estacion_IDControlEstacion: string;
     Control_Estacion_IDUsersPos:        string;
-    Formapago_IDFormapago:              null;
+    Formapago_IDFormapago:              string;
     Formapago_fmp_descripcion:          string;
     orden:                              null;
     total_retirado:                     number;
@@ -26,21 +27,9 @@ export interface Detalle {
     egreso:                             number;
     numero_transacciones:               number;
     numero_transacciones_ingresadas:    number;
-    image?:                             string;
+    imagen?:                            string;
     estado?:                            boolean;
     rule?:                              string;
-}
-
-export interface Resumen {
-    Formapago_fmp_descripcion:       string;
-    total_pagar:                     number;
-    diferencia:                      number;
-    total_retirado:                  number;
-    ingreso:                         number;
-    egreso:                          number;
-    num_transacciones:               number;
-    numero_transacciones_ingresadas: number;
-    image?:                             string;
-    estado?:                            boolean;
-    rule?:                              string;
+    monto_validado?:                    boolean;
+    valorDeclarado?:                    number;  //Campo interno
 }

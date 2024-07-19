@@ -11,16 +11,26 @@ export enum routes{
     POST_CALCULAR_VENTAS_ESTACION = 'CalcularTotalVentasEstacion',
     POST_DESASIGNAR_USUARIO = 'DesasignarUsuario',
     POST_AGRUPAR_FORMAS_PAGO = 'TD_ObtenerFormaPago',
-    POST_OBTENER_DENOMINACION_BILLETES = 'RDE_ObtenerDenominacionBilleteMonedaComprometidoRetiroDineroEstacion',
     POST_OBTENER_EFECTIVO_PROCESO = 'ObtenerEfectivoProcesoEstacion',
     POST_CONSULTAR_RETIROS_ESTACION = 'RDE_ConsolidarTransaccionesEstacion',
     POST_TOTAL_VENTA_ESTACION = 'CalcularTotalVentasEstacion',
 
-    /**Routes Arqueo de Caja */
-    POST_RDE_CONSOLIDAR_TRANSACCIONES_ESTACION = 'RDE_ConsolidarTransaccionesEstacion',
-    POST_RDE_CONSOLIDAR_TRANSACCIONES_AGREGADORES_ESTACION = 'RDE_ConsolidarTransaccionesAgregadoresEstacion',
-    POST_ACE_IMPRIMIR_ARQUEO = 'ACE_ImprimirArqueo',
+    /**Transferencia de datos */
+    POST_OBTENER_DENOMINACION_BILLETES = 'TD_ObtenerDenominacionBilleteMoneda',
 
+    /**Routes Arqueo de Caja */
+    POST_ADE_CONSOLIDAR_TRANSACCIONES_ESTACION = 'ADE_ConsolidarTransaccionesEstacion',
+    POST_ADE_CONSOLIDAR_TRANSACCIONES_DATAFAST = 'ADE_ObtenerTransaccionesDatafastEstacion',
+    POST_ADE_IMPRIMIR_ARQUEO = 'ADE_ImprimirReporteArqueoDineroEstacion',
+    POS_ADE_BILLETES_COMPROMETIDOS = 'ADE_ObtenerDenominacionBilleteMonedaComprometidoArqueoDineroEstacion',
+    POS_ADE_COMPROMETER_BILLETES = 'ADE_ComprometerDenominacionBilleteMonedaArqueoDineroEstacion',
+    POS_ADE_COMPROMETER_DINERO_ARQUEO = 'ADE_ComprometerDineroArqueoDineroEstacion',
+    POST_ADE_CANCELAR_ARQUEO = 'ADE_CancelarArqueoDineroEstacion',
+
+    /**Retiro de Efectivos */
+    POST_RDE_BILLETES_COMPROMETIDOS = 'RDE_ObtenerDenominacionBilleteMonedaComprometidoRetiroDineroEstacion',
+    POST_RDE_COMPROMETER_DINERO_RETIRO = 'RDE_ComprometerDineroRetiroDineroEstacion',
+    POST_RDE_CANCELAR_RETIRO = 'RDE_CancelarRetiroDineroEstacion',
 
     /**Routes Home Page */
     GET_OBTENER_OPCIONES_MENUS = 'ObtenerOpcionesMenus',

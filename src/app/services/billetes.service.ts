@@ -7,6 +7,7 @@ import { ConsolidarTransaccionesAgregadoresEstacion } from '../interfaces/transa
 import { ConsolidarTransaccionesEstacion } from '../interfaces/transacciones-estacion.interface';
 import { DenominacionBilleteResponse } from '../interfaces/arqueo-caja/denominacion-billete-response.interface';
 import { AperturaCajaResponse } from '../interfaces/arqueo-caja/apertura-caja-response.interface';
+import { ResponseDataFast } from '../interfaces/transacciones-datafast.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,8 @@ export class BilletesService {
 
  constructor ( private http:HttpClient) { }
    
-  obtenerDenominaciones(ip:string):Promise<DenominacionBilleteResponse>{
+  obtenerDenominaciones():Promise<DenominacionBilleteResponse>{
+    let ip = environment.ip_estacion;
     return new Promise<DenominacionBilleteResponse>((resolve, reject) => {
       this.http.post<DenominacionBilleteResponse>(environment.apiural + routes.POST_OBTENER_DENOMINACION_BILLETES,{"ipEstacion":ip,"proceso":"retiro"})
         .subscribe({
@@ -24,45 +26,36 @@ export class BilletesService {
         });
     });
   }
-  obtenerFormasPago(ip:string):Promise<ConsolidarTransaccionesEstacion>{
-    return new Promise<ConsolidarTransaccionesEstacion>((resolve, reject) => {
-      this.http.get<ConsolidarTransaccionesEstacion>(environment.apilocal + routes.POST_CONSULTAR_RETIROS_ESTACION)
+  obtenerTransaccionesEstacion(ip:string):Promise<any>{
+    return new Promise<any>((resolve, reject) => {
+      this.http.post<any>(environment.apiural + routes.POST_ADE_CONSOLIDAR_TRANSACCIONES_ESTACION, {"ipEstacion": environment.ip_estacion})
         .subscribe({
           next: (response) => resolve(response),
           error: (error) => reject(error)
         });
     });
   }
-  /*obtenerTransaccionesDataFast(ip:string):Promise<ConsolidarTransaccionesDatafastEstacion>{
-    return new Promise<ConsolidarTransaccionesDatafastEstacion>((resolve, reject) => {
-      this.http.post<ConsolidarTransaccionesDatafastEstacion>(environment.apiural + routes.POST_RDE_CONSOLIDAR_TRANSACCIONES_DATAFAST_ESTACION,{"ipEstacion":ip})
+  obtenerTransaccionesDataFast(ip:string):Promise<ResponseDataFast>{
+    return new Promise<ResponseDataFast>((resolve, reject) => {
+      this.http.post<ResponseDataFast>(environment.apiural + routes.POST_ADE_CONSOLIDAR_TRANSACCIONES_DATAFAST,{"ipEstacion":ip})
+        .subscribe({
+          next: (response) => resolve(response),
+          error: (error) => reject(error)
+        });
+    });
+  }
+  /*obtenerTransaccionesEstacion(ip:string):Promise<ConsolidarTransaccionesEstacion>{
+    return new Promise<ConsolidarTransaccionesEstacion>((resolve, reject) => {
+      this.http.get<ConsolidarTransaccionesEstacion>(environment.apilocal + routes.POST_ADE_CONSOLIDAR_TRANSACCIONES_ESTACION)
         .subscribe({
           next: (response) => resolve(response),
           error: (error) => reject(error)
         });
     });
   }*/
-  obtenerTransaccionesEstacion(ip:string):Promise<ConsolidarTransaccionesEstacion>{
-    return new Promise<ConsolidarTransaccionesEstacion>((resolve, reject) => {
-      this.http.get<ConsolidarTransaccionesEstacion>(environment.apilocal + routes.POST_RDE_CONSOLIDAR_TRANSACCIONES_ESTACION)
-        .subscribe({
-          next: (response) => resolve(response),
-          error: (error) => reject(error)
-        });
-    });
-  }
   obtenerTotales(ip:string):Promise<CalcularTotalVentasEstacion>{
     return new Promise<CalcularTotalVentasEstacion>((resolve, reject) => {
       this.http.post<CalcularTotalVentasEstacion>(environment.apiural + routes.POST_CALCULAR_VENTAS_ESTACION, {'ipEstacion': ip})
-        .subscribe({
-          next: (response) => resolve(response),
-          error: (error) => reject(error)
-        });
-    });
-  }
-  obtenerTransaccionesAgregadores(ip:string):Promise<ConsolidarTransaccionesAgregadoresEstacion>{
-    return new Promise<ConsolidarTransaccionesAgregadoresEstacion>((resolve, reject) => {
-      this.http.get<ConsolidarTransaccionesAgregadoresEstacion>(environment.apilocal + routes.POST_RDE_CONSOLIDAR_TRANSACCIONES_AGREGADORES_ESTACION)
         .subscribe({
           next: (response) => resolve(response),
           error: (error) => reject(error)

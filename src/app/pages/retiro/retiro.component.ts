@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./retiro.component.scss']
 })
 export class RetiroComponent {
-  proceso: string = 'RDE_';
+  proceso: string = 'RETIROS';
 }

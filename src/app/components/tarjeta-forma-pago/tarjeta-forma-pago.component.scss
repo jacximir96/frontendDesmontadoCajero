@@ -47,6 +47,15 @@ margin-right: 0px;
 margin-bottom: 18px;border-color:#F0F0F0;width: 100%; border-style: solid;
 border-width: 2px;border-radius: 10px;
 }
+
+.tarjeta-principal-sin-hover{
+    cursor: none;
+    border: 1px;
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-bottom: 18px;border-color:#F0F0F0;width: 100%; border-style: solid;
+    border-width: 2px;border-radius: 10px;
+}
 .cambio{
     margin: 0px;
     padding: 0px;
@@ -79,7 +88,7 @@ border-width: 2px;border-radius: 10px;
 .div-valores-dato{
     width: 100%;
     margin-bottom: 4px;
-    margin-left: 8px;
+    /*margin-left: 13px;*/
     border: solid;
     border-width: 2px;
     border-color: #F0F0F0;
@@ -158,4 +167,28 @@ border-width: 2px;border-radius: 10px;
    button .btn-monto-asignado{
     width: 100% !important;
 }
+}
+
+.alto{
+    height: 68vh;
+}
+
+.full{
+    height: 104vh;
+}
+
+.simple-keyboard.myTheme1 .hg-button {
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #2b2a2a;
+    color: white;
+}
+
+.simple-keyboard.myTheme1 {
+    background-color: rgb(0, 0, 0);
+    border-radius: 0;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
 }

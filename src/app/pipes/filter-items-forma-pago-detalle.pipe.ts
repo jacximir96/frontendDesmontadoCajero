@@ -1,12 +1,12 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Detalle } from '../interfaces/transacciones-estacion.interface';
+import { Detalle, TransaccionesEstacion, TransaccionEstacion } from '../interfaces/transacciones-estacion.interface';
 
 @Pipe({
   name: 'filterItemsFormaPagoDetalle'
 })
 export class FilterItemsFormaPagoDetallePipe implements PipeTransform {
 
-  transform(formaDePago: Detalle[], nombreFormaDePago: string): Detalle[] {
+  transform(formaDePago: TransaccionEstacion[], nombreFormaDePago: string): TransaccionEstacion[] {
     if (!formaDePago || !nombreFormaDePago) {
       return formaDePago;
     }

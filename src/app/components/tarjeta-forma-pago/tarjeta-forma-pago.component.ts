@@ -1,4 +1,4 @@
-import { ArqueoService } from '../../services/arqueo-service';
+import { ArqueoService } from '../../services/arqueo-caja.service';
 import { AfterContentInit, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
@@ -8,13 +8,14 @@ import { DenominacionesBilletes } from 'src/app/interfaces/arqueo-caja/denominac
 import { InfoCajero, ObtenerFondoAsignadoUsuarioEstacion } from 'src/app/interfaces/home/home.interface';
 import { Toast, TypeToast } from 'src/app/interfaces/toast.interface';
 import { ConsolidarTransaccionesAgregadoresEstacion } from 'src/app/interfaces/transacciones-agregadores.interface';
-import { ConsolidarTransaccionesDatafastEstacion } from 'src/app/interfaces/transacciones-datafast.interface';
-import { ConsolidarTransaccionesEstacion, FormasPago, TransaccionesEstacion, Detalle } from 'src/app/interfaces/transacciones-estacion.interface';
+import { ConsolidarTransaccionesEstacion, FormasPago, TransaccionesEstacion, Detalle, GrupoFormasDePago, TransaccionEstacion } from 'src/app/interfaces/transacciones-estacion.interface';
 import { BilletesService } from 'src/app/services/billetes.service';
 import { HeaderService } from 'src/app/services/header.service';
 import { TarjetaFormaPagoComponenteLogica } from 'src/app/utils/TarjetaFormaDePagoComponenteLogica';
 import { environment } from 'src/environments/environment.local';
 import SimpleKeyboard from 'simple-keyboard';
+import bigDecimal from 'js-big-decimal';
+import { RetiroService } from 'src/app/services/retiro.service';
 
 
 @Component({
@@ -24,6 +25,7 @@ import SimpleKeyboard from 'simple-keyboard';
   encapsulation: ViewEncapsulation.None,
 })
 export class TarjetaFormaPagoComponent implements OnInit{
+
   efectivo: boolean = false;
   hide: string = "487px";
   color: string = "white";
@@ -35,7 +37,7 @@ export class TarjetaFormaPagoComponent implements OnInit{
   inicialHeigth: string = (innerHeight - 360) + 'px';
   rule: string = "block";
   detallesAMostrar: string = '';
-  validarMontoFormaPago!: Detalle;
+  validarMontoFormaPago!: TransaccionEstacion;
   detalleDisplay: string = 'none';
   toast: Toast = {
     mensaje: '',
@@ -46,15 +48,15 @@ export class TarjetaFormaPagoComponent implements OnInit{
   arrayFormas!: ConsolidarTransaccionesEstacion;
   arrayBilletes!: DenominacionesBilletes[];
   arrayTotales!: TotalVentaEstacion[];
-  transaccionesEstacion!: ConsolidarTransaccionesEstacion;
-  transaccionesDetalleAll: Detalle[] = [];
-  transaccionesDetalleActual: Detalle[] = [];
+  transaccionesEstacion!: GrupoFormasDePago[];
+  transaccionesDetalleAll: TransaccionEstacion[] = [];
+  transaccionesDetalleActual: TransaccionEstacion[] = [];
   billetesConfirmados: DenominacionBilleteConfirmado[] = [];
   cajonAperturado: boolean = false;
   tarjetaFormaDePagoComponenteLogica?: TarjetaFormaPagoComponenteLogica;
   IDFormaPagoEfectivo: string = '';
   userCajero!: InfoCajero;
-  formaDePagoActual!: FormasPago;
+  formaDePagoActual!: GrupoFormasDePago;
   seleccionoFormaDePago: boolean = false;
   filtroFormaDePago:string = '';
   filtroFormaDePagoDetalle:string = '';
@@ -66,7 +68,8 @@ export class TarjetaFormaPagoComponent implements OnInit{
     private billetesServicio: BilletesService,
     private headerServicio: HeaderService,
     private arqueoService: ArqueoService,
-    private router: Router
+    private retiroService: RetiroService,
+    private router: Router,
   ) { }
 
   @Input() public proceso!: string;
@@ -138,15 +141,29 @@ export class TarjetaFormaPagoComponent implements OnInit{
 
   async ngOnInit() {
     //this.keyboard.setInput(this.filtroFormaDePago);
-    this.tarjetaFormaDePagoComponenteLogica = new TarjetaFormaPagoComponenteLogica(this.billetesServicio, this.proceso);
+    this.tarjetaFormaDePagoComponenteLogica = new TarjetaFormaPagoComponenteLogica(
+      this.billetesServicio, 
+      this.arqueoService,
+      this.retiroService,
+      this.proceso
+    );
     try {
-      let transaccionEstacionResponse = await this.tarjetaFormaDePagoComponenteLogica.obtenerTransaccionesEstacion();
-      this.transaccionesEstacion = transaccionEstacionResponse;
+      let transaccionEstacionResponse = await this.tarjetaFormaDePagoComponenteLogica.obtenerTransaccionesDataFastEstacion();
+      this.transaccionesEstacion = this.tarjetaFormaDePagoComponenteLogica.grupoFormasDePago;
       this.transaccionesDetalleAll = this.tarjetaFormaDePagoComponenteLogica.transaccionesDetalleAll;
       
     } catch (error) {
       console.log(error)
     }
+    try {
+      let transaccionEstacionResponse = await this.tarjetaFormaDePagoComponenteLogica.obtenerTransaccionesEstacion();
+      this.transaccionesEstacion = this.tarjetaFormaDePagoComponenteLogica.grupoFormasDePago;
+      this.transaccionesDetalleAll = this.tarjetaFormaDePagoComponenteLogica.transaccionesDetalleAll;
+      
+    } catch (error) {
+      console.log(error)
+    }
+    
     try {
       let billetes = await this.tarjetaFormaDePagoComponenteLogica.obtenerDenominacionesBilletes();
       this.arrayBilletes = billetes.resolucion;
@@ -173,32 +190,65 @@ export class TarjetaFormaPagoComponent implements OnInit{
   recibeValor(dato: any) {
     const denominacionBilleteConfirmado = dato[0] as DenominacionBilleteConfirmado; 
     let totalConfirmadoBillete = 0;
-    this.transaccionesEstacion.resolucion[0].formas_pagos.forEach((result: FormasPago) => {
-      if (result.resumen.Formapago_fmp_descripcion == 'EFECTIVO') {
-        console.log('Antes',result.resumen.diferencia);
+    this.transaccionesEstacion.forEach((result: GrupoFormasDePago) => {
+      if (result.consolidado.Formapago_fmp_descripcion == 'EFECTIVO') {
+        let diferencia = 0;
         totalConfirmadoBillete = parseFloat(denominacionBilleteConfirmado.Billete_Denominacion_btd_Valor!) * parseFloat(denominacionBilleteConfirmado.valorImputRecibido!);
         denominacionBilleteConfirmado.totalConfirmado = totalConfirmadoBillete;
-        result.resumen.diferencia = result.resumen.diferencia + totalConfirmadoBillete;
-        result.resumen.valorDeclarado = result.resumen.valorDeclarado! + totalConfirmadoBillete
-        //Check de completado
-        result.resumen.monto_validado = (result.resumen.diferencia >= 0) ? true : false;
-        if(result.resumen.diferencia.toFixed(2) == '0.00' || result.resumen.diferencia.toFixed(2) == '-0.00'){
-          result.resumen.monto_validado = true;
-          result.resumen.diferencia = 0.00;
+        let billeteConfirmadoCurrent:DenominacionBilleteConfirmado = {...denominacionBilleteConfirmado};
+        let billeteExistente = this.billetesConfirmados.find((e) => e.Billete_Denominacion_IDBilleteDenominacion == billeteConfirmadoCurrent.Billete_Denominacion_IDBilleteDenominacion );
+        console.log(denominacionBilleteConfirmado);
+        if(!billeteExistente){
+          this.billetesConfirmados.push(billeteConfirmadoCurrent);
+          diferencia = denominacionBilleteConfirmado.totalConfirmado!;
+        }else{
+          this.billetesConfirmados.forEach(billete => {
+            if(billete.Billete_Denominacion_IDBilleteDenominacion == denominacionBilleteConfirmado.Billete_Denominacion_IDBilleteDenominacion){
+              diferencia = denominacionBilleteConfirmado.totalConfirmado! - billete.totalConfirmado!;
+              billete.totalConfirmado = denominacionBilleteConfirmado.totalConfirmado;
+              billete.valorImputRecibido = denominacionBilleteConfirmado.valorImputRecibido;
+            }
+          })
         }
-        console.log('Despues',result.resumen.diferencia.toFixed(2));
+
+        //Montos globales
+        let totalConfirmado = 0;
+        this.billetesConfirmados.forEach(billete => {
+          totalConfirmado = totalConfirmado + billete.totalConfirmado!;
+        })
+
+        result.consolidado.diferencia = (-result.consolidado.total_pagar) + totalConfirmado;
+        result.consolidado.valorDeclarado = totalConfirmado
+        //Check de completado
+        result.consolidado.monto_validado = (result.consolidado.diferencia >= 0) ? true : false;
+        if(result.consolidado.diferencia.toFixed(2) == '0.00' || result.consolidado.diferencia.toFixed(2) == '-0.00'){
+          result.consolidado.monto_validado = true;
+          result.consolidado.diferencia = 0.00;
+        }
+        //Valor total de las denominaciones de la grid de billetes
         this.arrayBilletes.forEach(billete => {
           if(billete.Billete_Denominacion_IDBilleteDenominacion == denominacionBilleteConfirmado.Billete_Denominacion_IDBilleteDenominacion){
             billete.valorDeclarado = totalConfirmadoBillete.toFixed(2);
           }
         })
-        let billeteConfirmado:DenominacionBilleteConfirmado = denominacionBilleteConfirmado;
-        this.billetesConfirmados.push(billeteConfirmado);
+        //Calculo de los totales flotantes
+        //Reducir el total a pagar
+        console.log(diferencia);
+        if(diferencia>=0){
+          this.arrayTotales[0].valorDeclarado = this.arrayTotales[0].valorDeclarado! + diferencia;
+          this.arrayTotales[0].total_diferencia_formas_pago = this.arrayTotales[0].total_diferencia_formas_pago + diferencia;
+        }else{
+          this.arrayTotales[0].valorDeclarado = this.arrayTotales[0].valorDeclarado! + diferencia;
+          this.arrayTotales[0].total_diferencia_formas_pago = this.arrayTotales[0].total_diferencia_formas_pago - diferencia;
+        }
+       
       }
     });
-    //Totales
-    this.arrayTotales[0].valorDeclarado = this.arrayTotales[0].valorDeclarado! + totalConfirmadoBillete;
-    this.arrayTotales[0].total_diferencia_formas_pago = this.arrayTotales[0].total_diferencia_formas_pago + totalConfirmadoBillete;
+   
+  }
+
+  calcularMontosGlobales(){
+    
   }
 
   cancelarMontosEfectivos(){
@@ -206,28 +256,31 @@ export class TarjetaFormaPagoComponent implements OnInit{
     this.inicio();
   }
 
-  ocultarTarjetas(dato: FormasPago) {
+  ocultarTarjetas(dato: GrupoFormasDePago) {
     this.seleccionoFormaDePago = true;
     this.formaDePagoActual = dato;
     this.transaccionesDetalleActual = [];
-    this.transaccionesEstacion.resolucion[0].formas_pagos.forEach(formaPago => {
-      if(formaPago.resumen.Formapago_fmp_descripcion == 'EFECTIVO' && formaPago.resumen.Formapago_fmp_descripcion == dato.resumen.Formapago_fmp_descripcion){
+    this.transaccionesEstacion.forEach(formaPago => {
+      console.log(formaPago.consolidado);
+
+      if(formaPago.consolidado.Formapago_fmp_descripcion == 'EFECTIVO' && formaPago.consolidado.Formapago_fmp_descripcion == dato.consolidado.Formapago_fmp_descripcion){
         this.efectivo = true;
-        formaPago.resumen.estado = true;
+        formaPago.consolidado.estado = true;
         this.detallesAMostrar = '';
         this.hide = "calc(100vh)";
-        this.IDFormaPagoEfectivo = formaPago.resumen.Formapago_IDFormapago;
-      }else if(formaPago.resumen.Formapago_fmp_descripcion == dato.resumen.Formapago_fmp_descripcion){
-        this.detallesAMostrar = formaPago.resumen.Formapago_fmp_descripcion;
+        this.IDFormaPagoEfectivo = formaPago.consolidado.Formapago_IDFormapago!;
+      }else if(formaPago.consolidado.Formapago_fmp_descripcion == dato.consolidado.Formapago_fmp_descripcion){
+        this.detallesAMostrar = formaPago.consolidado.Formapago_fmp_descripcion;
         this.efectivo = false;
-        formaPago.resumen.estado = true;
-        this.detallesAMostrar = formaPago.resumen.Formapago_fmp_descripcion;
+        this.hide = "calc(100vh)";
+        formaPago.consolidado.estado = true;
+        this.detallesAMostrar = formaPago.consolidado.Formapago_fmp_descripcion;
       }else{
-        formaPago.resumen.rule = 'none';
+        formaPago.consolidado.rule = 'none';
       }
       //Detalle
       this.transaccionesDetalleAll.forEach(transaccion =>{
-        transaccion.styleDisplay = (transaccion.Formapago_padre == dato.resumen.Formapago_fmp_descripcion) ? 'block' : 'none';
+        transaccion.styleDisplay = (transaccion.Formapago_padre == dato.consolidado.Formapago_fmp_descripcion) ? 'block' : 'none';
       })
     });
     this.totales = false;
@@ -239,19 +292,28 @@ export class TarjetaFormaPagoComponent implements OnInit{
     this.hide = "487px";
     this.validaMonto = false;
     this.seleccionoFormaDePago = false;
-    this.transaccionesEstacion.resolucion[0].formas_pagos.forEach(element => {
-      element.resumen.estado = true;
-      element.resumen.rule = "block";
+    this.transaccionesEstacion.forEach(element => {
+      element.consolidado.estado = true;
+      element.consolidado.rule = "block";
     });
     this.transaccionesDetalleAll.forEach(detalleFormasPago =>{
       detalleFormasPago.styleDisplay = 'none';
     })
   }
 
-  seleccionarFormaPago(detalleFormaPago: Detalle) {
+  confirmaBilletes(){
+    if(this.efectivo){
+      this.tarjetaFormaDePagoComponenteLogica?.comprometerBilleteEfectivo(this.billetesConfirmados);
+    }else{
+      this.tarjetaFormaDePagoComponenteLogica?.comprometerDineroProceso(this.formaDePagoActual);
+    }
+    this.inicio();
+  }
+
+  seleccionarFormaPago(detalleFormaPago: TransaccionEstacion) {
     this.validaMonto = true;
     this.validarMontoFormaPago = detalleFormaPago;
-    this.validaMontoWidth = detalleFormaPago.monto_validado ? '249px' : '301px';
+    this.validaMontoWidth = detalleFormaPago.monto_validado ? '249px' : '340px';
     this.transaccionesDetalleAll.forEach( formaDePago => formaDePago.cardSeleccionada = false )
     detalleFormaPago.cardSeleccionada = true;
   }
@@ -264,9 +326,11 @@ export class TarjetaFormaPagoComponent implements OnInit{
     this.transaccionesDetalleAll = this.tarjetaFormaDePagoComponenteLogica!.transaccionesDetalleAll;
   }
 
-  confirmarMonto(detalleFormaPago: Detalle, reverse: boolean) {
-    this.transaccionesEstacion.resolucion[0].formas_pagos.forEach(formasDePago => {
-      formasDePago.detalle.forEach(formaDePago => {
+  confirmarMonto(detalleFormaPago: TransaccionEstacion, reverse: boolean) {
+    let valorDeclarado:bigDecimal = new bigDecimal(0); 
+    let diferenciaActual:bigDecimal = new bigDecimal(0); 
+    this.transaccionesEstacion.forEach(formasDePago => {
+      formasDePago.transacciones.forEach(formaDePago => {
         if(formaDePago.Formapago_fmp_descripcion == detalleFormaPago.Formapago_fmp_descripcion && 
            formaDePago.Formapago_padre == detalleFormaPago.Formapago_padre
         ){
@@ -278,15 +342,23 @@ export class TarjetaFormaPagoComponent implements OnInit{
           ?  formaDePago.valorDeclarado! - detalleFormaPago.total_pagar
           : formaDePago.valorDeclarado! + detalleFormaPago.total_pagar
           //La forma principal
-          formasDePago.resumen.diferencia = (reverse) 
-            ? formasDePago.resumen.diferencia - detalleFormaPago.total_pagar 
-            : formasDePago.resumen.diferencia + detalleFormaPago.total_pagar;
+          diferenciaActual.setValue(formasDePago.consolidado.diferencia);
+          valorDeclarado.setValue(detalleFormaPago.total_pagar!);
+          console.log(diferenciaActual);
+          console.log(valorDeclarado);
+          formasDePago.consolidado.diferencia = (reverse) 
+            /*? formasDePago.consolidado.diferencia - detalleFormaPago.total_pagar 
+            : formasDePago.consolidado.diferencia + detalleFormaPago.total_pagar;*/
+            ? parseFloat(diferenciaActual.subtract(valorDeclarado).round(2).getValue())
+            : parseFloat(diferenciaActual.add(valorDeclarado).round(2).getValue())
 
-          formasDePago.resumen.valorDeclarado = (reverse) 
-          ? formasDePago.resumen.valorDeclarado! - detalleFormaPago.total_pagar 
-          : formasDePago.resumen.valorDeclarado! + detalleFormaPago.total_pagar;
+            console.log(detalleFormaPago.total_pagar);
 
-          formasDePago.resumen.monto_validado = (formasDePago.resumen.diferencia >= 0) ? true : false;
+          formasDePago.consolidado.valorDeclarado = (reverse) 
+          ? formasDePago.consolidado.valorDeclarado! - detalleFormaPago.total_pagar 
+          : formasDePago.consolidado.valorDeclarado! + detalleFormaPago.total_pagar;
+
+          formasDePago.consolidado.monto_validado = (formasDePago.consolidado.diferencia >= 0) ? true : false;
           //Totales
           this.arrayTotales[0].total_diferencia_formas_pago = (reverse) 
           ? this.arrayTotales[0].total_diferencia_formas_pago - detalleFormaPago.total_pagar
@@ -297,6 +369,8 @@ export class TarjetaFormaPagoComponent implements OnInit{
           : this.arrayTotales[0].valorDeclarado! + detalleFormaPago.total_pagar;
 
           this.transaccionesDetalleActual.push(formaDePago);
+
+          this.validaMonto = false;
         }
       })
     })
@@ -315,10 +389,10 @@ export class TarjetaFormaPagoComponent implements OnInit{
 
   async confirmarButton() {
     try {
-      let resultImprimirAqueo = await this.arqueoService.imprimirArqueo(environment.ip_estacion)
-      if(!resultImprimirAqueo.error && resultImprimirAqueo.resolucion){
+      let resultImprimirAqueo = await this.tarjetaFormaDePagoComponenteLogica?.imprimirProceso();
+      if(!resultImprimirAqueo!.error && resultImprimirAqueo!.resolucion){
         this.toast.mostrar = true;
-        this.toast.mensaje = resultImprimirAqueo.mensaje;
+        this.toast.mensaje = resultImprimirAqueo!.mensaje;
         this.toast.type = TypeToast.success;
       }else{
         this.toast.mensaje = 'Lo sentimos! Ocurrio un error inesperado';
@@ -333,6 +407,11 @@ export class TarjetaFormaPagoComponent implements OnInit{
     localStorage.setItem('notificacion', JSON.stringify(this.toast));
     let routePath = '/';
     this.router.navigate([routePath]);
+  }
+
+  /**Cancela el proceso actual del front */
+  cancelarProceso() {
+    this.tarjetaFormaDePagoComponenteLogica?.cancelarProceso();
   }
 
   seleccionarFormaPagoAgregador(){
