@@ -22,7 +22,7 @@ export interface Dinero {
 }
 
 // Converts JSON strings to/from your types
-export class Convert {
+/*export class Convert {
     public static toRequestComprometerDinero(json: string): RequestComprometerDinero {
         return JSON.parse(json);
     }
@@ -30,4 +30,4 @@ export class Convert {
     public static requestComprometerDineroToJson(value: RequestComprometerDinero): string {
         return JSON.stringify(value);
     }
-}
+}*/

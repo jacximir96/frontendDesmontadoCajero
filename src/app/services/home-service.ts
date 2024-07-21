@@ -21,7 +21,7 @@ export class HomeService {
 
   obtenerOpcionesMenus(ip:string):Promise<any>{
     return new Promise((resolve, reject) => {
-      this.http.post(environment.apilocal + routes.GET_OBTENER_OPCIONES_MENUS,{"ipEstacion":ip})
+      this.http.post(environment.apiural + routes.GET_OBTENER_OPCIONES_MENUS,{"ipEstacion":ip})
         .subscribe({
           next: (response) => resolve(response),
           error: (error) => reject(error)

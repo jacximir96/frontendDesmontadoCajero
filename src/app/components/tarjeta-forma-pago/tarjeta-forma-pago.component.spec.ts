@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TarjetaFormaPagoComponent } from './tarjeta-forma-pago.component';
+import { TarjetaFormaPagoComponent } from './tarjeta-forma-pago.component-test';
 
 describe('TarjetaFormaPagoComponent', () => {
   let component: TarjetaFormaPagoComponent;

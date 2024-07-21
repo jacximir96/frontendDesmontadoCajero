@@ -1,14 +1,15 @@
-import { ConvertBilletes, RequestComprometerBillete } from './../interfaces/request/comprometer-billetes.interface';
 import { Injectable } from '@angular/core';
-import { ACEImprimirArqueo } from '../interfaces/arqueo-caja/imprime-arqueo.interface';
+import { catchError, Observable, of } from 'rxjs';
 import { environment } from 'src/environments/environment.local';
 import { HttpClient } from '@angular/common/http';
 import { routes } from '../config/routes.enum';
+import { RequestComprometerBillete } from '../interfaces/shared/request/comprometer-billetes.interface';
 import { DenominacionBilleteResponse } from '../interfaces/arqueo-caja/denominacion-billete-response.interface';
-import { RequestComprometerDinero } from '../interfaces/request/comprometer-dinero.interface';
-import { RequestCancelarProceso } from '../interfaces/request/cancelar-proceso.interface';
-import { ResponseGeneral } from '../interfaces/shared/response-general.interface';
-import { RequestGeneralConPerfilAdmin } from '../interfaces/request/general-con-perfiladmin.interface';
+import { RequestComprometerDinero } from '../interfaces/shared/request/comprometer-dinero.interface';
+import { RequestCancelarProceso } from '../interfaces/shared/request/cancelar-proceso.interface';
+import { RequestGeneralConPerfilAdmin } from '../interfaces/shared/request/general-con-perfiladmin.interface';
+import { RequestConsolidarCompromisoBillete } from '../interfaces/arqueo-caja/request/consolidar-compromisos-billetes.interface';
+import { ResponseGeneral } from '../interfaces/shared';
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +22,19 @@ export class ArqueoService {
     return new Promise<ResponseGeneral>((resolve, reject) => {
       this.http.post<ResponseGeneral>(
         environment.apiural + routes.POST_ADE_IMPRIMIR_ARQUEO,
+        request
+      )
+        .subscribe({
+          next: (response) => resolve(response),
+          error: (error) => reject(error)
+        });
+    });
+  }
+
+  arquearDineroEstacion(request: RequestGeneralConPerfilAdmin) {
+    return new Promise<ResponseGeneral>((resolve, reject) => {
+      this.http.post<ResponseGeneral>(
+        environment.apiural + routes.POST_ADE_ARQUEAR_DINERO,
         request
       )
         .subscribe({
@@ -45,6 +59,14 @@ export class ArqueoService {
     })
   }
 
+  getObetnerBilletesPruebas(): Observable<DenominacionBilleteResponse | null> {
+    return this.http.post<DenominacionBilleteResponse | null>(environment.apiural + routes.POS_ADE_BILLETES_COMPROMETIDOS,
+      {"ipEstacion": environment.ip_estacion})
+    .pipe(
+      catchError( () => of(null) )
+    );
+  }
+
   comprometerBillete(request: RequestComprometerBillete ):Promise<any>{
     return new Promise<any>((resolve, reject) => {
       this.http.post<any>(
@@ -57,6 +79,20 @@ export class ArqueoService {
       })
     })
   }
+
+  consolidarCompromisoBilletes(request: RequestConsolidarCompromisoBillete) {
+    return new Promise<any>((resolve, reject) => {
+      this.http.post<any>(
+        environment.apiural + routes.POST_ADER_CONSOLIDAR_COMPROMISO_BILLETES_MONEDAS,
+        request
+      )
+      .subscribe({
+        next: (response) => resolve(response),
+        error: (error) => reject(error)
+      })
+    })
+  }
+  
 
   comprometerDineroArqueo(request: RequestComprometerDinero) {
     return new Promise<any>((resolve, reject) => {

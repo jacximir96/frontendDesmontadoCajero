@@ -1,0 +1,5 @@
+export * from './grupo-forma-pagos.interface'
+export * from './process.enum'
+export * from './seleccion-card.interface'
+export * from './request'
+export * from './response-general.interface'

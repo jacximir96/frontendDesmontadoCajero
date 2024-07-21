@@ -10,6 +10,7 @@ export interface DenominacionBilleteMoneda {
     totalDenominacionBilleteMoneda:    number;
 }
 
+/*
 // Converts JSON strings to/from your types
 export class ConvertBilletes {
     public static toRequestComprometerBillete(json: string): RequestComprometerBillete {
@@ -19,4 +20,4 @@ export class ConvertBilletes {
     public static requestComprometerBilleteToJson(value: RequestComprometerBillete): string {
         return JSON.stringify(value);
     }
-}
+}*/

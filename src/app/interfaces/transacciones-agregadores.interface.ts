@@ -46,14 +46,3 @@ export interface Resumen {
     numero_transacciones_ingresadas: number;
     imagen:                          string;
 }
-
-// Converts JSON strings to/from your types
-export class Convert {
-    public static toConsolidarTransaccionesAgregadoresEstacion(json: string): ConsolidarTransaccionesAgregadoresEstacion {
-        return JSON.parse(json);
-    }
-
-    public static consolidarTransaccionesAgregadoresEstacionToJson(value: ConsolidarTransaccionesAgregadoresEstacion): string {
-        return JSON.stringify(value);
-    }
-}

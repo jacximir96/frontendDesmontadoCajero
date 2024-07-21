@@ -29,6 +29,7 @@ import { FilterItemsFormaPagoPipe } from './pipes/filter-items-forma-pago.pipe';
 import { FilterItemsFormaPagoDetallePipe } from './pipes/filter-items-forma-pago-detalle.pipe';
 import { CajaChicaComponent } from './pages/caja-chica/caja-chica.component';
 import { CalendarComponent } from './components/calendar/calendar.component';
+import { CardFormaPagoComponent } from './components/card-forma-pago/card-forma-pago.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { CalendarComponent } from './components/calendar/calendar.component';
     FilterItemsFormaPagoPipe,
     FilterItemsFormaPagoDetallePipe,
     CajaChicaComponent,
-    CalendarComponent
+    CalendarComponent,
+    CardFormaPagoComponent
   ],
   imports: [
     BrowserModule,

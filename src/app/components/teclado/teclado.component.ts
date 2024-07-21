@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import SimpleKeyboard from 'simple-keyboard';
 
 @Component({
@@ -6,7 +6,8 @@ import SimpleKeyboard from 'simple-keyboard';
   templateUrl: './teclado.component.html',
   styleUrls: ['./teclado.component.scss']
 })
-export class TecladoComponent {
+export class TecladoComponent implements OnInit{
+
   keyboard!: SimpleKeyboard;
   caracterIngresado!: string;
 
@@ -14,6 +15,10 @@ export class TecladoComponent {
 
   @Output()
   public onValueTeclado: EventEmitter<string> = new EventEmitter();
+
+  ngOnInit(): void {
+    this.valueKeyboard = '';
+  }
 
   emitValorTeclado(): void{
     console.log('teclado', this.valueKeyboard);

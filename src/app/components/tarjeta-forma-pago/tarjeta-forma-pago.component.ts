@@ -1,14 +1,13 @@
+import { Consolidado, GrupoFormasDePago, TransaccionEstacion } from 'src/app/interfaces/shared'
 import { ArqueoService } from '../../services/arqueo-caja.service';
-import { AfterContentInit, Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
-import { Title } from '@angular/platform-browser';
+import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { TotalVentaEstacion } from 'src/app/interfaces/arqueo-caja/arqueo-caja.interface';
 import { DenominacionBilleteConfirmado } from 'src/app/interfaces/arqueo-caja/denominacion-billete-confirmado.interface';
 import { DenominacionesBilletes } from 'src/app/interfaces/arqueo-caja/denominacion-billete-response.interface';
 import { InfoCajero, ObtenerFondoAsignadoUsuarioEstacion } from 'src/app/interfaces/home/home.interface';
 import { Toast, TypeToast } from 'src/app/interfaces/toast.interface';
-import { ConsolidarTransaccionesAgregadoresEstacion } from 'src/app/interfaces/transacciones-agregadores.interface';
-import { ConsolidarTransaccionesEstacion, FormasPago, TransaccionesEstacion, Detalle, GrupoFormasDePago, TransaccionEstacion } from 'src/app/interfaces/transacciones-estacion.interface';
+import { ConsolidarTransaccionesEstacion, FormasPago, TransaccionesEstacion, Detalle,  } from 'src/app/interfaces/transacciones-estacion.interface';
 import { BilletesService } from 'src/app/services/billetes.service';
 import { HeaderService } from 'src/app/services/header.service';
 import { TarjetaFormaPagoComponenteLogica } from 'src/app/utils/TarjetaFormaDePagoComponenteLogica';
@@ -27,7 +26,7 @@ import { RetiroService } from 'src/app/services/retiro.service';
 export class TarjetaFormaPagoComponent implements OnInit{
 
   efectivo: boolean = false;
-  hide: string = "487px";
+  hide: string = "497px";
   color: string = "white";
   totales: boolean = true;
   validaMonto: boolean = false;
@@ -141,6 +140,7 @@ export class TarjetaFormaPagoComponent implements OnInit{
 
   async ngOnInit() {
     //this.keyboard.setInput(this.filtroFormaDePago);
+    this.arqueoService.getObetnerBilletesPruebas();
     this.tarjetaFormaDePagoComponenteLogica = new TarjetaFormaPagoComponenteLogica(
       this.billetesServicio, 
       this.arqueoService,
@@ -217,7 +217,7 @@ export class TarjetaFormaPagoComponent implements OnInit{
           totalConfirmado = totalConfirmado + billete.totalConfirmado!;
         })
 
-        result.consolidado.diferencia = (-result.consolidado.total_pagar) + totalConfirmado;
+        result.consolidado.diferencia = -(result.consolidado.total_pagar - result.consolidado.total_retirado) + totalConfirmado;
         result.consolidado.valorDeclarado = totalConfirmado
         //Check de completado
         result.consolidado.monto_validado = (result.consolidado.diferencia >= 0) ? true : false;
@@ -252,7 +252,9 @@ export class TarjetaFormaPagoComponent implements OnInit{
   }
 
   cancelarMontosEfectivos(){
-    this.tarjetaFormaDePagoComponenteLogica!.cancelarMontosEfectivos(this.billetesConfirmados, this.transaccionesEstacion);
+    let totalConfirmadoACancelar = this.tarjetaFormaDePagoComponenteLogica!.cancelarMontosEfectivos(this.billetesConfirmados, this.transaccionesEstacion);
+    this.arrayTotales[0].valorDeclarado! -= totalConfirmadoACancelar;
+    this.arrayTotales[0].total_diferencia_formas_pago -= totalConfirmadoACancelar;
     this.inicio();
   }
 
@@ -289,7 +291,7 @@ export class TarjetaFormaPagoComponent implements OnInit{
   inicio() {
     this.efectivo = false;
     this.totales = true;
-    this.hide = "487px";
+    this.hide = "497px";
     this.validaMonto = false;
     this.seleccionoFormaDePago = false;
     this.transaccionesEstacion.forEach(element => {
@@ -335,15 +337,15 @@ export class TarjetaFormaPagoComponent implements OnInit{
            formaDePago.Formapago_padre == detalleFormaPago.Formapago_padre
         ){
           //El detalle
-          formaDePago.diferencia = (reverse) ? -formaDePago.total_pagar : 0;
+          formaDePago.diferencia = (reverse) ? (formaDePago.total_retirado - formaDePago.total_pagar) : 0;
           formaDePago.monto_validado = (formaDePago.diferencia >= 0) ? true : false;
 
           formaDePago.valorDeclarado = (reverse) 
-          ?  formaDePago.valorDeclarado! - detalleFormaPago.total_pagar
-          : formaDePago.valorDeclarado! + detalleFormaPago.total_pagar
+          ?  formaDePago.valorDeclarado! - (detalleFormaPago.total_pagar - detalleFormaPago.total_retirado)
+          : formaDePago.valorDeclarado! + (detalleFormaPago.total_pagar - detalleFormaPago.total_retirado)
           //La forma principal
           diferenciaActual.setValue(formasDePago.consolidado.diferencia);
-          valorDeclarado.setValue(detalleFormaPago.total_pagar!);
+          valorDeclarado.setValue(detalleFormaPago.total_pagar! - detalleFormaPago.total_retirado);
           console.log(diferenciaActual);
           console.log(valorDeclarado);
           formasDePago.consolidado.diferencia = (reverse) 
@@ -355,8 +357,8 @@ export class TarjetaFormaPagoComponent implements OnInit{
             console.log(detalleFormaPago.total_pagar);
 
           formasDePago.consolidado.valorDeclarado = (reverse) 
-          ? formasDePago.consolidado.valorDeclarado! - detalleFormaPago.total_pagar 
-          : formasDePago.consolidado.valorDeclarado! + detalleFormaPago.total_pagar;
+          ? formasDePago.consolidado.valorDeclarado! - (detalleFormaPago.total_pagar - detalleFormaPago.total_retirado) 
+          : formasDePago.consolidado.valorDeclarado! + (detalleFormaPago.total_pagar - detalleFormaPago.total_retirado);
 
           formasDePago.consolidado.monto_validado = (formasDePago.consolidado.diferencia >= 0) ? true : false;
           //Totales
@@ -388,6 +390,17 @@ export class TarjetaFormaPagoComponent implements OnInit{
   }
 
   async confirmarButton() {
+    try {
+      this.transaccionesEstacion.forEach(async formaDePago => {
+        if(formaDePago.consolidado.Formapago_fmp_descripcion == 'EFECTIVO'){
+          await this.tarjetaFormaDePagoComponenteLogica?.consolidarCompromisoBilletes(formaDePago);
+        }
+      })
+      await this.tarjetaFormaDePagoComponenteLogica?.consolidarProceso();
+
+    } catch (error) {
+      console.log(error);
+    }
     try {
       let resultImprimirAqueo = await this.tarjetaFormaDePagoComponenteLogica?.imprimirProceso();
       if(!resultImprimirAqueo!.error && resultImprimirAqueo!.resolucion){

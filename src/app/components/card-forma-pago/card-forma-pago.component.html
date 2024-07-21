@@ -1,0 +1,126 @@
+<div class="tarjeta-principal" (click)="emitirSeleccionTransaccion()">
+    <div class="row mt-2 h-5">
+        <div class="col-9 flex" style="justify-content: start; padding-left: 0x; padding-top: 5px;"><span
+                class="ml-3 font-['Poppins-Light']">{{transaccion.Formapago_fmp_descripcion | titlecase}}</span></div>
+        <div class="col-3 flex" style="justify-content: end;">
+            <span *ngIf="transaccion.monto_validado">
+                <svg style="margin: 7px;" width="20" height="20" viewBox="0 0 24 25" fill="none"
+                    xmlns="http://www.w3.org/2000/svg" class="mr-3">
+                    <path
+                        d="M23.5038 12.1094C23.5038 18.7972 18.2423 24.2188 11.7519 24.2188C5.26149 24.2188 0 18.7972 0 12.1094C0 5.42153 5.26149 0 11.7519 0C18.2423 0 23.5038 5.42153 23.5038 12.1094ZM10.3926 18.5212L19.1117 9.53682C19.4078 9.23174 19.4078 8.73706 19.1117 8.43198L18.0395 7.32715C17.7434 7.02202 17.2634 7.02202 16.9672 7.32715L9.85643 14.6542L6.53657 11.2333C6.2405 10.9283 5.76042 10.9283 5.4643 11.2333L4.39208 12.3382C4.09601 12.6433 4.09601 13.1379 4.39208 13.443L9.3203 18.5211C9.61642 18.8263 10.0964 18.8263 10.3926 18.5212Z"
+                        fill="#4DBE49" />
+                </svg>
+            </span>
+        </div>
+    </div>
+
+    <br><br>
+    <div style="display: flex;justify-content: center; margin-bottom: inherit;">
+        <img src="../../../assets/images/{{transaccion.imagen}}" alt="">
+
+    </div>
+    <br>
+    <div class="row" style="margin-right: 0px">
+        <div class="col-xl-7 col-lg-7 col-md-7 col-sm-7">
+            <div style="margin-left: 8px;height: 32px;" class="ml-3 mt-2">
+                <span>Transaciones</span>
+
+            </div>
+            <div style="margin-left: 8px;height: 32px;" class="ml-3">
+                <span>Pos Calculado</span>
+            </div>
+
+        </div>
+        <div class="col-xl-5 col-lg-5 col-md-5 col-sm-5" style="padding-left: 0px !important;">
+            <div class="rounded-full flex div-valores-dato">
+                <div class="rounded-full div-valores-dollar">
+                    #
+                </div>
+
+                <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8 div-valores-monto">
+                    {{transaccion.numero_transacciones}}</div>
+
+            </div>
+            <div class="rounded-full flex div-valores-dato">
+                <div class="rounded-full div-valores-dollar">
+                    $
+                </div>
+                <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8 div-valores-monto">{{transaccion.total_pagar |
+                    number}}
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <hr
+        style="margin-left: 15px;margin-right: 15px;margin-top: 12px;margin-bottom: 17px; border: 2px solid; color:#F0F0F0">
+    <div class="row px-0 " style="margin-right: 0px;">
+        <div class="col-xl-7 col-lg-7 col-md-7 col-sm-7">
+            <div style="margin-left: 8px;height: 32px;" class="ml-3 mt-2">
+                <span>Ingresos</span>
+
+            </div>
+            <div style="margin-left: 8px;height: 32px;" class="ml-3">
+                <span>Egresos</span>
+            </div>
+            <div style="margin-left: 8px;height: 32px;" class="ml-3">
+                <span>Retirado</span>
+            </div>
+            <div style="margin-left: 8px;height: 32px;width: 100%;" class="ml-3">
+                <span>Valor Declarado</span>
+            </div>
+            <div style="margin-left: 8px;height: 32px;" class="ml-3">
+                <span>Diferencia</span>
+            </div>
+
+        </div>
+        <div class="col-xl-5 col-lg-5 col-md-5 col-sm-5 " style="padding-left: 0px !important;">
+            <div class="rounded-full flex div-valores-dato">
+                <div class="rounded-full div-valores-dollar">
+                    $
+                </div>
+                <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8 div-valores-monto">{{transaccion.ingreso |
+                    number}}</div>
+            </div>
+            <div class="rounded-full flex div-valores-dato">
+                <div class="rounded-full div-valores-dollar">
+                    $
+                </div>
+                <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8 div-valores-monto">{{transaccion.egreso|
+                    number}}</div>
+            </div>
+            <div class="rounded-full flex div-valores-dato">
+                <div class="rounded-full div-valores-dollar">
+                    $
+                </div>
+                <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8 div-valores-monto">{{transaccion.total_retirado|
+                    number}}
+                </div>
+            </div>
+            <div class="rounded-full flex div-valores-dato">
+                <div class="rounded-full div-valores-dollar">
+                    $
+                </div>
+                <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8 div-valores-monto">{{transaccion.valorDeclarado|
+                    number}}
+                </div>
+
+            </div>
+            <div class="rounded-full flex div-valores-dato">
+                <div [ngSwitch]="true" class="diferencia-img">
+                    <img *ngSwitchCase="transaccion.diferencia < 0" src="../../../assets/images/enojado.png"
+                        width="60px" height="60px" alt="">
+                    <img *ngSwitchCase="transaccion.diferencia == 0" src="../../../assets/images/carita-felicidad.png"
+                        width="60px" height="60px" alt="">
+                    <img *ngSwitchCase="transaccion.diferencia > 0" src="../../../assets/images/alegre.jpg" width="60px"
+                        height="60px" alt="">
+                </div>
+                <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8 diferencia-number" style="margin-left: 7px">
+                    {{transaccion.diferencia
+                    | number}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

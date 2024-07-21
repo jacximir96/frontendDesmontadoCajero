@@ -1,6 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { FormasPago, GrupoFormasDePago } from '../interfaces/transacciones-estacion.interface';
-
+import { GrupoFormasDePago } from 'src/app/interfaces/shared';
 @Pipe({
   name: 'filterItemsFormaPago'
 })

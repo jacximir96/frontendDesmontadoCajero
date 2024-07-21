@@ -10,7 +10,7 @@ export interface RequestGeneralConPerfilAdmin {
 }
 
 // Converts JSON strings to/from your types
-export class Convert {
+/*export class Convert {
     public static toRequestCancelarArqueo(json: string): RequestGeneralConPerfilAdmin {
         return JSON.parse(json);
     }
@@ -18,4 +18,4 @@ export class Convert {
     public static requestCancelarArqueoToJson(value: RequestGeneralConPerfilAdmin): string {
         return JSON.stringify(value);
     }
-}
+}*/

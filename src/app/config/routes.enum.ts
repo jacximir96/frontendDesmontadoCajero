@@ -26,11 +26,18 @@ export enum routes{
     POS_ADE_COMPROMETER_BILLETES = 'ADE_ComprometerDenominacionBilleteMonedaArqueoDineroEstacion',
     POS_ADE_COMPROMETER_DINERO_ARQUEO = 'ADE_ComprometerDineroArqueoDineroEstacion',
     POST_ADE_CANCELAR_ARQUEO = 'ADE_CancelarArqueoDineroEstacion',
+    POST_ADE_ARQUEAR_DINERO = 'ADE_ArquearDineroEstacion',
+    POST_ADER_CONSOLIDAR_COMPROMISO_BILLETES_MONEDAS = 'ADE_ConsolidarCompromisoDenominacionBilleteMonedaArqueoDineroEstacion',
 
     /**Retiro de Efectivos */
     POST_RDE_BILLETES_COMPROMETIDOS = 'RDE_ObtenerDenominacionBilleteMonedaComprometidoRetiroDineroEstacion',
     POST_RDE_COMPROMETER_DINERO_RETIRO = 'RDE_ComprometerDineroRetiroDineroEstacion',
+    POST_RDE_COMPROMETER_BILLETES = 'RDE_ComprometerDenominacionBilleteMonedaRetiroDineroEstacion',
     POST_RDE_CANCELAR_RETIRO = 'RDE_CancelarRetiroDineroEstacion',
+    POST_RDE_CONSOLIDAR_COMPROMISO_BILLETES_MONEDAS = 'RDE_ConsolidarCompromisoDenominacionBilleteMonedaRetiroDineroEstacion',
+    POST_RDE_RETIRAR_DINERO = 'RDE_RetirarDineroEstacion',
+    POST_RDE_IMPRIMIR_RETIRO = 'RDE_ImprimirReporteRetiroDineroEstacion',
+
 
     /**Routes Home Page */
     GET_OBTENER_OPCIONES_MENUS = 'ObtenerOpcionesMenus',
@@ -41,4 +48,7 @@ export enum routes{
 
     /**CajaChica */
     POS_OBTENER_VALOR_CAJA_CHICA = 'ObtenerValorCajaChica',
+
+    /**Transferencia de ventas */
+    POST_VALIDA_TRANSFERENCIA_VENTAS = 'TFV_ValidaAplicaTransferencia'
 }

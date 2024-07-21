@@ -13,7 +13,7 @@ export class CajaChicaService {
 
   obtenerValorCajaChica(ip:string):Promise<ObtenerCajaChicaResponse>{
     return new Promise<ObtenerCajaChicaResponse>((resolve, reject) => {
-      this.http.get<ObtenerCajaChicaResponse>(environment.apilocal + routes.POS_OBTENER_VALOR_CAJA_CHICA)
+      this.http.get<ObtenerCajaChicaResponse>(environment.apiural + routes.POS_OBTENER_VALOR_CAJA_CHICA)
         .subscribe({
           next: (response) => resolve(response),
           error: (error) => reject(error)

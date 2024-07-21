@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Detalle, TransaccionesEstacion, TransaccionEstacion } from '../interfaces/transacciones-estacion.interface';
+import { TransaccionEstacion } from 'src/app/interfaces/shared';
 
 @Pipe({
   name: 'filterItemsFormaPagoDetalle'
