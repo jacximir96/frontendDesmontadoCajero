@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, SimpleChanges, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewEncapsulation } from '@angular/core';
 import { DenominacionesBilletes } from 'src/app/interfaces/shared';
 
 @Component({
@@ -27,6 +27,7 @@ export class TecladoNumericoComponent {
         this.inputValue = "";
       }
     }
+    this.valor.emit([this.inputValue, this.denominacion]);
   }
 
   agregar(value: string) {
