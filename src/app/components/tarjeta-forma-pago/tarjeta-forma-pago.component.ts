@@ -1,13 +1,17 @@
-import { Consolidado, GrupoFormasDePago, TransaccionEstacion } from 'src/app/interfaces/shared'
+import { 
+  Consolidado, 
+  GrupoFormasDePago, 
+  TransaccionEstacion, 
+  DenominacionBilleteConfirmado,
+  DenominacionesBilletes 
+} from 'src/app/interfaces/shared';
 import { ArqueoService } from '../../services/arqueo-caja.service';
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { TotalVentaEstacion } from 'src/app/interfaces/arqueo-caja/arqueo-caja.interface';
-import { DenominacionBilleteConfirmado } from 'src/app/interfaces/arqueo-caja/denominacion-billete-confirmado.interface';
-import { DenominacionesBilletes } from 'src/app/interfaces/arqueo-caja/denominacion-billete-response.interface';
 import { InfoCajero, ObtenerFondoAsignadoUsuarioEstacion } from 'src/app/interfaces/home/home.interface';
 import { Toast, TypeToast } from 'src/app/interfaces/toast.interface';
-import { ConsolidarTransaccionesEstacion, FormasPago, TransaccionesEstacion, Detalle,  } from 'src/app/interfaces/transacciones-estacion.interface';
+import { ConsolidarTransaccionesEstacion } from 'src/app/interfaces/transacciones-estacion.interface';
 import { BilletesService } from 'src/app/services/billetes.service';
 import { HeaderService } from 'src/app/services/header.service';
 import { TarjetaFormaPagoComponenteLogica } from 'src/app/utils/TarjetaFormaDePagoComponenteLogica';
@@ -229,6 +233,7 @@ export class TarjetaFormaPagoComponent implements OnInit{
         this.arrayBilletes.forEach(billete => {
           if(billete.Billete_Denominacion_IDBilleteDenominacion == denominacionBilleteConfirmado.Billete_Denominacion_IDBilleteDenominacion){
             billete.valorDeclarado = totalConfirmadoBillete.toFixed(2);
+            billete.Billete_Estacion_bte_cantidad = denominacionBilleteConfirmado.valorImputRecibido;
           }
         })
         //Calculo de los totales flotantes

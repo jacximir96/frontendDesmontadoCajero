@@ -11,7 +11,7 @@ export interface DenominacionBilleteResponse {
 }
 
 export interface DenominacionesBilletes {
-    Billete_Estacion_bte_cantidad:              number;
+    Billete_Estacion_bte_cantidad?:             string;
     Billete_Estacion_bte_total:                 number;
     Billete_Denominacion_IDBilleteDenominacion: string;
     Billete_Denominacion_btd_Tipo:              BilleteDenominacionBtdTipo;

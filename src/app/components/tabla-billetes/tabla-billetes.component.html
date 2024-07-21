@@ -50,7 +50,7 @@
                          -->
                             <input id="{{item.Billete_Denominacion_btd_Valor}}-{{item.Billete_Denominacion_btd_Tipo}}"
                                 (click)="teclado(item.Billete_Denominacion_btd_Valor.toString(),item.Billete_Denominacion_IDBilleteDenominacion,item.Billete_Denominacion_btd_Tipo)"
-                                [placeholder]="placeholder" class="input text-sm">
+                                [placeholder]="placeholder" class="input text-sm" value="{{item.Billete_Estacion_bte_cantidad}}">
                         </td>
 
                         <td style=" justify-content: center;"
@@ -64,7 +64,7 @@
 
                     <tr class="teclado-tabla ">
                         <td colspan="3">
-                            <app-teclado-numerico [denominacion]="denominacion" [imagenMonedaBillete]="imagenMonedaBillete" [valueInputTablaBillete]="valueInputActual" (valor)="recibirMensaje($event)"
+                            <app-teclado-numerico [denominacion]="denominacion" [denominacionBilletes]="item" [imagenMonedaBillete]="imagenMonedaBillete" [valueInputTablaBillete]="valueInputActual" (valor)="recibirMensaje($event)"
                                 (flecha)="direccion($event)" (confirmacion)="confirmarValor()"></app-teclado-numerico>
                         </td>
                     </tr>
@@ -120,7 +120,7 @@
                         <td class="text-xs font-normal text-gray-500 " style="width: 100%;">
                             <input id="{{item.Billete_Denominacion_btd_Valor}}-{{item.Billete_Denominacion_btd_Tipo}}"
                                 (click)="teclado(item.Billete_Denominacion_btd_Valor.toString() ,item.Billete_Denominacion_IDBilleteDenominacion,item.Billete_Denominacion_btd_Tipo)"
-                                [placeholder]="placeholder" class="input text-sm">
+                                [placeholder]="placeholder" class="input text-sm" value="{{item.Billete_Estacion_bte_cantidad}}">
                         </td>
 
                         <td style=" justify-content: center;"
@@ -134,7 +134,7 @@
 
                     <tr class="teclado-tabla ">
                         <td colspan="3">
-                            <app-teclado-numerico [denominacion]="denominacion" [imagenMonedaBillete]="imagenMonedaBillete" [valueInputTablaBillete]="valueInputActual"  (valor)="recibirMensaje($event)"
+                            <app-teclado-numerico [denominacion]="denominacion" [denominacionBilletes]="item" [imagenMonedaBillete]="imagenMonedaBillete" [valueInputTablaBillete]="valueInputActual"  (valor)="recibirMensaje($event)"
                                 (flecha)="direccion($event)" (confirmacion)="confirmarValor()"></app-teclado-numerico>
                         </td>
                     </tr>
@@ -143,7 +143,7 @@
 
         </div>
         <div class="col-xl-5 col-lg-5 col-md-4 col-sm-4 teclado" *ngIf="visible">
-            <app-teclado-numerico [denominacion]="denominacion" [imagenMonedaBillete]="imagenMonedaBillete" [valueInputTablaBillete]="valueInputActual" (valor)="recibirMensaje($event)"
+            <app-teclado-numerico [denominacion]="denominacion" [imagenMonedaBillete]="imagenMonedaBillete" [denominacionBilletes]="this.denominacionBilleteActual" [valueInputTablaBillete]="valueInputActual" (valor)="recibirMensaje($event)"
                 (flecha)="direccion($event)" (cerrar)="ocultar($event)"
                 (confirmacion)="confirmarValor()"></app-teclado-numerico>
         </div>

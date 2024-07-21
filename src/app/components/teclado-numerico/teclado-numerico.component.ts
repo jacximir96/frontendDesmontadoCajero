@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output, SimpleChanges, ViewEncapsulation } from '@angular/core';
+import { DenominacionesBilletes } from 'src/app/interfaces/shared';
 
 @Component({
   selector: 'app-teclado-numerico',
@@ -8,6 +9,7 @@ import { Component, EventEmitter, Input, Output, SimpleChanges, ViewEncapsulatio
 })
 export class TecladoNumericoComponent {
   @Input() denominacion!: string
+  @Input() denominacionBilletes!: DenominacionesBilletes
   @Input() imagenMonedaBillete!: string;
   @Output() valor = new EventEmitter<any[]>();
   @Output() flecha = new EventEmitter<string>();
@@ -19,8 +21,11 @@ export class TecladoNumericoComponent {
   
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['denominacion']) {
-      this.inputValue = "";
-      //this.imagen = parseInt(this.denominacion) >= 1 ? 'billetes-nuevo.png' : 'monedas-nuevo.png'
+      if(this.denominacionBilletes.Billete_Estacion_bte_cantidad! != undefined){
+        this.inputValue = this.denominacionBilletes.Billete_Estacion_bte_cantidad!;
+      }else{
+        this.inputValue = "";
+      }
     }
   }
 

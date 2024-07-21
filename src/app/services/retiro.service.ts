@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { DenominacionBilleteResponse } from '../interfaces/arqueo-caja/denominacion-billete-response.interface';
+import { DenominacionBilleteResponse } from '../interfaces/shared/response/denominacion-billete-response.interface';
 import { routes } from '../config/routes.enum';
 import { environment } from 'src/environments/environment.local';
 import { RequestComprometerDinero } from '../interfaces/shared/request/comprometer-dinero.interface';

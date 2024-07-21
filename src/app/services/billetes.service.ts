@@ -5,7 +5,7 @@ import { routes } from '../config/routes.enum';
 import { CalcularTotalVentasEstacion } from '../interfaces/arqueo-caja/arqueo-caja.interface';
 import { ConsolidarTransaccionesAgregadoresEstacion } from '../interfaces/transacciones-agregadores.interface';
 import { ConsolidarTransaccionesEstacion } from '../interfaces/transacciones-estacion.interface';
-import { DenominacionBilleteResponse } from '../interfaces/arqueo-caja/denominacion-billete-response.interface';
+import { DenominacionBilleteResponse } from '../interfaces/shared/response/denominacion-billete-response.interface';
 import { AperturaCajaResponse } from '../interfaces/arqueo-caja/apertura-caja-response.interface';
 import { ResponseDataFast } from '../interfaces/transacciones-datafast.interface';
 

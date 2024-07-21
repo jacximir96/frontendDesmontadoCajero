@@ -201,7 +201,11 @@
             <div class="w-2/5 2xl:w-2/5 md:w-1/3">
                 <div class="row">
                     <div *ngFor="let detalleFormaPago of this.formaDePagoActual.transacciones | filterItemsFormaPagoDetalle:filtroFormaDePagoDetalle" 
-                        style="display:{{detalleFormaPago.styleDisplay}}" class="w-1/2 2xl:w-1/2 md:w-full 2xl:px-4 md:px-2">
+                         class="w-1/2 2xl:w-1/2 md:w-full 2xl:px-4 md:px-2"
+                        [ngClass]="{
+                            'block': detalleFormaPago.styleDisplay == 'block' ,
+                            'hidden': detalleFormaPago.styleDisplay != 'block'
+                        }">
                         <div *ngIf="this.detallesAMostrar == detalleFormaPago.Formapago_padre">
                             <div Class="tarjeta-principal" [ngClass]="{
                                 'bg-blue-100 bg-opacity-30': detalleFormaPago.cardSeleccionada,
@@ -523,7 +527,11 @@
             <div class="w-4/5 2xl:w-4/5 md:w-2/3">
                 <div class="row">
                     <div *ngFor="let detalleFormaPago of this.formaDePagoActual.transacciones| filterItemsFormaPagoDetalle:filtroFormaDePagoDetalle" 
-                        style="display:{{detalleFormaPago.styleDisplay}}" class="w-1/4 2xl:w-1/4 md:w-1/2 2xl:px-4 md:px-2">
+                        class="w-1/4 2xl:w-1/4 md:w-1/2 2xl:px-4 md:px-2"
+                        [ngClass]="{
+                            'block': detalleFormaPago.styleDisplay == 'block' ,
+                            'hidden': detalleFormaPago.styleDisplay != 'block'
+                        }">
                         <div *ngIf="this.detallesAMostrar == detalleFormaPago.Formapago_padre">
                             <div Class="tarjeta-principal" [ngClass]="{
                                 'bg-blue-100 bg-opacity-30': detalleFormaPago.cardSeleccionada,

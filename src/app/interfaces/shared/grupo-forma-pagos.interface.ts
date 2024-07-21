@@ -31,6 +31,7 @@ export interface TransaccionEstacion {
     cardSeleccionada?:                  boolean; //Campo interno
     valorDeclarado?:                    number;  //Campo interno
     imagen?:                            string;
+    block?:                             boolean;
 }
 
 export interface Consolidado {
@@ -55,4 +56,5 @@ export interface Consolidado {
     rule?:                              string;
     monto_validado?:                    boolean;
     valorDeclarado?:                    number;  //Campo interno
+    block?:                             boolean;
 }

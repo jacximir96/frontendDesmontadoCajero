@@ -4,7 +4,7 @@ import { environment } from 'src/environments/environment.local';
 import { HttpClient } from '@angular/common/http';
 import { routes } from '../config/routes.enum';
 import { RequestComprometerBillete } from '../interfaces/shared/request/comprometer-billetes.interface';
-import { DenominacionBilleteResponse } from '../interfaces/arqueo-caja/denominacion-billete-response.interface';
+import { DenominacionBilleteResponse } from '../interfaces/shared/response/denominacion-billete-response.interface';
 import { RequestComprometerDinero } from '../interfaces/shared/request/comprometer-dinero.interface';
 import { RequestCancelarProceso } from '../interfaces/shared/request/cancelar-proceso.interface';
 import { RequestGeneralConPerfilAdmin } from '../interfaces/shared/request/general-con-perfiladmin.interface';

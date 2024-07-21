@@ -1,9 +1,9 @@
-import { DenominacionBilleteResponse } from './../interfaces/arqueo-caja/denominacion-billete-response.interface';
+import { DenominacionBilleteResponse } from '../interfaces/shared/response/denominacion-billete-response.interface';
 import { environment } from "src/environments/environment.local";
 import { BilletesService } from "../services/billetes.service";
-import { DenominacionesBilletes } from "../interfaces/arqueo-caja/denominacion-billete-response.interface";
+import { DenominacionesBilletes } from "../interfaces/shared/response/denominacion-billete-response.interface";
 import { GrupoFormasDePago, TransaccionEstacion } from 'src/app/interfaces/shared';
-import { DenominacionBilleteConfirmado } from "../interfaces/arqueo-caja/denominacion-billete-confirmado.interface";
+import { DenominacionBilleteConfirmado } from "../interfaces/shared/denominacion-billete-confirmado.interface";
 import { AperturaCajaResponse } from "../interfaces/arqueo-caja/apertura-caja-response.interface";
 import { ArqueoService } from "../services/arqueo-caja.service";
 import { RequestComprometerBillete } from '../interfaces/shared/request/comprometer-billetes.interface';
@@ -12,7 +12,7 @@ import { ResponseDataFast } from '../interfaces/transacciones-datafast.interface
 import { RequestCancelarProceso } from '../interfaces/shared/request/cancelar-proceso.interface';
 import { RetiroService } from '../services/retiro.service';
 import { RequestGeneralConPerfilAdmin } from '../interfaces/shared/request/general-con-perfiladmin.interface';
-import { ResponseGeneral } from '../interfaces/shared/response-general.interface';
+import { ResponseGeneral } from '../interfaces/shared/response/response-general.interface';
 import { RequestConsolidarCompromisoBillete } from '../interfaces/arqueo-caja/request/consolidar-compromisos-billetes.interface';
 import { HelperClass } from './HelperClass';
 
@@ -23,7 +23,7 @@ export class TarjetaFormaPagoComponenteLogica {
     transaccionesDetalleAll: TransaccionEstacion[];
     proceso: string;
     grupoFormasDePago: GrupoFormasDePago[];
-    consolidadoDeTransaccion!: TransaccionEstacion[];
+    consolidadoDeTransaccion: TransaccionEstacion[] = [];
 
     constructor(
       private billetesServicio: BilletesService, 
@@ -68,6 +68,7 @@ export class TarjetaFormaPagoComponenteLogica {
           formaDePago.consolidado.estado = true;
           formaDePago.consolidado.rule = 'block';
           formaDePago.consolidado.valorDeclarado = 0.00
+          formaDePago.consolidado.block = true;
         })
         this.addConsolidados();
         this.generaTransaccionesDetalleAll();
@@ -183,6 +184,7 @@ export class TarjetaFormaPagoComponenteLogica {
             formaDePago.Formapago_padre = formasDePago.consolidado.Formapago_fmp_descripcion;
             formaDePago.monto_validado = (formaDePago.diferencia >= 0) ? true : false;
             formaDePago.valorDeclarado = 0.00;
+            formaDePago.block = false;
             formaDePago.imagen = this.generaImagen(formaDePago.Formapago_fmp_descripcion);
             this.transaccionesDetalleAll.push(formaDePago);
           })
@@ -285,7 +287,7 @@ export class TarjetaFormaPagoComponenteLogica {
       let request: RequestConsolidarCompromisoBillete = {
         ipEstacion: environment.ip_estacion,
         idUsersPosPerfilAdmin: environment.idPerfilAdmin,
-        magnitudTotal: formaDePago.consolidado.total_pagar,
+        magnitudTotal: formaDePago.consolidado.valorDeclarado!,
         magnitudPOS: formaDePago.consolidado.total_pagar,
         magnitudPretendida: formaDePago.consolidado.valorDeclarado!,
         diferenciaMagnitud: formaDePago.consolidado.diferencia,

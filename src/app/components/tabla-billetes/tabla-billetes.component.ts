@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { DenominacionesBilletes } from 'src/app/interfaces/arqueo-caja/denominacion-billete-response.interface';
-import { DenominacionBilleteConfirmado } from './../../interfaces/arqueo-caja/denominacion-billete-confirmado.interface';
+import { DenominacionesBilletes, DenominacionBilleteConfirmado} from 'src/app/interfaces/shared';
 import { BilletesService } from 'src/app/services/billetes.service';
 import { environment } from 'src/environments/environment.local';
 import Swal from 'sweetalert2';
@@ -33,6 +32,8 @@ export class TablaBilletesComponent implements OnInit{
   arrayIds: any[] = [];
   placeholder: string = "Presione aquí";
   aperturoCajon: boolean = false;
+
+  denominacionBilleteActual!: DenominacionesBilletes;
 
   confirmarValor(){
     this.denominacionBilleteConfirmado.valorImputRecibido = this.inputRecibido;
@@ -73,6 +74,12 @@ export class TablaBilletesComponent implements OnInit{
     if(!this.aperturoCajon){
       this.aperturarCajon();
     }
+
+    this.arrayDenominacionesBilletes.forEach(billete => {
+      if(billete.Billete_Denominacion_IDBilleteDenominacion == id){
+        this.denominacionBilleteActual = billete
+      }
+    })
 
     const rowsInputBilletes = this.getRowsInputBillete();
     const currentIndexInput = this.focusNextInput(rowsInputBilletes);
