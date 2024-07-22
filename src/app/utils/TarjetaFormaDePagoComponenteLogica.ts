@@ -330,9 +330,9 @@ export class TarjetaFormaPagoComponenteLogica {
       let request: RequestConsolidarCompromisoBillete = {
         ipEstacion: environment.ip_estacion,
         idUsersPosPerfilAdmin: environment.idPerfilAdmin,
-        magnitudTotal: formaDePago.consolidado.valorDeclarado!,
+        magnitudTotal: (formaDePago.consolidado.valorDeclarado! + formaDePago.consolidado.total_retirado),
         magnitudPOS: formaDePago.consolidado.total_pagar,
-        magnitudPretendida: formaDePago.consolidado.valorDeclarado!,
+        magnitudPretendida: (formaDePago.consolidado.valorDeclarado! + formaDePago.consolidado.total_retirado),
         diferenciaMagnitud: formaDePago.consolidado.diferencia,
         numeroTransacciones: formaDePago.consolidado.numero_transacciones,
         numeroTransaccionesIngresadas: formaDePago.consolidado.numero_transacciones_ingresadas

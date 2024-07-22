@@ -23,11 +23,11 @@ export class TecladoNumericoComponent {
   
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['denominacionBilletes']) {
-      if(this.denominacionBilletes.Billete_Estacion_bte_cantidad! != undefined){
+      /*if(this.denominacionBilletes.Billete_Estacion_bte_cantidad! != undefined){
         this.inputValue = this.denominacionBilletes.Billete_Estacion_bte_cantidad!;
-      }else{
+      }else{*/
         this.inputValue = "";
-      }
+      //}
     }
     this.valor.emit([this.inputValue, this.denominacion]);
     console.log(this.inputDato);

@@ -1,9 +1,9 @@
 <div class="row barra-superior m-auto">
     <div class="2xl:w-2/3 md:w-full cambio">
         <div class="row buscar">
-            <div class=" relative col-lg-12 col-md-12 col-sm-12"
+            <div class="relative col-lg-12 col-md-12 col-sm-12"
                 *ngIf="totales == true">
-                <form class="w-2/3 rounded-lg border border-1 border-black" (click)="onFocusClick($event)">   
+                <form class="w-2/3 md:w-1/2 rounded-lg border border-1 border-black" (click)="onFocusClick($event)">   
                     <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
                     <div class="relative">
                         <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
@@ -14,7 +14,6 @@
                         <input id="inputField" [(ngModel)]="filtroFormaDePago" name="filtroFormaDePago" class="block w-full ps-10 text-lg text-gray-900 rounded-lg border border-1 border-black  dark:text-neutral-950 bg-zinc-100" style="height: 63px;" />
                     </div>
                 </form>
-
             </div>
 
             <div class=" relative col-lg-8 col-md-9 col-sm-6 col-6" style="width: 100%;"
@@ -97,7 +96,7 @@
 
                     </div>
                     <br>
-                    <div class="row" style="margin-right: 0px">
+                    <div class="row items-baseline" style="margin-right: 0px">
                         <div class="col-xl-7 col-lg-7 col-md-7 col-sm-7">
                             <div style="margin-left: 8px;height: 32px;" class="ml-3 mt-2">
                                 <span>Transaciones</span>
@@ -131,7 +130,7 @@
                         </div>
                     </div>
                     <hr style="margin-left: 15px;margin-right: 15px;margin-top: 12px;margin-bottom: 17px; border: 2px solid; color:#F0F0F0">
-                    <div class="row px-0 " style="margin-right: 0px;">
+                    <div class="row px-0 items-baseline" style="margin-right: 0px;">
                         <div class="col-xl-7 col-lg-7 col-md-7 col-sm-7">
                             <div style="margin-left: 8px;height: 32px;" class="ml-3 mt-2">
                                 <span>Ingresos</span>
@@ -233,7 +232,7 @@
                                     <img src="../../../assets/images/{{detalleFormaPago.imagen}}" alt="">
                                 </div>
                                 <br>
-                                <div class="row" style="margin-right: 0px">
+                                <div class="row items-baseline" style="margin-right: 0px">
                                     <div class="col-xl-7 col-lg-7 col-md-7 col-sm-7">
                                         <div style="margin-left: 8px;height: 32px;" class="ml-3 mt-2">
                                             <span>Transaciones</span>
@@ -267,7 +266,7 @@
                                     </div>
                                 </div>
                                 <hr style="margin-left: 15px;margin-right: 15px;margin-top: 12px;margin-bottom: 17px; border: 2px solid; color:#F0F0F0">
-                                <div class="row px-0 " style="margin-right: 0px;">
+                                <div class="row px-0 items-baseline" style="margin-right: 0px;">
                                     <div class="col-xl-7 col-lg-7 col-md-7 col-sm-7">
                                         <div style="margin-left: 8px;height: 32px;" class="ml-3 mt-2">
                                             <span>Ingresos</span>
@@ -423,7 +422,7 @@
 
                     </div>
                     <br>
-                    <div class="row" style="margin-right: 0px">
+                    <div class="row items-baseline" style="margin-right: 0px">
                         <div class="col-xl-7 col-lg-7 col-md-7 col-sm-7">
                             <div style="margin-left: 8px;height: 32px;" class="ml-3 mt-2">
                                 <span>Transaciones</span>
@@ -457,7 +456,7 @@
                         </div>
                     </div>
                     <hr style="margin-left: 15px;margin-right: 15px;margin-top: 12px;margin-bottom: 17px; border: 2px solid; color:#F0F0F0">
-                    <div class="row px-0 " style="margin-right: 0px;">
+                    <div class="row px-0 items-baseline" style="margin-right: 0px;">
                         <div class="col-xl-7 col-lg-7 col-md-7 col-sm-7">
                             <div style="margin-left: 8px;height: 32px;" class="ml-3 mt-2">
                                 <span>Ingresos</span>
@@ -559,7 +558,7 @@
                                     <img src="../../../assets/images/{{detalleFormaPago.imagen}}" alt="">
                                 </div>
                                 <br>
-                                <div class="row" style="margin-right: 0px">
+                                <div class="row items-baseline" style="margin-right: 0px">
                                     <div class="col-xl-7 col-lg-7 col-md-7 col-sm-7">
                                         <div style="margin-left: 8px;height: 32px;" class="ml-3 mt-2">
                                             <span>Transaciones</span>
@@ -593,7 +592,7 @@
                                     </div>
                                 </div>
                                 <hr style="margin-left: 15px;margin-right: 15px;margin-top: 12px;margin-bottom: 17px; border: 2px solid; color:#F0F0F0">
-                                <div class="row px-0 " style="margin-right: 0px;">
+                                <div class="row px-0 items-baseline" style="margin-right: 0px;">
                                     <div class="col-xl-7 col-lg-7 col-md-7 col-sm-7">
                                         <div style="margin-left: 8px;height: 32px;" class="ml-3 mt-2">
                                             <span>Ingresos</span>
@@ -673,7 +672,7 @@
 
         <!-- Formas de Pago Cards principales-->
         <div *ngFor="let item of this.tarjetaFormaDePagoComponenteLogica!.grupoFormasDePago | filterItemsFormaPago:filtroFormaDePago"
-            class="w-full md:w-1/3 lg:w-1/4 2xl:w-1/5 px-3" style="display:{{item.consolidado.rule}}">
+            class="w-full md:w-1/2 lg:w-1/3 xl:w-1/4 2xl:w-1/5 px-3" style="display:{{item.consolidado.rule}}">
             <div *ngIf="item.consolidado.estado && !validaMonto && !seleccionoFormaDePago || this.efectivo" Class="tarjeta-principal" style="height:{{hide}};"
                 (click)="ocultarTarjetas(item)">
                 <div class="row mt-2 h-5">
@@ -697,7 +696,7 @@
 
                 </div>
                 <br>
-                <div class="row" style="margin-right: 0px">
+                <div class="row items-baseline" style="margin-right: 0px">
                     <div class="col-xl-7 col-lg-7 col-md-7 col-sm-7">
                         <div style="margin-left: 8px;height: 32px;" class="ml-3 mt-2">
                             <span>Transaciones</span>
@@ -731,7 +730,7 @@
                     </div>
                 </div>
                 <hr style="margin-left: 15px;margin-right: 15px;margin-top: 12px;margin-bottom: 17px; border: 2px solid; color:#F0F0F0">
-                <div class="row px-0 " style="margin-right: 0px;">
+                <div class="row px-0 items-baseline" style="margin-right: 0px;">
                     <div class="col-xl-7 col-lg-7 col-md-7 col-sm-7">
                         <div style="margin-left: 8px;height: 32px;" class="ml-3 mt-2">
                             <span>Ingresos</span>
@@ -800,7 +799,7 @@
 
         
         <!-- Grid de Billetes -->
-        <div *ngIf="efectivo" class="w-4/5 px-3 lg:w-3/4 2xl:w-4/5">
+        <div *ngIf="efectivo" class="w-4/5 px-3 lg:w-full xl:w-3/4 2xl:w-4/5">
             <app-tabla-billetes [arrayDenominacionesBilletes]="this.tarjetaFormaDePagoComponenteLogica!.arrayBilletes"
                 (total)="recibeValor($event)" [IDFormaPagoEfectivo]="this.IDFormaPagoEfectivo"></app-tabla-billetes>
         </div>
@@ -842,7 +841,7 @@
                             style="text-align: center;width: 20px;background-color: #E2F7E2;border-radius: 50px;;">$
                         </div>
                         <div class="col-6" style="min-width: 80px; display: flex;justify-content: end;padding: 0px;">
-                            ${{arrayTotales[0].total_ventas| number}}</div>
+                            {{arrayTotales[0].total_ventas| number}}</div>
                     </div>
 
                     <div class="row"
@@ -899,7 +898,7 @@
                             <img src="../../../assets/images/enojado.png" alt="">
                         </div>
                         <div class="col-6" style="min-width: 80px; display: flex;justify-content: end;padding: 0px;">
-                            ${{arrayTotales[0].total_diferencia_formas_pago | number}}
+                            $ {{arrayTotales[0].total_diferencia_formas_pago | number}}
                         </div>
                     </div>
                     <div *ngIf="arrayTotales[0].total_diferencia_formas_pago > 0" class="row"
@@ -909,7 +908,7 @@
                             <img src="../../../assets/images/alegre.jpg" alt="">
                         </div>
                         <div class="col-6" style="min-width: 80px; display: flex;justify-content: end;padding: 0px;">
-                            ${{arrayTotales[0].total_diferencia_formas_pago | number}}
+                            $ {{arrayTotales[0].total_diferencia_formas_pago | number}}
                         </div>
                     </div>
                     <div *ngIf="arrayTotales[0].total_diferencia_formas_pago == 0" class="row"
@@ -919,7 +918,7 @@
                             <img src="../../../assets/images/carita-felicidad.png" alt="">
                         </div>
                         <div class="col-6" style="min-width: 80px; display: flex;justify-content: end;padding: 0px;">
-                            ${{arrayTotales[0].total_diferencia_formas_pago | number}}
+                            $ {{arrayTotales[0].total_diferencia_formas_pago | number}}
                         </div>
                     </div>
                 </div>

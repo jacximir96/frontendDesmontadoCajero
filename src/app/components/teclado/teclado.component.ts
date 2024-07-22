@@ -20,8 +20,6 @@ export class TecladoComponent implements OnInit{
     this.valueKeyboard = '';
   }
 
-
-
   onKeyPress = (button: string) => {
     console.log("Button pressed", button);
     if (button === "{shift}" || button === "{lock}"){

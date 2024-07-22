@@ -48,7 +48,7 @@
                         <td class="text-sm font-normal text-gray-500 " style="width: 100%;">
                             <input id="{{item.Billete_Denominacion_btd_Valor}}-{{item.Billete_Denominacion_btd_Tipo.trim()}}"
                                 (click)="teclado(item.Billete_Denominacion_btd_Valor.toString(),item.Billete_Denominacion_IDBilleteDenominacion,item.Billete_Denominacion_btd_Tipo)"
-                                [placeholder]="placeholder" class="input text-sm" value="{{item.Billete_Estacion_bte_cantidad}}">
+                                [placeholder]="placeholder" class="input text-sm" value="{{item.Billete_Estacion_bte_cantidad}}" attr.custom="{{item.Billete_Estacion_bte_cantidad}}">
                         </td>
 
                         <td style=" justify-content: center;"

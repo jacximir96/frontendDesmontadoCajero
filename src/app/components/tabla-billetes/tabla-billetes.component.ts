@@ -153,7 +153,11 @@ export class TablaBilletesComponent implements OnInit{
       let tr = rowsInputs[i].closest('tr');
       if(tr!.style.backgroundColor == 'ghostwhite'){
         focusCurrentIndex = i;
-        if(rowsInputs[i].value == ''){
+        console.log(rowsInputs[i].getAttribute('custom'))
+        if(rowsInputs[i].getAttribute('custom') != null && rowsInputs[i].value == ''){
+          rowsInputs[i].value = rowsInputs[i].getAttribute('custom')!;
+        }
+        else if(rowsInputs[i].value == ''){
           rowsInputs[i].placeholder = this.placeholder
         }
       }
