@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap-grid.min.css" />
 <div class="contenedor">
     <div class="row flex ">
-        <div class="w-full px-3" *ngIf="visible == false">
+        <div class="w-full px-3" id="tabla" #tablaBilletes>
             <table>
                 <thead style="border-bottom-width: 1px;">
                     <tr class="text-center">
@@ -46,9 +46,7 @@
 
                         </td>
                         <td class="text-sm font-normal text-gray-500 " style="width: 100%;">
-                            <!-- <button style="background-color:#337AB7;padding: 20px;color:white;border-radius: 15px;"><b>Presione aquí</b></button>     
-                         -->
-                            <input id="{{item.Billete_Denominacion_btd_Valor}}-{{item.Billete_Denominacion_btd_Tipo}}"
+                            <input id="{{item.Billete_Denominacion_btd_Valor}}-{{item.Billete_Denominacion_btd_Tipo.trim()}}"
                                 (click)="teclado(item.Billete_Denominacion_btd_Valor.toString(),item.Billete_Denominacion_IDBilleteDenominacion,item.Billete_Denominacion_btd_Tipo)"
                                 [placeholder]="placeholder" class="input text-sm" value="{{item.Billete_Estacion_bte_cantidad}}">
                         </td>
@@ -62,18 +60,18 @@
 
                     </tr>
 
-                    <tr class="teclado-tabla ">
+                    <!--<tr class="teclado-tabla ">
                         <td colspan="3">
                             <app-teclado-numerico [denominacion]="denominacion" [denominacionBilletes]="item" [imagenMonedaBillete]="imagenMonedaBillete" [valueInputTablaBillete]="valueInputActual" (valor)="recibirMensaje($event)"
                                 (flecha)="direccion($event)" (confirmacion)="confirmarValor()"></app-teclado-numerico>
                         </td>
-                    </tr>
+                    </tr>-->
                 </tbody>
             </table>
 
         </div>
 
-        <div class="col-xl-7 col-lg-7 col-md-12 col-sm-12 col-12" *ngIf="visible">
+        <!--<div class="col-xl-7 col-lg-7 col-md-12 col-sm-12 col-12" *ngIf="visible">
             <table id="tabla">
                 <thead style="border-bottom-width: 1px;">
                     <tr class="text-center">
@@ -120,7 +118,7 @@
                         <td class="text-xs font-normal text-gray-500 " style="width: 100%;">
                             <input id="{{item.Billete_Denominacion_btd_Valor}}-{{item.Billete_Denominacion_btd_Tipo}}"
                                 (click)="teclado(item.Billete_Denominacion_btd_Valor.toString() ,item.Billete_Denominacion_IDBilleteDenominacion,item.Billete_Denominacion_btd_Tipo)"
-                                [placeholder]="placeholder" class="input text-sm" value="{{item.Billete_Estacion_bte_cantidad}}">
+                                [placeholder]="placeholder" class="input text-sm {{item.Billete_Denominacion_btd_Valor}}-{{item.Billete_Denominacion_btd_Tipo}}" value="{{item.Billete_Estacion_bte_cantidad}}">
                         </td>
 
                         <td style=" justify-content: center;"
@@ -141,7 +139,7 @@
                 </tbody>
             </table>
 
-        </div>
+        </div>-->
         <div class="col-xl-5 col-lg-5 col-md-4 col-sm-4 teclado" *ngIf="visible">
             <app-teclado-numerico [denominacion]="denominacion" [imagenMonedaBillete]="imagenMonedaBillete" [denominacionBilletes]="this.denominacionBilleteActual" [valueInputTablaBillete]="valueInputActual" (valor)="recibirMensaje($event)"
                 (flecha)="direccion($event)" (cerrar)="ocultar($event)"

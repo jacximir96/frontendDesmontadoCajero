@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { DenominacionesBilletes, DenominacionBilleteConfirmado} from 'src/app/interfaces/shared';
 import { BilletesService } from 'src/app/services/billetes.service';
 import { environment } from 'src/environments/environment.local';
@@ -35,6 +35,8 @@ export class TablaBilletesComponent implements OnInit{
 
   denominacionBilleteActual!: DenominacionesBilletes;
 
+  @ViewChild('tablaBilletes') tablaBilletes: ElementRef | undefined;
+
   confirmarValor(){
     this.denominacionBilleteConfirmado.valorImputRecibido = this.inputRecibido;
     this.total.emit([this.denominacionBilleteConfirmado]);
@@ -45,7 +47,7 @@ export class TablaBilletesComponent implements OnInit{
     this.cambiarValor(valor[1]);
   }
   cambiarValor(id: string) {
-    const inputElement = document.getElementById(`${id}-${this.tipoDenominacion}`) as HTMLInputElement;
+    const inputElement = document.getElementById(`${id}-${this.tipoDenominacion.trim()}`) as HTMLInputElement;
     if (inputElement) {
       inputElement.value = this.inputRecibido;
     }
@@ -70,9 +72,20 @@ export class TablaBilletesComponent implements OnInit{
       }
     });
   }
+
   teclado(denominacion: string, id: string, tipoDenominacion: string) {
+    console.log(`${denominacion.toString()}-${tipoDenominacion}`);
+    this.redimensionar()
     if(!this.aperturoCajon){
-      this.aperturarCajon();
+      //this.aperturarCajon();
+    }
+
+    const input = document.getElementById(`${denominacion.toString()}-${tipoDenominacion.trim()}`) as HTMLInputElement;
+    console.log(input)
+    if (input) {
+      console.log(input.value);
+      input.placeholder = '';
+      this.valueInputActual = (input.value) ? input.value : '';
     }
 
     this.arrayDenominacionesBilletes.forEach(billete => {
@@ -83,12 +96,7 @@ export class TablaBilletesComponent implements OnInit{
 
     const rowsInputBilletes = this.getRowsInputBillete();
     const currentIndexInput = this.focusNextInput(rowsInputBilletes);
-
-    const input = document.getElementById(`${denominacion.toString()}-${tipoDenominacion}`) as HTMLInputElement;
-    if (input) {
-      input.placeholder = '';
-      this.valueInputActual = (input.value) ? input.value : '';
-    }
+    console.log(currentIndexInput);
     this.visible = true;
     this.denominacion = denominacion.toString();
     this.tipoDenominacion = tipoDenominacion;
@@ -153,8 +161,23 @@ export class TablaBilletesComponent implements OnInit{
     return focusCurrentIndex;
   }
 
+  redimensionar(ocultaTeclado = false){
+    if (this.tablaBilletes) {
+      const nativeElement: HTMLElement = this.tablaBilletes.nativeElement;
+      if(ocultaTeclado){
+        nativeElement.classList.remove('col-xl-7', 'col-lg-7', 'col-md-12', 'col-sm-12', 'col-12');
+        nativeElement.classList.add('w-full','px-3');
+      }else{
+        nativeElement.classList.remove('w-full','px-3');
+        nativeElement.classList.add('col-xl-7', 'col-lg-7', 'col-md-12', 'col-sm-12', 'col-12');
+      }
+      
+    }
+  }
+
   ocultar(valor: any) {
     this.visible = valor;
+    this.redimensionar(true);
   }
 
   async aperturarCajon(){

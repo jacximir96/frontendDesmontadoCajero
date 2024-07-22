@@ -1,4 +1,4 @@
-import { Consolidado, TransaccionEstacion } from "../interfaces/shared";
+import { Consolidado, DenominacionBilleteConfirmado, DenominacionBilleteResponse, TransaccionEstacion } from "../interfaces/shared";
 
 export class HelperClass {
 
@@ -29,5 +29,22 @@ export class HelperClass {
             block: consolidado.block
         };
         return transaccionEstacion;
+    }
+
+    public static getBilletesComprometidos(billetesComprometidos: DenominacionBilleteResponse): DenominacionBilleteConfirmado[]{
+        let billetesConfirmados: DenominacionBilleteConfirmado[] = [];
+        billetesComprometidos.resolucion.forEach(billete => {
+           let billeteConfirmado: DenominacionBilleteConfirmado = {}
+            billetesConfirmados.push({
+                Billete_Denominacion_IDBilleteDenominacion: billete.Billete_Denominacion_IDBilleteDenominacion,
+                Billete_Denominacion_btd_Valor: billete.Billete_Denominacion_btd_Valor.toString(),
+                valorImputRecibido: billete.Billete_Estacion_bte_cantidad,
+                totalConfirmado: billete.Billete_Estacion_bte_total,
+                isComprometido: true,
+                isUpdate: false,
+                
+            })
+        });
+        return billetesConfirmados;
     }
 }

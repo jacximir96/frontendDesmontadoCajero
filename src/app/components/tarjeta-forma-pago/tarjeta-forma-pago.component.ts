@@ -49,9 +49,7 @@ export class TarjetaFormaPagoComponent implements OnInit{
   }
 
   arrayFormas!: ConsolidarTransaccionesEstacion;
-  arrayBilletes!: DenominacionesBilletes[];
   arrayTotales!: TotalVentaEstacion[];
-  transaccionesEstacion!: GrupoFormasDePago[];
   transaccionesDetalleAll: TransaccionEstacion[] = [];
   transaccionesDetalleActual: TransaccionEstacion[] = [];
   billetesConfirmados: DenominacionBilleteConfirmado[] = [];
@@ -144,7 +142,6 @@ export class TarjetaFormaPagoComponent implements OnInit{
 
   async ngOnInit() {
     //this.keyboard.setInput(this.filtroFormaDePago);
-    this.arqueoService.getObetnerBilletesPruebas();
     this.tarjetaFormaDePagoComponenteLogica = new TarjetaFormaPagoComponenteLogica(
       this.billetesServicio, 
       this.arqueoService,
@@ -153,7 +150,6 @@ export class TarjetaFormaPagoComponent implements OnInit{
     );
     try {
       let transaccionEstacionResponse = await this.tarjetaFormaDePagoComponenteLogica.obtenerTransaccionesDataFastEstacion();
-      this.transaccionesEstacion = this.tarjetaFormaDePagoComponenteLogica.grupoFormasDePago;
       this.transaccionesDetalleAll = this.tarjetaFormaDePagoComponenteLogica.transaccionesDetalleAll;
       
     } catch (error) {
@@ -161,7 +157,6 @@ export class TarjetaFormaPagoComponent implements OnInit{
     }
     try {
       let transaccionEstacionResponse = await this.tarjetaFormaDePagoComponenteLogica.obtenerTransaccionesEstacion();
-      this.transaccionesEstacion = this.tarjetaFormaDePagoComponenteLogica.grupoFormasDePago;
       this.transaccionesDetalleAll = this.tarjetaFormaDePagoComponenteLogica.transaccionesDetalleAll;
       
     } catch (error) {
@@ -169,8 +164,7 @@ export class TarjetaFormaPagoComponent implements OnInit{
     }
     
     try {
-      let billetes = await this.tarjetaFormaDePagoComponenteLogica.obtenerDenominacionesBilletes();
-      this.arrayBilletes = billetes.resolucion;
+      await this.tarjetaFormaDePagoComponenteLogica.obtenerDenominacionesBilletes();
     } catch (error) {
       console.log(error)
     }
@@ -189,12 +183,23 @@ export class TarjetaFormaPagoComponent implements OnInit{
     } catch (error) {
       
     }
+    this.billetesConfirmados = this.tarjetaFormaDePagoComponenteLogica!.billetesConfirmados;
+    this.valorActualInicial();
+  }
+
+  valorActualInicial(){
+    let valorDeclaradoActual = 0;
+    this.tarjetaFormaDePagoComponenteLogica!.grupoFormasDePago.forEach(formaDePago => {
+      valorDeclaradoActual += formaDePago.consolidado.valorDeclarado!
+    })
+    this.arrayTotales[0].valorDeclarado = valorDeclaradoActual;
   }
 
   recibeValor(dato: any) {
+    console.log(dato);
     const denominacionBilleteConfirmado = dato[0] as DenominacionBilleteConfirmado; 
     let totalConfirmadoBillete = 0;
-    this.transaccionesEstacion.forEach((result: GrupoFormasDePago) => {
+    this.tarjetaFormaDePagoComponenteLogica!.grupoFormasDePago.forEach((result: GrupoFormasDePago) => {
       if (result.consolidado.Formapago_fmp_descripcion == 'EFECTIVO') {
         let diferencia = 0;
         totalConfirmadoBillete = parseFloat(denominacionBilleteConfirmado.Billete_Denominacion_btd_Valor!) * parseFloat(denominacionBilleteConfirmado.valorImputRecibido!);
@@ -203,6 +208,8 @@ export class TarjetaFormaPagoComponent implements OnInit{
         let billeteExistente = this.billetesConfirmados.find((e) => e.Billete_Denominacion_IDBilleteDenominacion == billeteConfirmadoCurrent.Billete_Denominacion_IDBilleteDenominacion );
         console.log(denominacionBilleteConfirmado);
         if(!billeteExistente){
+          billeteConfirmadoCurrent.isComprometido = false;
+          billeteConfirmadoCurrent.isUpdate = false;
           this.billetesConfirmados.push(billeteConfirmadoCurrent);
           diferencia = denominacionBilleteConfirmado.totalConfirmado!;
         }else{
@@ -211,6 +218,7 @@ export class TarjetaFormaPagoComponent implements OnInit{
               diferencia = denominacionBilleteConfirmado.totalConfirmado! - billete.totalConfirmado!;
               billete.totalConfirmado = denominacionBilleteConfirmado.totalConfirmado;
               billete.valorImputRecibido = denominacionBilleteConfirmado.valorImputRecibido;
+              billete.isUpdate = true;
             }
           })
         }
@@ -230,7 +238,7 @@ export class TarjetaFormaPagoComponent implements OnInit{
           result.consolidado.diferencia = 0.00;
         }
         //Valor total de las denominaciones de la grid de billetes
-        this.arrayBilletes.forEach(billete => {
+        this.tarjetaFormaDePagoComponenteLogica!.arrayBilletes.forEach(billete => {
           if(billete.Billete_Denominacion_IDBilleteDenominacion == denominacionBilleteConfirmado.Billete_Denominacion_IDBilleteDenominacion){
             billete.valorDeclarado = totalConfirmadoBillete.toFixed(2);
             billete.Billete_Estacion_bte_cantidad = denominacionBilleteConfirmado.valorImputRecibido;
@@ -252,12 +260,8 @@ export class TarjetaFormaPagoComponent implements OnInit{
    
   }
 
-  calcularMontosGlobales(){
-    
-  }
-
   cancelarMontosEfectivos(){
-    let totalConfirmadoACancelar = this.tarjetaFormaDePagoComponenteLogica!.cancelarMontosEfectivos(this.billetesConfirmados, this.transaccionesEstacion);
+    let totalConfirmadoACancelar = this.tarjetaFormaDePagoComponenteLogica!.cancelarMontosEfectivos(this.billetesConfirmados, this.tarjetaFormaDePagoComponenteLogica!.grupoFormasDePago);
     this.arrayTotales[0].valorDeclarado! -= totalConfirmadoACancelar;
     this.arrayTotales[0].total_diferencia_formas_pago -= totalConfirmadoACancelar;
     this.inicio();
@@ -267,7 +271,7 @@ export class TarjetaFormaPagoComponent implements OnInit{
     this.seleccionoFormaDePago = true;
     this.formaDePagoActual = dato;
     this.transaccionesDetalleActual = [];
-    this.transaccionesEstacion.forEach(formaPago => {
+    this.tarjetaFormaDePagoComponenteLogica!.grupoFormasDePago.forEach(formaPago => {
       console.log(formaPago.consolidado);
 
       if(formaPago.consolidado.Formapago_fmp_descripcion == 'EFECTIVO' && formaPago.consolidado.Formapago_fmp_descripcion == dato.consolidado.Formapago_fmp_descripcion){
@@ -299,7 +303,7 @@ export class TarjetaFormaPagoComponent implements OnInit{
     this.hide = "497px";
     this.validaMonto = false;
     this.seleccionoFormaDePago = false;
-    this.transaccionesEstacion.forEach(element => {
+    this.tarjetaFormaDePagoComponenteLogica!.grupoFormasDePago.forEach(element => {
       element.consolidado.estado = true;
       element.consolidado.rule = "block";
     });
@@ -308,9 +312,9 @@ export class TarjetaFormaPagoComponent implements OnInit{
     })
   }
 
-  confirmaBilletes(){
+  async confirmaBilletes(){
     if(this.efectivo){
-      this.tarjetaFormaDePagoComponenteLogica?.comprometerBilleteEfectivo(this.billetesConfirmados);
+      await this.tarjetaFormaDePagoComponenteLogica?.comprometerBilleteEfectivo(this.billetesConfirmados);
     }else{
       this.tarjetaFormaDePagoComponenteLogica?.comprometerDineroProceso(this.formaDePagoActual);
     }
@@ -336,7 +340,7 @@ export class TarjetaFormaPagoComponent implements OnInit{
   confirmarMonto(detalleFormaPago: TransaccionEstacion, reverse: boolean) {
     let valorDeclarado:bigDecimal = new bigDecimal(0); 
     let diferenciaActual:bigDecimal = new bigDecimal(0); 
-    this.transaccionesEstacion.forEach(formasDePago => {
+    this.tarjetaFormaDePagoComponenteLogica!.grupoFormasDePago.forEach(formasDePago => {
       formasDePago.transacciones.forEach(formaDePago => {
         if(formaDePago.Formapago_fmp_descripcion == detalleFormaPago.Formapago_fmp_descripcion && 
            formaDePago.Formapago_padre == detalleFormaPago.Formapago_padre
@@ -396,7 +400,7 @@ export class TarjetaFormaPagoComponent implements OnInit{
 
   async confirmarButton() {
     try {
-      this.transaccionesEstacion.forEach(async formaDePago => {
+      this.tarjetaFormaDePagoComponenteLogica!.grupoFormasDePago.forEach(async formaDePago => {
         if(formaDePago.consolidado.Formapago_fmp_descripcion == 'EFECTIVO'){
           await this.tarjetaFormaDePagoComponenteLogica?.consolidarCompromisoBilletes(formaDePago);
         }

@@ -24,6 +24,8 @@ export class TarjetaFormaPagoComponenteLogica {
     proceso: string;
     grupoFormasDePago: GrupoFormasDePago[];
     consolidadoDeTransaccion: TransaccionEstacion[] = [];
+    arrayBilletes!: DenominacionesBilletes[];
+    billetesConfirmados: DenominacionBilleteConfirmado[] = [];
 
     constructor(
       private billetesServicio: BilletesService, 
@@ -40,9 +42,10 @@ export class TarjetaFormaPagoComponenteLogica {
     /**Metodos de consumo de los endpoints */
     public async obtenerDenominacionesBilletes(){
       let billetes!:DenominacionBilleteResponse;
+      let billetesComprometidos!:DenominacionBilleteResponse;
       switch (this.proceso) {
         case 'ARQUEO':
-          //billetes = await this.arqueoServices.getObtenerBilletesComprometidos();
+          billetesComprometidos = await this.arqueoServices.getObtenerBilletesComprometidos();
           billetes = await this.billetesServicio.obtenerDenominaciones();
           break;
         case 'RETIROS':
@@ -57,8 +60,34 @@ export class TarjetaFormaPagoComponenteLogica {
       billetes.resolucion.forEach(billeteDenominacion => {
           billeteDenominacion.valorDeclarado = '0.00'
       })
+      billetes = this.compactarBilletes(billetes, billetesComprometidos);
       this.ordenarArray(billetes.resolucion, 'Billete_Denominacion_btd_Tipo');
-      return billetes;
+      this.arrayBilletes = billetes.resolucion;
+      //return billetes;
+    }
+
+    private compactarBilletes(billetesDenominacion: DenominacionBilleteResponse, billetesComprometidos: DenominacionBilleteResponse){
+      if(billetesComprometidos.resolucion.length <= 0) return billetesDenominacion
+      let totalEfectivoDeclarado = 0;
+      billetesDenominacion.resolucion.forEach(billete => {
+        billetesComprometidos.resolucion.forEach(billeteComprometido => {
+          if(billete.Billete_Denominacion_IDBilleteDenominacion == billeteComprometido.Billete_Denominacion_IDBilleteDenominacion){
+            billete.Billete_Estacion_bte_cantidad = billeteComprometido.Billete_Estacion_bte_cantidad;
+            billete.Billete_Estacion_bte_total = billeteComprometido.Billete_Estacion_bte_total;
+            billete.valorDeclarado = billeteComprometido.Billete_Estacion_bte_total.toString();
+            totalEfectivoDeclarado += billeteComprometido.Billete_Estacion_bte_total
+          }
+        })
+      })
+      this.grupoFormasDePago.forEach(formaDePago => {
+        if(formaDePago.consolidado.Formapago_fmp_descripcion == 'EFECTIVO'){
+          formaDePago.consolidado.valorDeclarado = totalEfectivoDeclarado;
+          formaDePago.consolidado.diferencia += totalEfectivoDeclarado;
+          formaDePago.consolidado.monto_validado = (formaDePago.consolidado.diferencia == 0) ? true : false;
+        }
+      })
+      this.billetesConfirmados = HelperClass.getBilletesComprometidos(billetesComprometidos);
+      return billetesDenominacion;
     }
 
     public async obtenerTransaccionesEstacion(){
@@ -231,18 +260,21 @@ export class TarjetaFormaPagoComponenteLogica {
     ){
         let totalConfirmado = 0;
         if(billetesConfirmados.length > 0){
-            billetesConfirmados.forEach(billete => {
-            totalConfirmado += billete.totalConfirmado!;
+            billetesConfirmados.forEach((billete, index) => {
+              if(!billete.isComprometido || billete.isUpdate){
+                totalConfirmado += billete.totalConfirmado!;
+                billetesConfirmados.splice(index, 1);
+              }
           })
           transaccionesEstacion.forEach((result: GrupoFormasDePago) => {
             if (result.consolidado.Formapago_fmp_descripcion == 'EFECTIVO') {
               result.consolidado.diferencia = -(result.consolidado.total_pagar - result.consolidado.total_retirado - result.consolidado.valorDeclarado!) - totalConfirmado;
-              result.consolidado.valorDeclarado = 0.00;
+              result.consolidado.valorDeclarado = result.consolidado.valorDeclarado! - totalConfirmado;
               result.consolidado.monto_validado = result.consolidado.diferencia >=0 ? true : false;
             }
           })
         }
-        billetesConfirmados = [];
+        //billetesConfirmados = [];
         return totalConfirmado;
     }
 
@@ -259,18 +291,27 @@ export class TarjetaFormaPagoComponenteLogica {
     }
 
     public async comprometerBilleteEfectivo(billetesConfirmados: DenominacionBilleteConfirmado[]){
+      let totalConfirmadoPrevio = 0;
+      this.grupoFormasDePago.forEach(formaDePago => {
+        if(formaDePago.consolidado.Formapago_fmp_descripcion == 'EFECTIVO')
+          totalConfirmadoPrevio = formaDePago.consolidado.valorDeclarado!
+      });
       let request: RequestComprometerBillete = {
         ipEstacion: environment.ip_estacion,
         idUsersPosPerfilAdmin: environment.idPerfilAdmin,
         denominacionBilleteMoneda: []
       }
+      let totalConfirmadoActual = 0;
       billetesConfirmados.forEach(billeteConfirmado => {
         request.denominacionBilleteMoneda.push({
           idDenominacionBilleteMoneda: billeteConfirmado.Billete_Denominacion_IDBilleteDenominacion!,
           cantidadDenominacionBilleteMoneda: parseFloat(billeteConfirmado.valorImputRecibido!),
           totalDenominacionBilleteMoneda: billeteConfirmado.totalConfirmado!
         })
+        billeteConfirmado.isComprometido = true;
+        totalConfirmadoActual += billeteConfirmado.totalConfirmado!;
       })
+      let totalACuadrar = totalConfirmadoActual -totalConfirmadoPrevio;
       switch (this.proceso) {
         case 'ARQUEO':
           this.arqueoServices.comprometerBillete(request);
@@ -281,6 +322,7 @@ export class TarjetaFormaPagoComponenteLogica {
         default:
           break;
       }
+      return totalACuadrar;
     }
 
     public async consolidarCompromisoBilletes(formaDePago: GrupoFormasDePago){

@@ -59,13 +59,13 @@ export class ArqueoService {
     })
   }
 
-  getObetnerBilletesPruebas(): Observable<DenominacionBilleteResponse | null> {
+  /*getObtenerBilletesComprometidos(): Observable<DenominacionBilleteResponse | null> {
     return this.http.post<DenominacionBilleteResponse | null>(environment.apiural + routes.POS_ADE_BILLETES_COMPROMETIDOS,
       {"ipEstacion": environment.ip_estacion})
     .pipe(
       catchError( () => of(null) )
     );
-  }
+  }*/
 
   comprometerBillete(request: RequestComprometerBillete ):Promise<any>{
     return new Promise<any>((resolve, reject) => {

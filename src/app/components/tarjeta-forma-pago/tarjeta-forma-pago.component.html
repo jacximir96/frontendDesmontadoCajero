@@ -672,7 +672,7 @@
 
 
         <!-- Formas de Pago Cards principales-->
-        <div *ngFor="let item of transaccionesEstacion | filterItemsFormaPago:filtroFormaDePago"
+        <div *ngFor="let item of this.tarjetaFormaDePagoComponenteLogica!.grupoFormasDePago | filterItemsFormaPago:filtroFormaDePago"
             class="w-full md:w-1/3 lg:w-1/4 2xl:w-1/5 px-3" style="display:{{item.consolidado.rule}}">
             <div *ngIf="item.consolidado.estado && !validaMonto && !seleccionoFormaDePago || this.efectivo" Class="tarjeta-principal" style="height:{{hide}};"
                 (click)="ocultarTarjetas(item)">
@@ -801,7 +801,7 @@
         
         <!-- Grid de Billetes -->
         <div *ngIf="efectivo" class="w-4/5 px-3 lg:w-3/4 2xl:w-4/5">
-            <app-tabla-billetes [arrayDenominacionesBilletes]="arrayBilletes"
+            <app-tabla-billetes [arrayDenominacionesBilletes]="this.tarjetaFormaDePagoComponenteLogica!.arrayBilletes"
                 (total)="recibeValor($event)" [IDFormaPagoEfectivo]="this.IDFormaPagoEfectivo"></app-tabla-billetes>
         </div>
 

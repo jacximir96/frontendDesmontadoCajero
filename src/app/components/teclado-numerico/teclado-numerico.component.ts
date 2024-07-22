@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild, ViewEncapsulation } from '@angular/core';
 import { DenominacionesBilletes } from 'src/app/interfaces/shared';
 
 @Component({
@@ -18,9 +18,11 @@ export class TecladoNumericoComponent {
 
   inputValue: string = '';
   imagen: string = this.imagenMonedaBillete;
+
+  @ViewChild('inputDato') inputDato: ElementRef | undefined;
   
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['denominacion']) {
+    if (changes['denominacionBilletes']) {
       if(this.denominacionBilletes.Billete_Estacion_bte_cantidad! != undefined){
         this.inputValue = this.denominacionBilletes.Billete_Estacion_bte_cantidad!;
       }else{
@@ -28,6 +30,8 @@ export class TecladoNumericoComponent {
       }
     }
     this.valor.emit([this.inputValue, this.denominacion]);
+    console.log(this.inputDato);
+    this.handleFocus();
   }
 
   agregar(value: string) {
@@ -55,6 +59,22 @@ export class TecladoNumericoComponent {
   limpiarInput(){
     this.inputValue = ''
     this.valor.emit([this.inputValue, this.denominacion]);
+  }
+
+  //Simular focus
+  handleFocus() {
+    // Simular un cursor parpadeante en input2
+    console.log('handle')
+    if (this.inputDato && this.inputDato.nativeElement) {
+      const inputElement: HTMLInputElement = this.inputDato.nativeElement;
+      let visible = true;
+      
+      setInterval(() => {
+        console.log("intervalo")
+        visible = !visible;
+        //inputElement.style.setProperty('caret-color', visible ? 'black' : 'transparent');
+      }, 500); // Cambia cada medio segundo (500ms)
+    }
   }
 
 }
