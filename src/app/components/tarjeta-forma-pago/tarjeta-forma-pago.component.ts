@@ -90,39 +90,12 @@ export class TarjetaFormaPagoComponent implements OnInit{
     document.getElementById('keyboardModal')!.classList.add('opacity-100');
   }
 
-  onChange = (input: string) => {
-    this.filtroFormaDePago = input
-    console.log("Input changed", input);
-  };
-
-  onKeyPress = (button: string) => {
-    console.log("Button pressed", button);
-    if(button == "{enter}"){
+  getValorTeclado(valor: string):  void{
+    if(valor == "{enter}"){
       document.getElementById('keyboardModal')!.classList.remove('opacity-100','block');
       document.getElementById('keyboardModal')!.classList.add('opacity-0','hidden');
+      return;
     }
-    
-    /**
-     * If you want to handle the shift and caps lock buttons
-     */
-    if (button === "{shift}" || button === "{lock}") this.handleShift();
-  };
-
-  onInputChange = (event: any) => {
-    this.keyboard.setInput(event.target.value);
-  };
-
-  handleShift = () => {
-    let currentLayout = this.keyboard.options.layoutName;
-    let shiftToggle = currentLayout === "default" ? "shift" : "default";
-
-    this.keyboard.setOptions({
-      layoutName: shiftToggle
-    });
-  };
-
-  getValorTeclado(valor: string):  void{
-    console.log(valor);
     if(this.seleccionoFormaDePago && valor === '{bksp}' && this.filtroFormaDePagoDetalle.length === 0) return
     if(!this.seleccionoFormaDePago && valor === '{bksp}' && this.filtroFormaDePago.length === 0) return
     
@@ -149,7 +122,7 @@ export class TarjetaFormaPagoComponent implements OnInit{
       this.retiroService,
       this.proceso
     );
-    //this.cancelarProceso();
+    this.cancelarProceso();
     try {
       let transaccionEstacionResponse = await this.tarjetaFormaDePagoComponenteLogica.obtenerTransaccionesDataFastEstacion();
       this.transaccionesDetalleAll = this.tarjetaFormaDePagoComponenteLogica.transaccionesDetalleAll;

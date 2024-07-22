@@ -20,24 +20,7 @@ export class TecladoComponent implements OnInit{
     this.valueKeyboard = '';
   }
 
-  emitValorTeclado(): void{
-    console.log('teclado', this.valueKeyboard);
-    this.onValueTeclado.emit(this.caracterIngresado);
-  }
 
-  ngAfterContentInit() {
-    this.keyboard = new SimpleKeyboard({
-      onChange: input => this.onChange(input),
-      onKeyPress: button => this.onKeyPress(button),
-      theme: "hg-theme-default myTheme1",
-    });
-  }
-
-  onChange = (input: string) => {
-    this.valueKeyboard = input;
-    console.log("Input changed", input);
-    this.emitValorTeclado();
-  };
 
   onKeyPress = (button: string) => {
     console.log("Button pressed", button);
@@ -64,5 +47,10 @@ export class TecladoComponent implements OnInit{
       layoutName: shiftToggle
     });
   };
+
+  emitValorTeclado(valorTecla: string){
+    console.log(valorTecla);
+    this.onValueTeclado.emit(valorTecla);
+  }
 
 }

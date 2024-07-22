@@ -49,6 +49,7 @@ export class TarjetaFormaPagoComponenteLogica {
           billetes = await this.billetesServicio.obtenerDenominaciones();
           break;
         case 'RETIROS':
+          billetesComprometidos = await this.retiroServices.getObtenerBilletesComprometidos()
           billetes = await this.billetesServicio.obtenerDenominaciones();
           //billetes = await this.billetesServicio.obtenerDenominaciones();
           break;

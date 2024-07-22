@@ -1,7 +1,6 @@
 export const  environment = {
  production : false,
- //apiural : "http://maxpoint_desmontado_cajero_app.test:7890/api/"
- apiural: "http://localhost:8080/api/",
- apilocal: "http://localhost:3000/",
- ip_estacion: "127.0.0.1"
+ apiural: "http://localhost:8000/api/",
+ ip_estacion: "127.0.0.1",
+ idPerfilAdmin: "7E41433E-F36B-1410-827B-0041CCD8AA41"
 }

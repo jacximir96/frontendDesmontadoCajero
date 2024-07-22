@@ -11,7 +11,7 @@
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                             </svg>
                         </div>
-                        <input id="inputField" (input)="onInputChange($event)" [(ngModel)]="filtroFormaDePago" name="filtroFormaDePago" class="block w-full ps-10 text-lg text-gray-900 rounded-lg border border-1 border-black  dark:text-neutral-950 bg-zinc-100" style="height: 63px;" />
+                        <input id="inputField" [(ngModel)]="filtroFormaDePago" name="filtroFormaDePago" class="block w-full ps-10 text-lg text-gray-900 rounded-lg border border-1 border-black  dark:text-neutral-950 bg-zinc-100" style="height: 63px;" />
                     </div>
                 </form>
 
@@ -33,7 +33,7 @@
 
             </div>
             <div class="col-lg-4 ml-lg-auto">
-                <button *ngIf="totales == false" (click)="cancelarMontos()"
+                <button *ngIf="totales == false" (click)="cancelarMontos()" class="max-w-48"
                     style="width: 240px;height: 63px;margin-left: 0px;background-color: #979797;color: white;border-radius: 10px;">Inicio</button>
             </div>
         </div>
@@ -46,15 +46,15 @@
         <button *ngIf="proceso == 'DDC_'" type="button" style="height: 63px;" class="text-white bg-[#4DBE49] hover:bg-[#4DBE49]/90 focus:ring-4 focus:outline-none focus:ring-[#4DBE49]/50 font-medium rounded-lg text-center inline-flex items-center mb-2 justify-center w-32">
             <img src="../../../assets/images/image-mas.png" alt="">
         </button>
-        <button routerLink="/caja-chica" *ngIf="proceso == 'RETIROS'" type="button" style="height: 63px;" class="text-white bg-yellow-400 hover:bg-yellow-400 focus:ring-4 focus:outline-none focus:ring-[#4DBE49]/50 font-medium rounded-lg text-center inline-flex items-center mb-2 justify-center w-1/2">
+        <button routerLink="/caja-chica" *ngIf="proceso == 'RETIROS'" type="button" style="height: 63px;" class="text-white bg-yellow-400 hover:bg-yellow-400 focus:ring-4 focus:outline-none focus:ring-[#4DBE49]/50 font-medium rounded-lg text-center inline-flex items-center mb-2 justify-center w-1/2 min-w-48">
             <span>Caja Chica</span>
         </button>
-        <button *ngIf="this.totales" (click)="confirmarButton()" [ngClass]="{'styleButtonConfirmar-disabled': !transaccion ,'styleButtonConfirmar': transaccion}" [disabled]="!transaccion">Confirmar</button>
-        <button *ngIf="!this.totales" (click)="confirmaBilletes()" [ngClass]="{'styleButtonConfirmar-disabled': !transaccion ,'styleButtonConfirmar': transaccion}" [disabled]="!transaccion">Confirmar</button>
+        <button *ngIf="this.totales" (click)="confirmarButton()" class="max-w-48" [ngClass]="{'styleButtonConfirmar-disabled': !transaccion ,'styleButtonConfirmar': transaccion}" [disabled]="!transaccion">Confirmar</button>
+        <button *ngIf="!this.totales" (click)="confirmaBilletes()" class="max-w-48" [ngClass]="{'styleButtonConfirmar-disabled': !transaccion ,'styleButtonConfirmar': transaccion}" [disabled]="!transaccion">Confirmar</button>
         
-        <button *ngIf="this.totales" (click)="cancelarProceso()" class="styleButtonCancelar" routerLink="/">Cancelar</button>
-        <button *ngIf="!this.totales && !this.efectivo" (click)="cancelarMontos()" class="styleButtonCancelar">Cancelar</button>
-        <button *ngIf="this.efectivo" (click)="cancelarMontosEfectivos()" class="styleButtonCancelar">Cancelar</button>
+        <button *ngIf="this.totales" (click)="cancelarProceso()" class="styleButtonCancelar max-w-48" routerLink="/">Cancelar</button>
+        <button *ngIf="!this.totales && !this.efectivo" (click)="cancelarMontos()" class="styleButtonCancelar max-w-48">Cancelar</button>
+        <button *ngIf="this.efectivo" (click)="cancelarMontosEfectivos()" class="styleButtonCancelar max-w-48">Cancelar</button>
 
     </div>
 </div>
@@ -388,7 +388,7 @@
                         <div class="flex justify-center pt-2">
                             <button *ngIf="!this.validarMontoFormaPago.monto_validado"
                                 (click)="confirmarMonto(this.validarMontoFormaPago, false)"
-                                style="width: 95%;height: 52px;background-color:#4DBE49 ;color: white;border-radius: 10px;">Confirmar</button>
+                                style="width: 95%;height: 63px;background-color:#4DBE49 ;color: white;border-radius: 10px;">Confirmar</button>
                         </div>
                     </div>
                 </div>
