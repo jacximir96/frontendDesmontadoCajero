@@ -177,6 +177,8 @@ export class TarjetaFormaPagoComponenteLogica {
 
     /**Parsear la info de formas de pagos */
     private parseaInfoFormasDePago(data: any){
+      let grupoOtras = undefined;
+      let encontroOtras = false;
       for (const key in data.resolucion) {
         if (data.resolucion.hasOwnProperty(key)) {
             const categoria = data.resolucion[key];
@@ -192,12 +194,18 @@ export class TarjetaFormaPagoComponenteLogica {
             grupoActual.consolidado.monto_validado = (grupoActual.consolidado.diferencia == 0) ? true : false;
             if(key == 'EFECTIVO'){
               this.grupoFormasDePago.unshift(grupoActual);
+            }else if(key == 'OTRAS' ){
+              grupoOtras = grupoActual;
+              encontroOtras = true;
             }else{
               this.grupoFormasDePago.push(grupoActual);
             }
         }
       }
       //this.addConsolidados();
+      if(encontroOtras){
+        this.grupoFormasDePago.push(grupoOtras!);
+      }
     }
 
     private addConsolidados(){

@@ -1,5 +1,5 @@
 <div class="row barra-superior m-auto">
-    <div class="2xl:w-2/3 lg:w-1/2 cambio">
+    <div class="2xl:w-2/3 lg:w-1/2 md:w-2/3 cambio">
         <div class="flex buscar">
             <div class="relative w-full"
                 *ngIf="totales == true">
@@ -16,7 +16,7 @@
                 </form>
             </div>
 
-            <div class=" relative col-lg-8 col-md-9 col-sm-6 col-6" style="width: 100%;"
+            <div class=" relative flex" style="width: 100%;"
                 *ngIf="totales == false">
                 <form class="w-full rounded-lg border border-1 border-black" (click)="onFocusClick($event)">   
                     <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
