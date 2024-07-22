@@ -2,7 +2,7 @@ import { DenominacionBilleteResponse } from '../interfaces/shared/response/denom
 import { environment } from "src/environments/environment.local";
 import { BilletesService } from "../services/billetes.service";
 import { DenominacionesBilletes } from "../interfaces/shared/response/denominacion-billete-response.interface";
-import { GrupoFormasDePago, TransaccionEstacion } from 'src/app/interfaces/shared';
+import { GrupoFormasDePago, MensajesFeedbakEnum, TransaccionEstacion } from 'src/app/interfaces/shared';
 import { DenominacionBilleteConfirmado } from "../interfaces/shared/denominacion-billete-confirmado.interface";
 import { AperturaCajaResponse } from "../interfaces/arqueo-caja/apertura-caja-response.interface";
 import { ArqueoService } from "../services/arqueo-caja.service";
@@ -438,6 +438,9 @@ export class TarjetaFormaPagoComponenteLogica {
         default:
           break;
       }
+      impresionProcesoResponse.mensajeFront = (!impresionProcesoResponse!.error && impresionProcesoResponse!.resolucion)
+      ? MensajesFeedbakEnum.arqueo_exitoso
+      : MensajesFeedbakEnum.arqueo_erroneo
       return impresionProcesoResponse!;
     }
 

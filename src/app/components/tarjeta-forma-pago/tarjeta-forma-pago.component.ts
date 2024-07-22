@@ -155,6 +155,7 @@ export class TarjetaFormaPagoComponent implements OnInit{
     try {
       let result = await this.headerServicio.obtenerFondoAsignadoEstacion(environment.ip_estacion)
       this.userCajero = result.resolucion;
+      localStorage.setItem('user_cajero', this.userCajero.descripcionUsuarioEstacion)
     } catch (error) {
       
     }
@@ -390,12 +391,13 @@ export class TarjetaFormaPagoComponent implements OnInit{
     }
     try {
       let resultImprimirAqueo = await this.tarjetaFormaDePagoComponenteLogica?.imprimirProceso();
+      let user = localStorage.getItem('user_cajero')
       if(!resultImprimirAqueo!.error && resultImprimirAqueo!.resolucion){
         this.toast.mostrar = true;
-        this.toast.mensaje = resultImprimirAqueo!.mensaje;
+        this.toast.mensaje = resultImprimirAqueo!.mensajeFront!+user;
         this.toast.type = TypeToast.success;
       }else{
-        this.toast.mensaje = 'Lo sentimos! Ocurrio un error inesperado';
+        this.toast.mensaje = resultImprimirAqueo!.mensajeFront!+user;
         this.toast.mostrar = true;
         this.toast.type = TypeToast.danger;
       }

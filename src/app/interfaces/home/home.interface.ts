@@ -12,7 +12,7 @@ export interface ObtenerFondoAsignadoUsuarioEstacion {
 
 export interface InfoCajero {
     magnitud:        string;
-    usr_descripcion: string;
+    descripcionUsuarioEstacion: string;
 }
 
 // Converts JSON strings to/from your types

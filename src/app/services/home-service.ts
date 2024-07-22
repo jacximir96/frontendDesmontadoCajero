@@ -12,7 +12,7 @@ export class HomeService {
 
   public cacheStore: InfoCajero = {
     magnitud: '',
-    usr_descripcion: ''
+    descripcionUsuarioEstacion: ''
   };
 
   constructor(
