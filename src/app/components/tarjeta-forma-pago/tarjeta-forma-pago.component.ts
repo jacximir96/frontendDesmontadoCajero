@@ -30,6 +30,7 @@ import { RetiroService } from 'src/app/services/retiro.service';
 export class TarjetaFormaPagoComponent implements OnInit{
 
   efectivo: boolean = false;
+  transaccion: boolean = false; //Para bloquear boton continuar;
   hide: string = "497px";
   color: string = "white";
   totales: boolean = true;
@@ -148,6 +149,7 @@ export class TarjetaFormaPagoComponent implements OnInit{
       this.retiroService,
       this.proceso
     );
+    //this.cancelarProceso();
     try {
       let transaccionEstacionResponse = await this.tarjetaFormaDePagoComponenteLogica.obtenerTransaccionesDataFastEstacion();
       this.transaccionesDetalleAll = this.tarjetaFormaDePagoComponenteLogica.transaccionesDetalleAll;
@@ -257,6 +259,7 @@ export class TarjetaFormaPagoComponent implements OnInit{
        
       }
     });
+    this.habilitaBotones();
    
   }
 
@@ -310,6 +313,7 @@ export class TarjetaFormaPagoComponent implements OnInit{
     this.transaccionesDetalleAll.forEach(detalleFormasPago =>{
       detalleFormasPago.styleDisplay = 'none';
     })
+    this.habilitaBotones();
   }
 
   async confirmaBilletes(){
@@ -390,6 +394,7 @@ export class TarjetaFormaPagoComponent implements OnInit{
 
     this.validarMontoFormaPago.monto_validado = detalleFormaPago.monto_validado;
     this.validaMontoWidth = detalleFormaPago.monto_validado ? '249px' : '301px';
+    this.habilitaBotones();
 
   }
 
@@ -452,6 +457,10 @@ export class TarjetaFormaPagoComponent implements OnInit{
     var div = document.getElementById('miDiv');
     div!.classList.remove('hidden', 'opacity-0', 'invisible');
     div!.classList.add('opacity-100', 'visible');
+  }
+
+  habilitaBotones(){
+    this.transaccion = (this.arrayTotales[0].valorDeclarado! > 0) ? true : false;
   }
 
 }
