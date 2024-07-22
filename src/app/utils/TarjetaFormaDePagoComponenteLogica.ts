@@ -431,9 +431,15 @@ export class TarjetaFormaPagoComponenteLogica {
       switch (this.proceso) {
         case 'ARQUEO':
           impresionProcesoResponse = await this.arqueoServices.imprimirArqueo(request);
+          impresionProcesoResponse.mensajeFront = (!impresionProcesoResponse!.error && impresionProcesoResponse!.resolucion)
+          ? MensajesFeedbakEnum.arqueo_exitoso
+          : MensajesFeedbakEnum.arqueo_erroneo
           break;
         case 'RETIROS':
           impresionProcesoResponse = await this.retiroServices.imprimirRetiros(request);
+          impresionProcesoResponse.mensajeFront = (!impresionProcesoResponse!.error && impresionProcesoResponse!.resolucion)
+          ? MensajesFeedbakEnum.retiro_exitoso
+          : MensajesFeedbakEnum.retiro_erroneo
           break;
         default:
           break;
