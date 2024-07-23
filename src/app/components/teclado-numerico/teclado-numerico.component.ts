@@ -30,8 +30,6 @@ export class TecladoNumericoComponent {
       //}
     }
     this.valor.emit([this.inputValue, this.denominacion]);
-    console.log(this.inputDato);
-    this.handleFocus();
   }
 
   agregar(value: string) {
@@ -59,22 +57,6 @@ export class TecladoNumericoComponent {
   limpiarInput(){
     this.inputValue = ''
     this.valor.emit([this.inputValue, this.denominacion]);
-  }
-
-  //Simular focus
-  handleFocus() {
-    // Simular un cursor parpadeante en input2
-    console.log('handle')
-    if (this.inputDato && this.inputDato.nativeElement) {
-      const inputElement: HTMLInputElement = this.inputDato.nativeElement;
-      let visible = true;
-      
-      setInterval(() => {
-        console.log("intervalo")
-        visible = !visible;
-        //inputElement.style.setProperty('caret-color', visible ? 'black' : 'transparent');
-      }, 500); // Cambia cada medio segundo (500ms)
-    }
   }
 
 }

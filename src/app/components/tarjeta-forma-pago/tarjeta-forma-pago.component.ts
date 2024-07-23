@@ -174,71 +174,14 @@ export class TarjetaFormaPagoComponent implements OnInit{
   recibeValor(dato: any) {
     console.log(dato);
     const denominacionBilleteConfirmado = dato[0] as DenominacionBilleteConfirmado; 
-    let totalConfirmadoBillete = 0;
-    this.tarjetaFormaDePagoComponenteLogica!.grupoFormasDePago.forEach((result: GrupoFormasDePago) => {
-      if (result.consolidado.Formapago_fmp_descripcion == 'EFECTIVO') {
-        let diferencia = 0;
-        totalConfirmadoBillete = parseFloat(denominacionBilleteConfirmado.Billete_Denominacion_btd_Valor!) * parseFloat(denominacionBilleteConfirmado.valorImputRecibido!);
-        denominacionBilleteConfirmado.totalConfirmado = totalConfirmadoBillete;
-        let billeteConfirmadoCurrent:DenominacionBilleteConfirmado = {...denominacionBilleteConfirmado};
-        let billeteExistente = this.billetesConfirmados.find((e) => e.Billete_Denominacion_IDBilleteDenominacion == billeteConfirmadoCurrent.Billete_Denominacion_IDBilleteDenominacion );
-        console.log(denominacionBilleteConfirmado);
-        if(!billeteExistente){
-          billeteConfirmadoCurrent.isComprometido = false;
-          billeteConfirmadoCurrent.isUpdate = false;
-          this.billetesConfirmados.push(billeteConfirmadoCurrent);
-          diferencia = denominacionBilleteConfirmado.totalConfirmado!;
-        }else{
-          this.billetesConfirmados.forEach(billete => {
-            if(billete.Billete_Denominacion_IDBilleteDenominacion == denominacionBilleteConfirmado.Billete_Denominacion_IDBilleteDenominacion){
-              diferencia = denominacionBilleteConfirmado.totalConfirmado! - billete.totalConfirmado!;
-              billete.totalConfirmado = denominacionBilleteConfirmado.totalConfirmado;
-              billete.valorImputRecibido = denominacionBilleteConfirmado.valorImputRecibido;
-              billete.isUpdate = true;
-            }
-          })
-        }
-
-        //Montos globales
-        let totalConfirmado = 0;
-        this.billetesConfirmados.forEach(billete => {
-          totalConfirmado = totalConfirmado + billete.totalConfirmado!;
-        })
-
-        result.consolidado.diferencia = -(result.consolidado.total_pagar - result.consolidado.total_retirado) + totalConfirmado;
-        result.consolidado.valorDeclarado = totalConfirmado
-        //Check de completado
-        result.consolidado.monto_validado = (result.consolidado.diferencia >= 0) ? true : false;
-        if(result.consolidado.diferencia.toFixed(2) == '0.00' || result.consolidado.diferencia.toFixed(2) == '-0.00'){
-          result.consolidado.monto_validado = true;
-          result.consolidado.diferencia = 0.00;
-        }
-        //Valor total de las denominaciones de la grid de billetes
-        this.tarjetaFormaDePagoComponenteLogica!.arrayBilletes.forEach(billete => {
-          if(billete.Billete_Denominacion_IDBilleteDenominacion == denominacionBilleteConfirmado.Billete_Denominacion_IDBilleteDenominacion){
-            billete.valorDeclarado = totalConfirmadoBillete.toFixed(2);
-            billete.Billete_Estacion_bte_cantidad = denominacionBilleteConfirmado.valorImputRecibido;
-          }
-        })
-        //Calculo de los totales flotantes
-        //Reducir el total a pagar
-        console.log(diferencia);
-        if(diferencia>=0){
-          this.arrayTotales[0].valorDeclarado = this.arrayTotales[0].valorDeclarado! + diferencia;
-          this.arrayTotales[0].total_diferencia_formas_pago = this.arrayTotales[0].total_diferencia_formas_pago + diferencia;
-        }else{
-          this.arrayTotales[0].valorDeclarado = this.arrayTotales[0].valorDeclarado! + diferencia;
-          this.arrayTotales[0].total_diferencia_formas_pago = this.arrayTotales[0].total_diferencia_formas_pago - diferencia;
-        }
-       
-      }
-    });
+    denominacionBilleteConfirmado.totalConfirmado = parseFloat(bigDecimal.multiply(denominacionBilleteConfirmado.Billete_Denominacion_btd_Valor!, denominacionBilleteConfirmado.valorImputRecibido!));
+    this.tarjetaFormaDePagoComponenteLogica!.insertarBilleteConfirmado(denominacionBilleteConfirmado);
+    this.tarjetaFormaDePagoComponenteLogica!.actualizarConsolidadoEfectivo();
     this.habilitaBotones();
-   
   }
 
   cancelarMontosEfectivos(){
-    let totalConfirmadoACancelar = this.tarjetaFormaDePagoComponenteLogica!.cancelarMontosEfectivos(this.billetesConfirmados, this.tarjetaFormaDePagoComponenteLogica!.grupoFormasDePago);
+    let totalConfirmadoACancelar = this.tarjetaFormaDePagoComponenteLogica!.cancelarMontosEfectivos();
     this.arrayTotales[0].valorDeclarado! -= totalConfirmadoACancelar;
     this.arrayTotales[0].total_diferencia_formas_pago -= totalConfirmadoACancelar;
     this.inicio();
@@ -255,12 +198,11 @@ export class TarjetaFormaPagoComponent implements OnInit{
         this.efectivo = true;
         formaPago.consolidado.estado = true;
         this.detallesAMostrar = '';
-        this.hide = "calc(100vh)";
         this.IDFormaPagoEfectivo = formaPago.consolidado.Formapago_IDFormapago!;
+        this.tarjetaFormaDePagoComponenteLogica!.getComprometidoActual();
       }else if(formaPago.consolidado.Formapago_fmp_descripcion == dato.consolidado.Formapago_fmp_descripcion){
         this.detallesAMostrar = formaPago.consolidado.Formapago_fmp_descripcion;
         this.efectivo = false;
-        this.hide = "calc(100vh)";
         formaPago.consolidado.estado = true;
         this.detallesAMostrar = formaPago.consolidado.Formapago_fmp_descripcion;
       }else{
@@ -292,7 +234,8 @@ export class TarjetaFormaPagoComponent implements OnInit{
 
   async confirmaBilletes(){
     if(this.efectivo){
-      await this.tarjetaFormaDePagoComponenteLogica?.comprometerBilleteEfectivo(this.billetesConfirmados);
+      await this.tarjetaFormaDePagoComponenteLogica?.comprometerBilleteEfectivo(this.billetesConfirmados)!;
+      this.tarjetaFormaDePagoComponenteLogica!.actualizarConsolidadoEstacion(this.arrayTotales[0]);
     }else{
       this.tarjetaFormaDePagoComponenteLogica?.comprometerDineroProceso(this.formaDePagoActual);
     }
@@ -416,18 +359,6 @@ export class TarjetaFormaPagoComponent implements OnInit{
     this.tarjetaFormaDePagoComponenteLogica?.cancelarProceso();
   }
 
-  seleccionarFormaPagoAgregador(){
-    this.arrayFormas.resolucion[0].formas_pagos.forEach(formaPago => {
-      console.log(formaPago);
-    })
-  }
-
-  filtrarFormasDePago(){
-    this.arrayFormas.resolucion[0].formas_pagos.filter(formasDePago => {
-      formasDePago.resumen.Formapago_fmp_descripcion.toLocaleLowerCase().includes('data')
-    })
-  }
-
   mostrarDiv() {
     var div = document.getElementById('miDiv');
     div!.classList.remove('hidden', 'opacity-0', 'invisible');
@@ -435,7 +366,7 @@ export class TarjetaFormaPagoComponent implements OnInit{
   }
 
   habilitaBotones(){
-    this.transaccion = (this.arrayTotales[0].valorDeclarado! > 0) ? true : false;
+    this.transaccion = true;
   }
 
 }

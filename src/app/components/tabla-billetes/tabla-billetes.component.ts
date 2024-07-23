@@ -140,9 +140,19 @@ export class TablaBilletesComponent implements OnInit{
   direccion(flecha: string) {
     const rowsInputs = this.getRowsInputBillete();
     let currentIndexFocus = this.focusNextInput(rowsInputs);
+    let IDenominacionBillete = rowsInputs[currentIndexFocus].closest('tr')!.id;
+    //Enviar mensaje cuando el input tiene valor y fue movido por las flechas
+    if(rowsInputs[currentIndexFocus].value != ''){
+      this.inputRecibido = rowsInputs[currentIndexFocus].value;
+      this.denominacionBilleteConfirmado.Billete_Denominacion_btd_Valor = this.denominacion;
+      this.denominacionBilleteConfirmado.Billete_Denominacion_IDBilleteDenominacion = IDenominacionBillete;
+      this.confirmarValor();
+    }
+    //console.log(rowsInputs[currentIndexFocus].value);
+
     currentIndexFocus = (flecha == 'adelante') ? currentIndexFocus+1 : currentIndexFocus-1;
     rowsInputs[currentIndexFocus].focus();
-    let IDenominacionBillete = rowsInputs[currentIndexFocus].closest('tr')!.id;
+    IDenominacionBillete = rowsInputs[currentIndexFocus].closest('tr')!.id;
     var arrayDeCadenas = rowsInputs[currentIndexFocus].id.toString().split('-');
     this.teclado(arrayDeCadenas[0], IDenominacionBillete, arrayDeCadenas[1]);
   }

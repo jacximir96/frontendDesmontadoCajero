@@ -68,7 +68,7 @@
 
 
 
-<div class="pt-10">
+<div class="pt-10 md:pt-6 lg:pt-6 xl:pt-10 2xl:pt-10">
     <div class="row tarjetas-contenedor flex-wrap">
         <!--Grid cuando se seleccion forma de pago con sus detalles, con opcion de validar montos-->
         <div *ngIf="validaMonto" class="w-full flex gap-3">
@@ -384,10 +384,10 @@
                                 style="width: 90%;height: 63px;background-color: #F0F0F0;border-radius: 10px;border-color:#F0F0F0 ;color: black;font-size: 24px;display: flex;justify-content: center;text-align: center;font-weight: 700;"
                                 value="{{this.validarMontoFormaPago.total_pagar - this.validarMontoFormaPago.total_retirado}}">
                         </div><br>
-                        <div class="flex justify-center pt-2">
+                        <div class="flex justify-center pt-2 w-11/12 mx-auto">
                             <button *ngIf="!this.validarMontoFormaPago.monto_validado"
                                 (click)="confirmarMonto(this.validarMontoFormaPago, false)"
-                                style="width: 95%;height: 63px;background-color:#4DBE49 ;color: white;border-radius: 10px;">Confirmar</button>
+                                style="height: 63px;background-color:#4DBE49 ;color: white;border-radius: 10px;" class="w-full">Confirmar</button>
                         </div>
                     </div>
                 </div>
