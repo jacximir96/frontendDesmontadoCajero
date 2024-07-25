@@ -1,6 +1,6 @@
 {
-    "/api": {
-      "target": "http://maxpoint_desmontado_cajero_app.test:7890/",
+    "/web": {
+      "target": "http://localhost:4200",
       "secure": false,
       "changeOrigin": true
     }

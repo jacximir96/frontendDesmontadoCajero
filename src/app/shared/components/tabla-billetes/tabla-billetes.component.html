@@ -1,0 +1,146 @@
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap-grid.min.css" />
+<div class="contenedor">
+    <div class="row flex ">
+        <div class="w-full px-3 md:px-0" id="tabla" #tablaBilletes>
+            <table>
+                <thead style="border-bottom-width: 1px;">
+                    <tr class="text-center">
+                        <th scope="col"
+                            class="denominacion-g p-3 text-sm tracking-wider  text-gray-900 font-['Poppins-SemiBold']"
+                            style="text-align: left; padding-top: 0px !important;">
+                            <div class="texto">Billetes</div>
+                            <span class="lg:hidden xl:block">Denominaciones</span>
+                            <span class="md:block lg:block xl:hidden">Denomina <br> ciones</span>
+                        </th>
+                        <th scope="col" class="p-3 text-sm tracking-wider  text-gray-900 font-['Poppins-SemiBold']">
+                            <div>&nbsp;</div>
+
+                            Cantidad
+                        </th>
+                        <th scope="col" style="text-align: right;"
+                            class="p-3 text-sm  tracking-wider  text-gray-900 font-['Poppins-SemiBold']">
+                            <div>&nbsp;</div>
+
+                            Total
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody style="margin-top: 16px;" *ngFor="let item of arrayDenominacionesBilletes">
+                    <tr class="text-center" id="{{item.Billete_Denominacion_IDBilleteDenominacion}}">
+                        <td class=" flex justify-lefth items-center text-sm font-normal text-gray-500 ">
+
+
+                            <div style="margin-right: 16px;">
+                                <img [attr.src]=" urlBilletesMonedas(item.Billete_Denominacion_btd_Tipo) " width="35"
+                                    height="45">
+                            </div>
+                            <div class="text-black size-4">{{item.Billete_Denominacion_btd_Valor}}</div>
+
+                        </td>
+                        <td class="text-sm font-normal text-gray-500" style="width: 100%;">
+                            <input id="{{item.Billete_Denominacion_btd_Valor}}-{{item.Billete_Denominacion_btd_Tipo.trim()}}"
+                                (click)="teclado(item.Billete_Denominacion_btd_Valor.toString(),item.Billete_Denominacion_IDBilleteDenominacion,item.Billete_Denominacion_btd_Tipo)"
+                                [placeholder]="placeholder" class="input text-sm" value="{{item.Billete_Estacion_bte_cantidad}}" attr.custom="{{item.Billete_Estacion_bte_cantidad}}">
+                        </td>
+
+                        <td style=" justify-content: center;"
+                            class="flex items-center   text-sm font-normal text-gray-500 ">
+
+                            <div class="text-black size-4"> {{ item.valorDeclarado }}
+                            </div>
+                        </td>
+
+                    </tr>
+
+                    <!--<tr class="col-xl-5 col-lg-5 col-md-4 col-sm-4 teclado hidden" attr.id_teclado="{{item.Billete_Denominacion_IDBilleteDenominacion}}" >
+                        <app-teclado-numerico [denominacion]="denominacion" [imagenMonedaBillete]="imagenMonedaBillete" [denominacionBilletes]="this.denominacionBilleteActual" [valueInputTablaBillete]="valueInputActual" (valor)="recibirMensaje($event)"
+                            (flecha)="direccion($event)" (cerrar)="ocultar($event)"
+                            (confirmacion)="confirmarValor()"></app-teclado-numerico>
+                    </tr>-->
+                </tbody>
+            </table>
+
+        </div>
+
+        <!--<div class="col-xl-7 col-lg-7 col-md-12 col-sm-12 col-12" *ngIf="visible">
+            <table id="tabla">
+                <thead style="border-bottom-width: 1px;">
+                    <tr class="text-center">
+                        <th scope="col"
+                            class="denominacion-g p-3 text-sm tracking-wider  text-gray-900 font-['Poppins-SemiBold']"
+                            style="text-align: left; padding-top: 0px !important;">
+                            <div class="texto">Billetes</div>
+                            Denominaciones
+                        </th>
+                        <th scope="col"
+                            class="denominacion p-3 text-sm tracking-wider  text-gray-900 font-['Poppins-SemiBold']"
+                            style="text-align: left; padding-top: 0px !important;">
+                            <div class="texto">Billetes</div>
+                            Denomina <br> ciones
+                        </th>
+                        <th scope="col" class="p-3 text-sm tracking-wider  text-gray-900 font-['Poppins-SemiBold']">
+                            <div>&nbsp;</div>
+
+                            Cantidad
+                        </th>
+                        <th scope="col" style="text-align: right;"
+                            class="p-3 text-sm  tracking-wider  text-gray-900 font-['Poppins-SemiBold']">
+                            <div>&nbsp;</div>
+
+                            Total
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody style="margin-top: 16px;" *ngFor="let item of arrayDenominacionesBilletes">
+                    <tr class="text-center" id="{{item.Billete_Denominacion_IDBilleteDenominacion}}">
+                        <td class=" flex justify-lefth items-center text-sm font-normal text-gray-500 ">
+
+
+                            <div style="margin-right: 16px;">
+                                <img [attr.src]=" urlBilletesMonedas(item.Billete_Denominacion_btd_Tipo) " width="35"
+                                    height="45">
+                            </div>
+                            <div class="text-black size-4">{{item.Billete_Denominacion_btd_Valor}}</div>
+
+                        </td>
+                        <td class="text-xs font-normal text-gray-500 " style="width: 100%;">
+                            <input id="{{item.Billete_Denominacion_btd_Valor}}-{{item.Billete_Denominacion_btd_Tipo}}"
+                                (click)="teclado(item.Billete_Denominacion_btd_Valor.toString() ,item.Billete_Denominacion_IDBilleteDenominacion,item.Billete_Denominacion_btd_Tipo)"
+                                [placeholder]="placeholder" class="input text-sm {{item.Billete_Denominacion_btd_Valor}}-{{item.Billete_Denominacion_btd_Tipo}}" value="{{item.Billete_Estacion_bte_cantidad}}">
+                        </td>
+
+                        <td style=" justify-content: center;"
+                            class="flex items-center   text-sm font-normal text-gray-500 ">
+
+                            <div class="text-black size-4"> {{item.valorDeclarado }}
+                            </div>
+                        </td>
+
+                    </tr>
+
+                    <tr class="teclado-tabla ">
+                        <td colspan="3">
+                            <app-teclado-numerico [denominacion]="denominacion" [denominacionBilletes]="item" [imagenMonedaBillete]="imagenMonedaBillete" [valueInputTablaBillete]="valueInputActual"  (valor)="recibirMensaje($event)"
+                                (flecha)="direccion($event)" (confirmacion)="confirmarValor()"></app-teclado-numerico>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>-->
+        <div class="col-xl-5 col-lg-6 col-md-4 col-sm-4 teclado" *ngIf="visible">
+            <app-teclado-numerico [denominacion]="denominacion" [imagenMonedaBillete]="imagenMonedaBillete" [denominacionBilletes]="this.denominacionBilleteActual" [valueInputTablaBillete]="valueInputActual" (valor)="recibirMensaje($event)"
+                (flecha)="direccion($event)" (cerrar)="ocultar($event)"
+                (confirmacion)="confirmarValor()"></app-teclado-numerico>
+        </div>
+
+
+    </div>
+
+</div>

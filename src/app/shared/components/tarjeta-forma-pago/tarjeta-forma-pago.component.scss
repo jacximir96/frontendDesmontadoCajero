@@ -1,0 +1,231 @@
+button{
+    cursor:pointer;
+}
+.diferencia-img{
+    text-align: center;width: 20px;display: flex;justify-content: center;align-items: center;
+}
+.diferencia-number{
+    display: flex;justify-content: end;padding: 0px;
+}
+.barra-superior{
+    margin-top: 0px;
+    margin-bottom: 16px;
+    margin-left: 0px;
+    margin-right: 0px;
+}
+.btn-monto-asignado{
+    position:fixed;
+    left:calc(100vw - 320px);
+    right:auto;
+    bottom:20px;
+    z-index:0;
+    width: 21%;
+}
+.totales{
+    width: 278px;
+    height: 282px;
+    border-radius: 10px;
+    background-color: rgb(51, 122, 183,60%);
+    position:fixed;
+    left:calc(100vw - 320px);
+    right:auto;
+    bottom:0px;
+    z-index:0;
+}
+.totales:hover{
+    /*background-color: rgb(51, 122, 183,60%);*/
+    background-color: #337AB7;
+}
+.tarjeta-principal:hover{
+    background-color: rgb(217, 237, 255,30%);
+}
+.tarjeta-principal{
+    cursor: pointer;
+    border: 1px;
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-bottom: 18px;border-color:#F0F0F0;width: 100%; border-style: solid;
+    border-width: 2px;border-radius: 10px;
+}
+
+.tarjeta-principal-sin-hover{
+    cursor: none;
+    border: 1px;
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-bottom: 18px;border-color:#F0F0F0;width: 100%; border-style: solid;
+    border-width: 2px;border-radius: 10px;
+}
+.cambio{
+    margin: 0px;
+    padding: 0px;
+}
+
+.styleButtonConfirmar{
+    width: 100%;
+    height: 63px;
+    margin-left: 16px;
+    background-color: #337AB7;
+    color: white;
+    border-radius: 10px;
+}
+
+.styleButtonConfirmar-disabled{
+    width: 100%;
+    height: 63px;
+    margin-left: 16px;
+    background-color: #7dacd4;
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.styleButtonInicio{
+    width: 100%;
+    height: 63px;
+    margin-left: 0px;
+    background-color: #979797;
+    color: white;
+    border-radius: 10px;
+}
+
+.styleButtonCancelar{
+    width: 100%;
+    height: 63px;
+    margin-left: 16px;
+    background-color: #D9534F;
+    color: white;
+    border-radius: 10px;
+}
+
+.styleButtonCajaChica{
+    width: 100%;
+    height: 63px;
+    margin-left: 16px;
+    background-color: #e1cc0e;
+    color: white;
+    border-radius: 10px;
+}
+
+.styleButtonFormaDePago{
+    width: 100%;
+    height: 63px;
+    margin-left: 16px;
+    background-color: #4DBE49;
+    color: white;
+    border-radius: 10px;
+}
+
+.div-valores-dollar{
+    text-align: 
+    center;width: 30px;
+    background-color: #E2F7E2;
+}
+
+.div-valores-dato{
+    width: 100%;
+    margin-bottom: 4px;
+    /*margin-left: 13px;*/
+    border: solid;
+    border-width: 2px;
+    border-color: #F0F0F0;
+}
+
+.div-valores-monto{
+    display: flex;
+    justify-content: end;
+    padding-right: 4px;
+}
+
+
+@media (width > 1200px) and (width < 1800px){
+    .col-xl-2{
+        flex: 25% !important;
+        max-width: 25% !important;
+    }
+    .buscar{
+        width: 100% !important;
+        //padding-left: 16px;
+    }
+    button .btn-monto-asignado{
+        width: 100% !important;
+    }
+ 
+}
+
+@media (width > 1800px){
+    button{
+        width: 199px !important;
+    }
+    .buscar{
+        width: 625px !important;
+        padding-left: 17px;
+    }
+    /*.tarjeta-principal{
+        width: 278px !important;
+    }*/
+    /*.barra-superior{
+        margin-top: 0px;
+        margin-bottom: 32px;
+        margin-left: auto;
+        margin-right: auto;
+        width: 1750px;
+    }*/
+    .tarjetas-contenedor{
+        width: 1750px;
+        margin: auto;
+    }
+    .cambio{
+        margin: 0px;
+        padding: 0px 0px 0px 10px;
+    }
+
+    button .btn-monto-asignado{
+        width: 100% !important;
+    }
+    
+}
+@media (max-width: 1199px){
+    .cambio{
+        margin-bottom: 16px !important;
+    }
+    .buscar{
+        margin: 0px !important;
+        width: 100% !important;
+
+    }
+    button{
+        width: 100% !important;
+    }
+   .col-md-3{
+    padding-left: 0px;
+   }
+
+   button .btn-monto-asignado{
+    width: 100% !important;
+}
+}
+
+.alto{
+    height: 123%;
+}
+
+.full{
+    height: 104vh;
+}
+
+.simple-keyboard2.myTheme1 .hg-button {
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #2b2a2a;
+    color: white;
+}
+
+.simple-keyboard2.myTheme1 {
+    background-color: rgb(0, 0, 0);
+    border-radius: 0;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+}

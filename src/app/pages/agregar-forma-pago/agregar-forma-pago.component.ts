@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormasPagoService } from 'src/app/services/formas-pago.service';
+import { FormasPagoService } from 'src/app/core/services/formas-pago.service';
 
 @Component({
   selector: 'app-agregar-forma-pago',

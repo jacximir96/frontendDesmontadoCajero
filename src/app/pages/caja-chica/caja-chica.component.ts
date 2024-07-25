@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import Swal from 'sweetalert2';
-import { CajaChicaService } from './../../services/caja-chica.service';
-import { CajaChicaComponenteLogica } from 'src/app/utils/CajaChicaComponenteLogica';
+import { CajaChicaService } from '../../core/services/caja-chica.service';
+import { CajaChicaComponenteLogica } from 'src/app/core/utils/CajaChicaComponenteLogica';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-caja-chica',
@@ -11,7 +12,8 @@ import { CajaChicaComponenteLogica } from 'src/app/utils/CajaChicaComponenteLogi
 export class CajaChicaComponent implements OnInit {
 
   constructor (
-    private cajaChicaService: CajaChicaService
+    private cajaChicaService: CajaChicaService,
+    private router: Router,
   ){}
 
   dataLogic?: CajaChicaComponenteLogica;
@@ -48,6 +50,11 @@ export class CajaChicaComponent implements OnInit {
         console.log(error)
       }
     }
-    
+  }
+
+  cancelar(){
+    let routePath = '/retiro';
+    localStorage.removeItem('notificacion');
+    this.router.navigate([routePath]);
   }
 }

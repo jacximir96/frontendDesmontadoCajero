@@ -1,0 +1,940 @@
+<div class="row barra-superior m-auto">
+    <div class="2xl:w-2/3 lg:w-1/2 cambio" [ngClass]="{'md:w-2/3': this.totales , 'md:w-full': !this.totales}">
+        <div class="flex buscar">
+            <div class="relative w-full"
+                *ngIf="totales == true">
+                <form class="w-full rounded-lg border border-1 border-black" (click)="onFocusClick($event)">   
+                    <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                            <svg class="w-6 h-6 text-black" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                            </svg>
+                        </div>
+                        <input id="inputField" [(ngModel)]="filtroFormaDePago" name="filtroFormaDePago" class="block w-full ps-10 text-lg text-gray-900 rounded-lg border border-1 border-black  dark:text-neutral-950 bg-zinc-100" style="height: 63px;" />
+                    </div>
+                </form>
+            </div>
+
+            <div class=" relative flex" style="width: 100%;"
+                *ngIf="totales == false">
+                <form class="w-full rounded-lg border border-1 border-black" (click)="onFocusClick($event)">   
+                    <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                            <svg class="w-6 h-6 text-black" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                            </svg>
+                        </div>
+                        <input type="search" [(ngModel)]="filtroFormaDePagoDetalle" name="filtroFormaDePagoDetalle" class="block w-full ps-10 text-lg text-gray-900 rounded-lg border border-1 border-black dark:text-neutral-950 bg-zinc-100" style="height: 63px;" />
+                    </div>
+                </form>
+
+            </div>
+            <div class="col-lg-4 col-md-4 md:w-1/3 ml-lg-auto">
+                <button *ngIf="totales == false" (click)="cancelarMontos()" class="styleButtonInicio max-w-48 md:max-w-56">Inicio</button>
+            </div>
+        </div>
+    </div>
+    <div class="w-1/3 md:w-full lg:w-1/2 2xl:w-1/3 md:mx-auto"
+        style="display: flex; justify-content: end; margin: 0px;padding: 0px; margin-left: auto;">
+        <!--<button *ngIf="this.proceso == 'RDE_' "  routerLink="/agregar-formapago" style="display: flex;justify-content: center;align-items: center;color: white;width: 100%;height: 63px;background-color: #4DBE49;border-radius: 10px;">
+            Agregar Forma Pago
+        </button>-->
+        <button *ngIf="proceso == 'DESMONTADO'" type="button" style="height: 63px;" class="styleButtonFormaDePago">
+            <span>Agregar forma de pago</span>
+        </button>
+        <button routerLink="/caja-chica" *ngIf="proceso == 'RETIROS'" type="button" style="height: 63px;" class="max-w-48 md:max-w-56 mx-auto styleButtonCajaChica">
+            <span>Caja Chica</span>
+        </button>
+        <button *ngIf="this.totales" (click)="confirmarButton()" class="max-w-48 md:max-w-52" [ngClass]="{'styleButtonConfirmar-disabled': !transaccion ,'styleButtonConfirmar': transaccion}" [disabled]="!transaccion">Confirmar</button>
+        <button *ngIf="!this.totales" (click)="confirmaBilletes()" class="max-w-48 md:max-w-52" [ngClass]="{'styleButtonConfirmar-disabled': !transaccion ,'styleButtonConfirmar': transaccion}" [disabled]="!transaccion">Confirmar</button>
+        
+        <button *ngIf="this.totales" (click)="cancelarProceso()" class="styleButtonCancelar max-w-48 md:max-w-52" routerLink="/">Cancelar</button>
+        <button *ngIf="!this.totales && !this.efectivo" (click)="cancelarMontos()" class="styleButtonCancelar max-w-48 md:max-w-52">Cancelar</button>
+        <button *ngIf="this.efectivo" (click)="cancelarMontosEfectivos()" class="styleButtonCancelar max-w-48 md:max-w-52">Cancelar</button>
+
+    </div>
+</div>
+
+<!--<div class="transition-opacity transition-transform duration-500" 
+     [ngClass]="{'opacity-0 translate-y-4': !validaMonto, 'opacity-100 translate-y-0': validaMonto}">
+  <div class="bg-white shadow-md rounded-lg p-4 mt-4">
+    <h2 class="text-lg font-bold">Mi Card</h2>
+    <p>Contenido de la card.</p>
+  </div>
+</div>-->
+
+
+
+<div class="pt-10 md:pt-6 lg:pt-6 xl:pt-10 2xl:pt-10">
+    <div class="row tarjetas-contenedor flex-wrap">
+        <!--Grid cuando se seleccion forma de pago con sus detalles, con opcion de validar montos-->
+        <div *ngIf="validaMonto" class="w-full flex gap-3">
+            <!-- Primera columna -->
+            <div class="sm:w-full lg:w-1/3 md:w-full xl:w-1/4 2xl:w-1/5  px-3">
+                <div Class="tarjeta-principal-sin-hover" [ngClass]="{'h-full': (formaDePagoActual.transacciones.length >= 3), 'alto':  (formaDePagoActual.transacciones.length < 3)}">
+                    <div class="row mt-2 h-5">
+                        <div class="col-9 flex" style="justify-content: start; padding-left: 0x; padding-top: 5px;"><span
+                                class="ml-3 font-['Poppins-Light']">{{formaDePagoActual.consolidado.Formapago_fmp_descripcion | titlecase}}</span></div>
+                        <div class="col-3 flex" style="justify-content: end;">
+                            <span *ngIf="formaDePagoActual.consolidado.monto_validado">
+                                <svg style="margin: 5px;" width="20" height="20" viewBox="0 0 24 25" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg" class="mr-3">
+                                    <path
+                                        d="M23.5038 12.1094C23.5038 18.7972 18.2423 24.2188 11.7519 24.2188C5.26149 24.2188 0 18.7972 0 12.1094C0 5.42153 5.26149 0 11.7519 0C18.2423 0 23.5038 5.42153 23.5038 12.1094ZM10.3926 18.5212L19.1117 9.53682C19.4078 9.23174 19.4078 8.73706 19.1117 8.43198L18.0395 7.32715C17.7434 7.02202 17.2634 7.02202 16.9672 7.32715L9.85643 14.6542L6.53657 11.2333C6.2405 10.9283 5.76042 10.9283 5.4643 11.2333L4.39208 12.3382C4.09601 12.6433 4.09601 13.1379 4.39208 13.443L9.3203 18.5211C9.61642 18.8263 10.0964 18.8263 10.3926 18.5212Z"
+                                        fill="#4DBE49" />
+                                </svg>
+                            </span>
+                        </div>
+                    </div>
+
+                    <br><br>
+                    <div style="display: flex;justify-content: center; margin-bottom: inherit;">
+                        <img src="../../../assets/images/{{formaDePagoActual.consolidado.imagen}}" alt="">
+
+                    </div>
+                    <br>
+                    <div class="row items-baseline" style="margin-right: 0px">
+                        <div class="col-xl-7 col-lg-7 col-md-7 col-sm-7">
+                            <div style="margin-left: 8px;height: 32px;" class="ml-3 mt-2">
+                                <span>Transaciones</span>
+
+                            </div>
+                            <div style="margin-left: 8px;height: 32px;" class="ml-3">
+                                <span>Pos Calculado</span>
+                            </div>
+
+                        </div>
+                        <div class="col-xl-5 col-lg-5 col-md-5 col-sm-5" style="padding-left: 0px !important;">
+                            <div class="rounded-full flex div-valores-dato">
+                                <div class="rounded-full div-valores-dollar">
+                                    #
+                                </div>
+
+                                <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8 div-valores-monto">
+                                    {{formaDePagoActual.consolidado.numero_transacciones}}</div>
+
+                            </div>
+                            <div class="rounded-full flex div-valores-dato">
+                                <div class="rounded-full div-valores-dollar">
+                                    $
+                                </div>
+                                <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8 div-valores-monto">{{formaDePagoActual.consolidado.total_pagar |
+                                    number}}
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <hr style="margin-left: 15px;margin-right: 15px;margin-top: 12px;margin-bottom: 17px; border: 2px solid; color:#F0F0F0">
+                    <div class="row px-0 items-baseline" style="margin-right: 0px;">
+                        <div class="col-xl-7 col-lg-7 col-md-7 col-sm-7">
+                            <div style="margin-left: 8px;height: 32px;" class="ml-3 mt-2">
+                                <span>Ingresos</span>
+
+                            </div>
+                            <div style="margin-left: 8px;height: 32px;" class="ml-3">
+                                <span>Egresos</span>
+                            </div>
+                            <div style="margin-left: 8px;height: 32px;" class="ml-3">
+                                <span>Retirado</span>
+                            </div>
+                            <div style="margin-left: 8px;height: 32px;width: 100%;" class="ml-3">
+                                <span>Valor Declarado</span>
+                            </div>
+                            <div style="margin-left: 8px;height: 32px;" class="ml-3">
+                                <span>Diferencia</span>
+                            </div>
+
+                        </div>
+                        <div class="col-xl-5 col-lg-5 col-md-5 col-sm-5 " style="padding-left: 0px !important;">
+                            <div class="rounded-full flex div-valores-dato">
+                                <div class="rounded-full div-valores-dollar">
+                                    $
+                                </div>
+                                <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8 div-valores-monto">{{formaDePagoActual.consolidado.ingreso |
+                                    number}}</div>
+                            </div>
+                            <div class="rounded-full flex div-valores-dato">
+                                <div class="rounded-full div-valores-dollar">
+                                    $
+                                </div>
+                                <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8 div-valores-monto">{{formaDePagoActual.consolidado.egreso|
+                                    number}}</div>
+                            </div>
+                            <div class="rounded-full flex div-valores-dato">
+                                <div class="rounded-full div-valores-dollar">
+                                    $
+                                </div>
+                                <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8 div-valores-monto">{{formaDePagoActual.consolidado.total_retirado|
+                                    number}}
+                                </div>
+                            </div>
+                            <div class="rounded-full flex div-valores-dato">
+                                <div class="rounded-full div-valores-dollar">
+                                    $
+                                </div>
+                                <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8 div-valores-monto">{{formaDePagoActual.consolidado.valorDeclarado|
+                                    number}}
+                                </div>
+
+                            </div>
+                            <div class="rounded-full flex div-valores-dato">
+                                <div [ngSwitch]="true" class="diferencia-img">
+                                    <img *ngSwitchCase= "formaDePagoActual.consolidado.diferencia < 0" src="../../../assets/images/enojado.png" width="60px" height="60px" alt="">
+                                    <img *ngSwitchCase= "formaDePagoActual.consolidado.diferencia == 0" src="../../../assets/images/carita-felicidad.png" width="60px" height="60px" alt="">
+                                    <img *ngSwitchCase= "formaDePagoActual.consolidado.diferencia > 0" src="../../../assets/images/alegre.jpg" width="60px" height="60px" alt="">
+                                </div>
+                                <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8 diferencia-number" style="margin-left: 7px">{{formaDePagoActual.consolidado.diferencia
+                                    | number}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Segunda columna -->
+            <div class="sm:w-full lg:w-1/3 xl:w-2/4 2xl:w-2/5 lg:block sm:hidden md:hidden">
+                <div class="row">
+                    <div *ngFor="let detalleFormaPago of this.formaDePagoActual.transacciones | filterItemsFormaPagoDetalle:filtroFormaDePagoDetalle" 
+                         class="w-1/2 xl:w-1/2 lg:w-full 2xl:w-1/2 2xl:px-4 md:px-2"
+                        [ngClass]="{
+                            'block': detalleFormaPago.styleDisplay == 'block' ,
+                            'hidden': detalleFormaPago.styleDisplay != 'block'
+                        }">
+                        <div *ngIf="this.detallesAMostrar == detalleFormaPago.Formapago_padre">
+                            <div Class="tarjeta-principal" [ngClass]="{
+                                'bg-blue-100 bg-opacity-30': detalleFormaPago.cardSeleccionada,
+                                'bg-white': !detalleFormaPago.cardSeleccionada
+                            }" (click)="seleccionarFormaPago(detalleFormaPago)">
+                                <div class="row mt-2 h-5">
+                                    <div class="col-9 flex" style="justify-content: start; padding-left: 0x; padding-top: 5px;"><span
+                                            class="ml-3 font-['Poppins-Light']">{{detalleFormaPago.Formapago_fmp_descripcion}}</span></div>
+                                    <div class="col-3 flex" style="justify-content: end;">
+                                        <span [ngClass]="{
+                                            'block': detalleFormaPago.monto_validado ,
+                                            'hidden': !detalleFormaPago.monto_validado
+                                        }" *ngIf="detalleFormaPago.monto_validado">
+                                            <svg style="margin: 5px;" width="20" height="20" viewBox="0 0 24 25" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg" class="mr-3">
+                                                <path
+                                                    d="M23.5038 12.1094C23.5038 18.7972 18.2423 24.2188 11.7519 24.2188C5.26149 24.2188 0 18.7972 0 12.1094C0 5.42153 5.26149 0 11.7519 0C18.2423 0 23.5038 5.42153 23.5038 12.1094ZM10.3926 18.5212L19.1117 9.53682C19.4078 9.23174 19.4078 8.73706 19.1117 8.43198L18.0395 7.32715C17.7434 7.02202 17.2634 7.02202 16.9672 7.32715L9.85643 14.6542L6.53657 11.2333C6.2405 10.9283 5.76042 10.9283 5.4643 11.2333L4.39208 12.3382C4.09601 12.6433 4.09601 13.1379 4.39208 13.443L9.3203 18.5211C9.61642 18.8263 10.0964 18.8263 10.3926 18.5212Z"
+                                                    fill="#4DBE49" />
+                                            </svg>
+                                        </span>
+                                    </div>
+                                </div>
+                                <br><br>
+                                <div style="display: flex;justify-content: center; margin-bottom: inherit;">
+                                    <img src="../../../assets/images/{{detalleFormaPago.imagen}}" alt="">
+                                </div>
+                                <br>
+                                <div class="row items-baseline" style="margin-right: 0px">
+                                    <div class="col-xl-7 col-lg-7 col-md-7 col-sm-7">
+                                        <div style="margin-left: 8px;height: 32px;" class="ml-3 mt-2">
+                                            <span>Transaciones</span>
+
+                                        </div>
+                                        <div style="margin-left: 8px;height: 32px;" class="ml-3">
+                                            <span>Pos Calculado</span>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-xl-5 col-lg-5 col-md-5 col-sm-5" style="padding-left: 0px !important;">
+                                        <div class="rounded-full flex div-valores-dato">
+                                            <div class="rounded-full div-valores-dollar">
+                                                #
+                                            </div>
+
+                                            <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8 div-valores-monto">
+                                                {{detalleFormaPago.numero_transacciones}}</div>
+
+                                        </div>
+                                        <div class="rounded-full flex div-valores-dato">
+                                            <div class="rounded-full div-valores-dollar">
+                                                $
+                                            </div>
+                                            <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8 div-valores-monto">
+                                                {{detalleFormaPago.total_pagar| number}}
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <hr style="margin-left: 15px;margin-right: 15px;margin-top: 12px;margin-bottom: 17px; border: 2px solid; color:#F0F0F0">
+                                <div class="row px-0 items-baseline" style="margin-right: 0px;">
+                                    <div class="col-xl-7 col-lg-7 col-md-7 col-sm-7">
+                                        <div style="margin-left: 8px;height: 32px;" class="ml-3 mt-2">
+                                            <span>Ingresos</span>
+                                        </div>
+                                        <div style="margin-left: 8px;height: 32px;" class="ml-3">
+                                            <span>Egresos</span>
+                                        </div>
+                                        <div style="margin-left: 8px;height: 32px;" class="ml-3">
+                                            <span>Retirado</span>
+                                        </div>
+                                        <div style="margin-left: 8px;height: 32px;width: 100%;" class="ml-3">
+                                            <span>Valor Declarado</span>
+                                        </div>
+                                        <div style="margin-left: 8px;height: 32px;" class="ml-3">
+                                            <span>Diferencia</span>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-xl-5 col-lg-5 col-md-5 col-sm-5 " style="padding-left: 0px !important;">
+                                        <div class="rounded-full flex div-valores-dato">
+                                            <div class="rounded-full div-valores-dollar">
+                                                $
+                                            </div>
+                                            <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8 div-valores-monto">{{detalleFormaPago.ingreso
+                                                | number}}</div>
+                                        </div>
+                                        <div class="rounded-full flex div-valores-dato">
+                                            <div class="rounded-full div-valores-dollar">
+                                                $
+                                            </div>
+                                            <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8 div-valores-monto">{{detalleFormaPago.egreso|
+                                                number }}</div>
+                                        </div>
+                                        <div class="rounded-full flex div-valores-dato">
+                                            <div class="rounded-full div-valores-dollar">
+                                                $
+                                            </div>
+                                            <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8 div-valores-monto">
+                                                {{detalleFormaPago.total_retirado | number}}
+                                            </div>
+                                        </div>
+                                        <div class="rounded-full flex div-valores-dato">
+                                            <div class="rounded-full div-valores-dollar">
+                                                $
+                                            </div>
+                                            <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8 div-valores-monto">
+                                                {{detalleFormaPago.valorDeclarado | number}}
+                                            </div>
+
+                                        </div>
+
+                                        <div class="rounded-full flex div-valores-dato">
+                                            <div [ngSwitch]="true" class="diferencia-img">
+                                                <img *ngSwitchCase="detalleFormaPago.diferencia < 0"
+                                                    src="../../../assets/images/enojado.png" width="60px" height="60px" alt="">
+                                                <img *ngSwitchCase="detalleFormaPago.diferencia == 0"
+                                                    src="../../../assets/images/carita-felicidad.png" width="60px" height="60px"
+                                                    alt="">
+                                                <img *ngSwitchCase="detalleFormaPago.diferencia > 0"
+                                                    src="../../../assets/images/alegre.jpg" width="60px" height="60px" alt="">
+                                            </div>
+                                            <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8 diferencia-number" style="margin-left: 7px">
+                                                {{detalleFormaPago.diferencia | number}}
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Tercera columna -->
+            <div *ngIf="this.validaMonto" class="w-2/6 md:w-full lg:w-1/3 xl:w-1/4 2xl:w-1/3 ml-auto px-3" >
+                <div style="margin-top: 0px; margin-left: auto;" 
+                [ngClass]="{
+                    'opacity-0 translate-y-4': !validaMonto,
+                    'opacity-100 translate-y-0': validaMonto
+                  }" class="justify-end transition-all duration-500" >
+                    <div
+                        style="width: 100%;height: {{this.validaMontoWidth}}; border:solid; border-width: 2px;border-radius: 10px;border-color: #F0F0F0;">
+                        <div class="row" style="padding-left: 8px;">
+                            <div class="col-6">
+                                <span [style.display]="this.validarMontoFormaPago.monto_validado ? 'block' : 'none'"><svg
+                                        style="margin: 8px;" width="24" height="25" viewBox="0 0 24 25" fill="none"
+                                        xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M23.5038 12.1094C23.5038 18.7972 18.2423 24.2188 11.7519 24.2188C5.26149 24.2188 0 18.7972 0 12.1094C0 5.42153 5.26149 0 11.7519 0C18.2423 0 23.5038 5.42153 23.5038 12.1094ZM10.3926 18.5212L19.1117 9.53682C19.4078 9.23174 19.4078 8.73706 19.1117 8.43198L18.0395 7.32715C17.7434 7.02202 17.2634 7.02202 16.9672 7.32715L9.85643 14.6542L6.53657 11.2333C6.2405 10.9283 5.76042 10.9283 5.4643 11.2333L4.39208 12.3382C4.09601 12.6433 4.09601 13.1379 4.39208 13.443L9.3203 18.5211C9.61642 18.8263 10.0964 18.8263 10.3926 18.5212Z"
+                                            fill="#4DBE49" />
+                                    </svg>
+                                </span>
+                            </div>
+                            <div class="col-6">
+                                <span (click)="cerrarValidaMonto()"
+                                    style="cursor: pointer;margin: 8px;display: flex;justify-content: end;"><svg width="35"
+                                        height="37" viewBox="0 0 35 37" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M31.7188 0H3.28125C1.46973 0 0 1.74543 0 3.89677V32.473C0 34.6244 1.46973 36.3698 3.28125 36.3698H31.7188C33.5303 36.3698 35 34.6244 35 32.473V3.89677C35 1.74543 33.5303 0 31.7188 0ZM26.0039 23.5835C26.332 23.9732 26.332 24.6064 26.0039 24.9961L23.2354 28.284C22.9072 28.6737 22.374 28.6737 22.0459 28.284L17.5 22.8367L12.9541 28.284C12.626 28.6737 12.0928 28.6737 11.7646 28.284L8.99609 24.9961C8.66797 24.6064 8.66797 23.9732 8.99609 23.5835L13.583 18.1849L8.99609 12.7863C8.66797 12.3966 8.66797 11.7634 8.99609 11.3737L11.7646 8.08579C12.0928 7.69611 12.626 7.69611 12.9541 8.08579L17.5 13.5331L22.0459 8.08579C22.374 7.69611 22.9072 7.69611 23.2354 8.08579L26.0039 11.3737C26.332 11.7634 26.332 12.3966 26.0039 12.7863L21.417 18.1849L26.0039 23.5835Z"
+                                            fill="black" />
+                                    </svg>
+                                </span>
+                            </div>
+                        </div>
+        
+                        <div style="justify-content: center;display: flex;" class="pb-3"><span
+                                style="font-size: 24px;"><b>{{this.validarMontoFormaPago.Formapago_fmp_descripcion}}</b></span>
+                        </div>
+                        <div class="flex justify-center">
+                            <span>Validar el monto</span>
+                        </div><br>
+                        <div class="flex justify-center">
+                            <input type="text" disabled
+                                style="width: 90%;height: 63px;background-color: #F0F0F0;border-radius: 10px;border-color:#F0F0F0 ;color: black;font-size: 24px;display: flex;justify-content: center;text-align: center;font-weight: 700;"
+                                value="{{this.validarMontoFormaPago.total_pagar - this.validarMontoFormaPago.total_retirado}}">
+                        </div><br>
+                        <div class="flex justify-center pt-2 w-11/12 mx-auto">
+                            <button *ngIf="!this.validarMontoFormaPago.monto_validado"
+                                (click)="confirmarMonto(this.validarMontoFormaPago, false)"
+                                style="height: 63px;background-color:#4DBE49 ;color: white;border-radius: 10px;" class="w-full">Confirmar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!--Grid cuando se seleccion forma de pago con sus detalles, sin opcion de validar montos-->
+        <div *ngIf="!validaMonto && seleccionoFormaDePago && !this.efectivo" class="w-full flex gap-3">
+            <!-- Primera columna -->
+            <div class="sm:w-full md:w-2/5 lg:w-1/3 xl:w-1/4 2xl:w-1/5 px-3">
+                
+                <div Class="tarjeta-principal-sin-hover h-full" [ngClass]="{'h-full': (formaDePagoActual.transacciones.length > 3), 'alto':  (formaDePagoActual.transacciones.length <= 3)}">
+                    <div class="row mt-2 h-5">
+                        <div class="col-9 flex" style="justify-content: start; padding-left: 0x; padding-top: 5px;"><span
+                                class="ml-3 font-['Poppins-Light']">{{formaDePagoActual.consolidado.Formapago_fmp_descripcion | titlecase}}</span></div>
+                        <div class="col-3 flex" style="justify-content: end;">
+                            <span *ngIf="formaDePagoActual.consolidado.monto_validado">
+                                <svg style="margin: 7px;" width="20" height="20" viewBox="0 0 24 25" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg" class="mr-3">
+                                    <path
+                                        d="M23.5038 12.1094C23.5038 18.7972 18.2423 24.2188 11.7519 24.2188C5.26149 24.2188 0 18.7972 0 12.1094C0 5.42153 5.26149 0 11.7519 0C18.2423 0 23.5038 5.42153 23.5038 12.1094ZM10.3926 18.5212L19.1117 9.53682C19.4078 9.23174 19.4078 8.73706 19.1117 8.43198L18.0395 7.32715C17.7434 7.02202 17.2634 7.02202 16.9672 7.32715L9.85643 14.6542L6.53657 11.2333C6.2405 10.9283 5.76042 10.9283 5.4643 11.2333L4.39208 12.3382C4.09601 12.6433 4.09601 13.1379 4.39208 13.443L9.3203 18.5211C9.61642 18.8263 10.0964 18.8263 10.3926 18.5212Z"
+                                        fill="#4DBE49" />
+                                </svg>
+                            </span>
+                        </div>
+                    </div>
+
+                    <br><br>
+                    <div style="display: flex;justify-content: center; margin-bottom: inherit;">
+                        <img src="../../../assets/images/{{formaDePagoActual.consolidado.imagen}}" alt="">
+
+                    </div>
+                    <br>
+                    <div class="row items-baseline" style="margin-right: 0px">
+                        <div class="col-xl-7 col-lg-7 col-md-7 col-sm-7">
+                            <div style="margin-left: 8px;height: 32px;" class="ml-3 mt-2">
+                                <span>Transaciones</span>
+
+                            </div>
+                            <div style="margin-left: 8px;height: 32px;" class="ml-3">
+                                <span>Pos Calculado</span>
+                            </div>
+
+                        </div>
+                        <div class="col-xl-5 col-lg-5 col-md-5 col-sm-5" style="padding-left: 0px !important;">
+                            <div class="rounded-full flex div-valores-dato">
+                                <div class="rounded-full div-valores-dollar">
+                                    #
+                                </div>
+
+                                <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8 div-valores-monto">
+                                    {{formaDePagoActual.consolidado.numero_transacciones}}</div>
+
+                            </div>
+                            <div class="rounded-full flex div-valores-dato">
+                                <div class="rounded-full div-valores-dollar">
+                                    $
+                                </div>
+                                <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8 div-valores-monto">{{formaDePagoActual.consolidado.total_pagar |
+                                    number}}
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <hr style="margin-left: 15px;margin-right: 15px;margin-top: 12px;margin-bottom: 17px; border: 2px solid; color:#F0F0F0">
+                    <div class="row px-0 items-baseline" style="margin-right: 0px;">
+                        <div class="col-xl-7 col-lg-7 col-md-7 col-sm-7">
+                            <div style="margin-left: 8px;height: 32px;" class="ml-3 mt-2">
+                                <span>Ingresos</span>
+
+                            </div>
+                            <div style="margin-left: 8px;height: 32px;" class="ml-3">
+                                <span>Egresos</span>
+                            </div>
+                            <div style="margin-left: 8px;height: 32px;" class="ml-3">
+                                <span>Retirado</span>
+                            </div>
+                            <div style="margin-left: 8px;height: 32px;width: 100%;" class="ml-3">
+                                <span>Valor Declarado</span>
+                            </div>
+                            <div style="margin-left: 8px;height: 32px;" class="ml-3">
+                                <span>Diferencia</span>
+                            </div>
+
+                        </div>
+                        <div class="col-xl-5 col-lg-5 col-md-5 col-sm-5 " style="padding-left: 0px !important;">
+                            <div class="rounded-full flex div-valores-dato">
+                                <div class="rounded-full div-valores-dollar">
+                                    $
+                                </div>
+                                <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8 div-valores-monto">{{formaDePagoActual.consolidado.ingreso |
+                                    number}}</div>
+                            </div>
+                            <div class="rounded-full flex div-valores-dato">
+                                <div class="rounded-full div-valores-dollar">
+                                    $
+                                </div>
+                                <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8 div-valores-monto">{{formaDePagoActual.consolidado.egreso|
+                                    number}}</div>
+                            </div>
+                            <div class="rounded-full flex div-valores-dato">
+                                <div class="rounded-full div-valores-dollar">
+                                    $
+                                </div>
+                                <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8 div-valores-monto">{{formaDePagoActual.consolidado.total_retirado|
+                                    number}}
+                                </div>
+                            </div>
+                            <div class="rounded-full flex div-valores-dato">
+                                <div class="rounded-full div-valores-dollar">
+                                    $
+                                </div>
+                                <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8 div-valores-monto">{{formaDePagoActual.consolidado.valorDeclarado|
+                                    number}}
+                                </div>
+
+                            </div>
+                            <div class="rounded-full flex div-valores-dato">
+                                <div [ngSwitch]="true" class="diferencia-img">
+                                    <img *ngSwitchCase= "formaDePagoActual.consolidado.diferencia < 0" src="../../../assets/images/enojado.png" width="60px" height="60px" alt="">
+                                    <img *ngSwitchCase= "formaDePagoActual.consolidado.diferencia == 0" src="../../../assets/images/carita-felicidad.png" width="60px" height="60px" alt="">
+                                    <img *ngSwitchCase= "formaDePagoActual.consolidado.diferencia > 0" src="../../../assets/images/alegre.jpg" width="60px" height="60px" alt="">
+                                </div>
+                                <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8 diferencia-number" style="margin-left: 7px">{{formaDePagoActual.consolidado.diferencia
+                                    | number}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Segunda columna -->
+            <div class="sm:w-full md:w-1/2 lg:w-2/3 xl:w-3/4 2xl:w-4/5 pr-3">
+                <div class="row">
+                    <div *ngFor="let detalleFormaPago of this.formaDePagoActual.transacciones| filterItemsFormaPagoDetalle:filtroFormaDePagoDetalle" 
+                        class="sm:w-full md:w-full md:px-2 lg:w-1/2 xl:w-1/3 2xl:w-1/4 2xl:px-4"
+                        [ngClass]="{
+                            'block': detalleFormaPago.styleDisplay == 'block' ,
+                            'hidden': detalleFormaPago.styleDisplay != 'block'
+                        }">
+                        <div *ngIf="this.detallesAMostrar == detalleFormaPago.Formapago_padre">
+                            <div Class="tarjeta-principal" [ngClass]="{
+                                'bg-blue-100 bg-opacity-30': detalleFormaPago.cardSeleccionada,
+                                'bg-white': !detalleFormaPago.cardSeleccionada
+                            }" (click)="seleccionarFormaPago(detalleFormaPago)">
+                                <div class="row mt-2 h-5">
+                                    <div class="col-9 flex" style="justify-content: start; padding-left: 0x; padding-top: 5px;"><span
+                                            class="ml-3 font-['Poppins-Light']">{{detalleFormaPago.Formapago_fmp_descripcion}}</span></div>
+                                    <div class="col-3 flex" style="justify-content: end;">
+                                        <span [ngClass]="{
+                                            'block': detalleFormaPago.monto_validado ,
+                                            'hidden': !detalleFormaPago.monto_validado
+                                        }" *ngIf="detalleFormaPago.monto_validado" style="margin-right: 16px;">
+                                            <svg style="margin: 8px;" width="20" height="20" viewBox="0 0 24 25" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M23.5038 12.1094C23.5038 18.7972 18.2423 24.2188 11.7519 24.2188C5.26149 24.2188 0 18.7972 0 12.1094C0 5.42153 5.26149 0 11.7519 0C18.2423 0 23.5038 5.42153 23.5038 12.1094ZM10.3926 18.5212L19.1117 9.53682C19.4078 9.23174 19.4078 8.73706 19.1117 8.43198L18.0395 7.32715C17.7434 7.02202 17.2634 7.02202 16.9672 7.32715L9.85643 14.6542L6.53657 11.2333C6.2405 10.9283 5.76042 10.9283 5.4643 11.2333L4.39208 12.3382C4.09601 12.6433 4.09601 13.1379 4.39208 13.443L9.3203 18.5211C9.61642 18.8263 10.0964 18.8263 10.3926 18.5212Z"
+                                                    fill="#4DBE49" />
+                                            </svg>
+                                        </span>
+                                    </div>
+                                </div>
+                                <br><br>
+                                <div style="display: flex;justify-content: center; margin-bottom: inherit;">
+                                    <img src="../../../assets/images/{{detalleFormaPago.imagen}}" alt="">
+                                </div>
+                                <br>
+                                <div class="row items-baseline" style="margin-right: 0px">
+                                    <div class="col-xl-7 col-lg-7 col-md-7 col-sm-7">
+                                        <div style="margin-left: 8px;height: 32px;" class="ml-3 mt-2">
+                                            <span>Transaciones</span>
+
+                                        </div>
+                                        <div style="margin-left: 8px;height: 32px;" class="ml-3">
+                                            <span>Pos Calculado</span>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-xl-5 col-lg-5 col-md-5 col-sm-5" style="padding-left: 0px !important;">
+                                        <div class="rounded-full flex div-valores-dato">
+                                            <div class="rounded-full div-valores-dollar">
+                                                #
+                                            </div>
+
+                                            <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8 div-valores-monto">
+                                                {{detalleFormaPago.numero_transacciones}}</div>
+
+                                        </div>
+                                        <div class="rounded-full flex div-valores-dato">
+                                            <div class="rounded-full div-valores-dollar">
+                                                $
+                                            </div>
+                                            <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8 div-valores-monto">
+                                                {{detalleFormaPago.total_pagar| number}}
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <hr style="margin-left: 15px;margin-right: 15px;margin-top: 12px;margin-bottom: 17px; border: 2px solid; color:#F0F0F0">
+                                <div class="row px-0 items-baseline" style="margin-right: 0px;">
+                                    <div class="col-xl-7 col-lg-7 col-md-7 col-sm-7">
+                                        <div style="margin-left: 8px;height: 32px;" class="ml-3 mt-2">
+                                            <span>Ingresos</span>
+                                        </div>
+                                        <div style="margin-left: 8px;height: 32px;" class="ml-3">
+                                            <span>Egresos</span>
+                                        </div>
+                                        <div style="margin-left: 8px;height: 32px;" class="ml-3">
+                                            <span>Retirado</span>
+                                        </div>
+                                        <div style="margin-left: 8px;height: 32px;width: 100%;" class="ml-3">
+                                            <span>Valor Declarado</span>
+                                        </div>
+                                        <div style="margin-left: 8px;height: 32px;" class="ml-3">
+                                            <span>Diferencia</span>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-xl-5 col-lg-5 col-md-5 col-sm-5 " style="padding-left: 0px !important;">
+                                        <div class="rounded-full flex div-valores-dato">
+                                            <div class="rounded-full div-valores-dollar">
+                                                $
+                                            </div>
+                                            <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8 div-valores-monto">{{detalleFormaPago.ingreso
+                                                | number}}</div>
+                                        </div>
+                                        <div class="rounded-full flex div-valores-dato">
+                                            <div class="rounded-full div-valores-dollar">
+                                                $
+                                            </div>
+                                            <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8 div-valores-monto">{{detalleFormaPago.egreso|
+                                                number}}</div>
+                                        </div>
+                                        <div class="rounded-full flex div-valores-dato">
+                                            <div class="rounded-full div-valores-dollar">
+                                                $
+                                            </div>
+                                            <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8 div-valores-monto">
+                                                {{detalleFormaPago.total_retirado| number}}
+                                            </div>
+                                        </div>
+                                        <div class="rounded-full flex div-valores-dato">
+                                            <div class="rounded-full div-valores-dollar">
+                                                $
+                                            </div>
+                                            <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8 div-valores-monto">
+                                                {{detalleFormaPago.valorDeclarado| number}}
+                                            </div>
+
+                                        </div>
+
+                                        <div class="rounded-full flex div-valores-dato">
+                                            <div [ngSwitch]="true" class="diferencia-img">
+                                                <img *ngSwitchCase="detalleFormaPago.diferencia < 0"
+                                                    src="../../../assets/images/enojado.png" width="60px" height="60px" alt="">
+                                                <img *ngSwitchCase="detalleFormaPago.diferencia == 0"
+                                                    src="../../../assets/images/carita-felicidad.png" width="60px" height="60px"
+                                                    alt="">
+                                                <img *ngSwitchCase="detalleFormaPago.diferencia > 0"
+                                                    src="../../../assets/images/alegre.jpg" width="60px" height="60px" alt="">
+                                            </div>
+                                            <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8 diferencia-number" style="margin-left: 7px">
+                                                {{detalleFormaPago.diferencia | number}}
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Formas de Pago Cards principales-->
+        <div *ngFor="let item of this.tarjetaFormaDePagoComponenteLogica!.grupoFormasDePago | filterItemsFormaPago:filtroFormaDePago"
+            class="w-full md:w-1/2 lg:w-1/3 xl:w-1/4 2xl:w-1/5 px-3" [ngClass]="{'md:w-2/5': this.efectivo , 'md:w-1/2': !this.efectivo}"  style="display:{{item.consolidado.rule}}">
+            <div *ngIf="item.consolidado.estado && !validaMonto && !seleccionoFormaDePago || this.efectivo" Class="tarjeta-principal" style="height:{{hide}};"
+                (click)="ocultarTarjetas(item)">
+                <div class="row mt-2 h-5">
+                    <div class="col-9 flex" style="justify-content: start; padding-left: 0x; padding-top: 5px;"><span
+                            class="ml-3 font-['Poppins-Light']">{{item.consolidado.Formapago_fmp_descripcion | titlecase}}</span></div>
+                    <div class="col-3 flex" style="justify-content: end;">
+                        <span *ngIf="item.consolidado.monto_validado">
+                            <svg style="margin: 7px;" width="20" height="20" viewBox="0 0 24 25" fill="none"
+                                xmlns="http://www.w3.org/2000/svg" class="mr-3">
+                                <path
+                                    d="M23.5038 12.1094C23.5038 18.7972 18.2423 24.2188 11.7519 24.2188C5.26149 24.2188 0 18.7972 0 12.1094C0 5.42153 5.26149 0 11.7519 0C18.2423 0 23.5038 5.42153 23.5038 12.1094ZM10.3926 18.5212L19.1117 9.53682C19.4078 9.23174 19.4078 8.73706 19.1117 8.43198L18.0395 7.32715C17.7434 7.02202 17.2634 7.02202 16.9672 7.32715L9.85643 14.6542L6.53657 11.2333C6.2405 10.9283 5.76042 10.9283 5.4643 11.2333L4.39208 12.3382C4.09601 12.6433 4.09601 13.1379 4.39208 13.443L9.3203 18.5211C9.61642 18.8263 10.0964 18.8263 10.3926 18.5212Z"
+                                    fill="#4DBE49" />
+                            </svg>
+                        </span>
+                    </div>
+                </div>
+
+                <br><br>
+                <div style="display: flex;justify-content: center; margin-bottom: inherit;">
+                    <img src="../../../assets/images/{{item.consolidado.imagen}}" alt="">
+
+                </div>
+                <br>
+                <div class="row items-baseline" style="margin-right: 0px">
+                    <div class="col-xl-7 col-lg-7 col-md-7 col-sm-7">
+                        <div style="margin-left: 8px;height: 32px;" class="ml-3 mt-2">
+                            <span>Transaciones</span>
+
+                        </div>
+                        <div style="margin-left: 8px;height: 32px;" class="ml-3">
+                            <span>Pos Calculado</span>
+                        </div>
+
+                    </div>
+                    <div class="col-xl-5 col-lg-5 col-md-5 col-sm-5" style="padding-left: 0px !important;">
+                        <div class="rounded-full flex div-valores-dato">
+                            <div class="rounded-full div-valores-dollar">
+                                #
+                            </div>
+
+                            <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8 div-valores-monto">
+                                {{item.consolidado.numero_transacciones}}</div>
+
+                        </div>
+                        <div class="rounded-full flex div-valores-dato">
+                            <div class="rounded-full div-valores-dollar">
+                                $
+                            </div>
+                            <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8 div-valores-monto">{{item.consolidado.total_pagar |
+                                number}}
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+                <hr style="margin-left: 15px;margin-right: 15px;margin-top: 12px;margin-bottom: 17px; border: 2px solid; color:#F0F0F0">
+                <div class="row px-0 items-baseline" style="margin-right: 0px;">
+                    <div class="col-xl-7 col-lg-7 col-md-7 col-sm-7">
+                        <div style="margin-left: 8px;height: 32px;" class="ml-3 mt-2">
+                            <span>Ingresos</span>
+
+                        </div>
+                        <div style="margin-left: 8px;height: 32px;" class="ml-3">
+                            <span>Egresos</span>
+                        </div>
+                        <div style="margin-left: 8px;height: 32px;" class="ml-3">
+                            <span>Retirado</span>
+                        </div>
+                        <div style="margin-left: 8px;height: 32px;width: 100%;" class="ml-3">
+                            <span class="md:hidden lg:hidden xl:block">Valor Declarado</span>
+                            <span class="md:block lg:block xl:hidden">Declarado</span>
+                        </div>
+                        <div style="margin-left: 8px;height: 32px;" class="ml-3">
+                            <span>Diferencia</span>
+                        </div>
+
+                    </div>
+                    <div class="col-xl-5 col-lg-5 col-md-5 col-sm-5 " style="padding-left: 0px !important;">
+                        <div class="rounded-full flex div-valores-dato">
+                            <div class="rounded-full div-valores-dollar">
+                                $
+                            </div>
+                            <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8 div-valores-monto">{{item.consolidado.ingreso |
+                                number}}</div>
+                        </div>
+                        <div class="rounded-full flex div-valores-dato">
+                            <div class="rounded-full div-valores-dollar">
+                                $
+                            </div>
+                            <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8 div-valores-monto">{{item.consolidado.egreso|
+                                number}}</div>
+                        </div>
+                        <div class="rounded-full flex div-valores-dato">
+                            <div class="rounded-full div-valores-dollar">
+                                $
+                            </div>
+                            <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8 div-valores-monto">{{item.consolidado.total_retirado|
+                                number}}
+                            </div>
+                        </div>
+                        <div class="rounded-full flex div-valores-dato">
+                            <div class="rounded-full div-valores-dollar">
+                                $
+                            </div>
+                            <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8 div-valores-monto">{{item.consolidado.valorDeclarado|
+                                number}}
+                            </div>
+
+                        </div>
+                        <div class="rounded-full flex div-valores-dato">
+                            <div [ngSwitch]="true" class="diferencia-img">
+                                <img *ngSwitchCase= "item.consolidado.diferencia < 0" src="../../../assets/images/enojado.png" width="60px" height="60px" alt="">
+                                <img *ngSwitchCase= "item.consolidado.diferencia == 0" src="../../../assets/images/carita-felicidad.png" width="60px" height="60px" alt="">
+                                <img *ngSwitchCase= "item.consolidado.diferencia > 0" src="../../../assets/images/alegre.jpg" width="60px" height="60px" alt="">
+                            </div>
+                            <div class="col-xl-9 col-lg-8 col-md-8 col-sm-8 diferencia-number" style="margin-left: 7px">{{item.consolidado.diferencia
+                                | number}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+        <!-- Grid de Billetes -->
+        <div *ngIf="efectivo" class="w-4/5 px-3 md:w-3/5 lg:w-2/3 xl:w-3/4 2xl:w-4/5">
+            <app-tabla-billetes [arrayDenominacionesBilletes]="this.tarjetaFormaDePagoComponenteLogica!.arrayBilletes"
+                (total)="recibeValor($event)" [IDFormaPagoEfectivo]="this.IDFormaPagoEfectivo"></app-tabla-billetes>
+        </div>
+
+
+        <!-- Cuadro floating totales -->
+        <div *ngIf="totales" class="totales" style="top:{{inicialHeigth}};">
+            <div style="display: flex;margin-top:16px;margin-left: 16px;margin-bottom: 16px;">
+                <span style="color: white;margin-bottom: 8px;"><b>Consolidados de valores</b></span>
+
+            </div>
+            <div class="row">
+                <div class="col-6" style="color: white;">
+                    <div style="margin-left: 16px;height: 34px; width: 120px; margin-bottom: 2px;">
+                        <span class="text-base">POS calculado</span>
+                    </div>
+
+                    <div style="margin-left: 16px;height: 34px; margin-bottom: 2px;">
+                        <span class="text-base">Ingresos</span>
+                    </div>
+                    <div style="margin-left: 16px;height: 34px; margin-bottom: 2px;">
+                        <span class="text-base">Egresos</span>
+                    </div>
+                    <div style="margin-left: 16px;height: 34px; margin-bottom: 2px;">
+                        <span class="text-base">Retirado</span>
+                    </div>
+                    <div style="margin-left: 16px;height: 34px; width: 132px; margin-bottom: 2px;">
+                        <span class="text-base">Valor Declarado</span>
+                    </div>
+                    <div style="margin-left: 16px;height: 34px; margin-bottom: 2px;">
+                        <span class="text-base">Diferencia</span>
+                    </div>
+
+                </div>
+                <div class="col-6" style="padding-left: 10px;">
+                    <div class="row"
+                        style="background-color: white;width: 105px;margin-bottom: 8px;margin-left: 8px;border: solid;border-width: 2px;border-color: #F0F0F0;border-radius: 10px;">
+                        <div class="col6"
+                            style="text-align: center;width: 20px;background-color: #E2F7E2;border-radius: 50px;;">$
+                        </div>
+                        <div class="col-6" style="min-width: 80px; display: flex;justify-content: end;padding: 0px;">
+                            {{arrayTotales[0].total_ventas| number}}</div>
+                    </div>
+
+                    <div class="row"
+                        style="background-color: white; width: 105px;margin-bottom: 8px;margin-left: 8px;border: solid;border-width: 2px;border-color: #F0F0F0;border-radius: 10px;">
+                        <div class="col6"
+                            style="text-align: center;width: 20px;background-color: #E2F7E2;border-radius: 50px;;">$
+                        </div>
+                        <div class="col-6" style="min-width: 80px; display: flex;justify-content: end;padding: 0px;">
+                            {{arrayTotales[0].total_ingreso_caja | number}}</div>
+                    </div>
+                    <div class="row"
+                        style="background-color: white; width: 105px;margin-bottom: 8px;margin-left: 8px;border: solid;border-width: 2px;border-color: #F0F0F0;border-radius: 10px;">
+                        <div class="col6"
+                            style="text-align: center;width: 20px;background-color: #E2F7E2;border-radius: 50px;;">$
+                        </div>
+                        <div class="col-6" style="min-width: 80px; display: flex;justify-content: end;padding: 0px;">
+                            {{arrayTotales[0].total_egreso_caja | number}}</div>
+                    </div>
+                    <div class="row"
+                        style="background-color: white; width: 105px;margin-bottom: 6px;margin-left: 8px;border: solid;border-width: 2px;border-color: #F0F0F0;border-radius: 10px;">
+                        <div class="col6"
+                            style="text-align: center;width: 20px;background-color: #E2F7E2;border-radius: 50px;;">$
+                        </div>
+                        <div class="col-6" style="min-width: 80px; display: flex;justify-content: end;padding: 0px;">
+                            {{arrayTotales[0].total_retiros_formas_pago | number}}</div>
+                    </div>
+                    <div class="row"
+                        style="background-color: white; width: 105px;margin-bottom: 8px;margin-left: 8px;border: solid;border-width: 2px;border-color: #F0F0F0;border-radius: 10px;">
+                        <div class="col6"
+                            style="text-align: center;width: 20px;background-color: #E2F7E2;border-radius: 50px;;">$
+                        </div>
+                        <div class="col-6" style="min-width: 80px; display: flex;justify-content: end;padding: 0px;">
+                            {{arrayTotales[0].valorDeclarado | number}}
+                        </div>
+                    </div>
+                    
+                    <!--<div [ngSwitch]="true" class="row"
+                        style=" width: 105px;margin-bottom: 8px;margin-left: 8px;border: solid;border-width: 2px;background-color: #F0C2CB;border-color: #F0F0F0;border-radius: 10px;">
+                        <div class="col6"
+                            style="text-align: center;width: 20px;display: flex;justify-content: center;align-items: center;">
+                            <img *ngSwitchCase= "arrayTotales[0].total_diferencia_formas_pago < 0" src="../../../assets/images/enojado.png" alt="">
+                            <img *ngSwitchCase= "arrayTotales[0].total_diferencia_formas_pago == 0" src="../../../assets/images/carita-felicidad.png" alt="">
+                            <img *ngSwitchCase= "arrayTotales[0].total_diferencia_formas_pago > 0" src="../../../assets/images/alegre.jpg" alt="">
+                        </div>
+                        <div class="col-6" style="min-width: 80px; display: flex;justify-content: end;padding: 0px;">
+                            ${{arrayTotales[0].total_diferencia_formas_pago | number}}
+                        </div>
+                    </div>-->
+
+                    <div *ngIf="arrayTotales[0].total_diferencia_formas_pago < 0" class="row"
+                        style=" width: 105px;margin-bottom: 8px;margin-left: 8px;border: solid;border-width: 2px;background-color: #F0C2CB;border-color: #F0F0F0;border-radius: 10px;">
+                        <div class="col6"
+                            style="text-align: center;width: 20px;display: flex;justify-content: center;align-items: center;">
+                            <img src="../../../assets/images/enojado.png" alt="">
+                        </div>
+                        <div class="col-6" style="min-width: 80px; display: flex;justify-content: end;padding: 0px;">
+                            $ {{arrayTotales[0].total_diferencia_formas_pago | number}}
+                        </div>
+                    </div>
+                    <div *ngIf="arrayTotales[0].total_diferencia_formas_pago > 0" class="row"
+                        style=" width: 105px;margin-bottom: 8px;margin-left: 8px;border: solid;border-width: 2px;background-color: #ffffff;border-color: #F0F0F0;border-radius: 10px;">
+                        <div class="col6"
+                            style="text-align: center;width: 20px;display: flex;justify-content: center;align-items: center;">
+                            <img src="../../../assets/images/alegre.jpg" alt="">
+                        </div>
+                        <div class="col-6" style="min-width: 80px; display: flex;justify-content: end;padding: 0px;">
+                            $ {{arrayTotales[0].total_diferencia_formas_pago | number}}
+                        </div>
+                    </div>
+                    <div *ngIf="arrayTotales[0].total_diferencia_formas_pago == 0" class="row"
+                        style=" width: 105px;margin-bottom: 8px;margin-left: 8px;border: solid;border-width: 2px;background-color: #ffffff;border-color: #F0F0F0;border-radius: 10px;">
+                        <div class="col6"
+                            style="text-align: center;width: 20px;display: flex;justify-content: center;align-items: center;">
+                            <img src="../../../assets/images/carita-felicidad.png" alt="">
+                        </div>
+                        <div class="col-6" style="min-width: 80px; display: flex;justify-content: end;padding: 0px;">
+                            $ {{arrayTotales[0].total_diferencia_formas_pago | number}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Div para Monto Asignado-->
+        <div *ngIf="totales" class="btn-monto-asignado">
+            <button type="button"
+                class="focus:outline-none text-white bg-[#FF9119] hover:bg-[#FF9119]/80 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-md px-4 py-2.5 me-2 dark:focus:ring-yellow-900"
+                style="width: 278px !important;">Fondo Asignado: ${{this.userCajero.magnitud}}</button>
+        </div>
+
+    </div>
+    <div class="contenedorLoading" *ngIf="cargando">
+        <div class="loader"></div>
+</div>
+
+<app-teclado [valueKeyboard]="this.filtro" (onValueTeclado)="this.getValorTeclado($event)"></app-teclado>

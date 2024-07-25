@@ -1,24 +1,9 @@
-<app-header title="Desasignar Cajero"></app-header>
-<br>
-<div class="flex justify-center">
-    <app-table></app-table>
-</div> <br><br>
-<div class="flex justify-center">
-    <div class="grid grid-cols-2 md:grid-cols-1 gap-4">
-    <button type="button" style="background-color:  #5CB85C !important;" class="add-pay px-8 py-4 text-base font-medium text-white bg-green-700 hover:bg-green-900 focus:ring-4 focus:outline-none focus:ring-green-300 rounded-lg text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Agregar forma de pago</button>
-     </div>
-  <div class="grid grid-cols-2 md:grid-cols-2 gap-4">
-    <button type="button" style="width: 155px;" class="buttons px-6 py-5 text-base font-medium text-white bg-blue-600 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center dark:bg-blue-600 dark:hover:bg-blue-600 dark:focus:ring-blue-800">Ok</button>
-    <button type="button" style="width: 155px;" class="buttons px-6 py-5 text-base font-medium text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 rounded-lg text-center dark:bg-red-600 dark:hover:bg-red-600 dark:focus:ring-red-800">Cancelar</button>
-  </div>
-
+<link 
+rel="stylesheet" 
+href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap-grid.min.css" />
+<app-header title="Desmontado de Cajeros"></app-header>
+    <div class="p-10">
+<div >
+    <app-tarjeta-forma-pago [proceso]="proceso"></app-tarjeta-forma-pago>
 </div>
-<!-- 
-<div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
-  <span class="font-medium">Error!</span> A ocurrido un error en el proceso, vuelva a intentar.
-</div> -->
-
-<!-- 
-<div inline-datepicker data-date="02/25/2022"></div>
-
-<br><br><br><br><br><br> -->
+</div>
