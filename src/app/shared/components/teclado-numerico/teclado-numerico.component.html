@@ -6,9 +6,7 @@
         <div class="contenedor-teclado">
             <div class="row" style="padding: 15px;">
                 <div class="col-6" style="cursor: pointer;display: flex;justify-content: flex-start;">
-        
                     <img src="../../../assets/images/{{this.imagenMonedaBillete}}" alt="">
-        
                 </div>
                 <div class="col-6" (click)="cerrarTeclado()" style="cursor: pointer;display: flex;justify-content: flex-end;">
                     <svg width="35" height="35" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -19,14 +17,11 @@
                 </div>
             </div>
         
-        
             <div style="display: flex;justify-content: center;">
                 <span class="font-['Poppins-SemiBold'] textoDenominacion">Denominación: {{denominacion}} </span>
-        
             </div>
             <div style="display: flex;justify-content: center;">
                 Ingresar Cantidad
-        
             </div>
         
             <div class="input">
@@ -34,23 +29,12 @@
             </div>
         
             <div style="display: flex;justify-content: center;">
-        
                 <div class="btn-group-vertical button-custom-width py-2" role="group" aria-label="Basic example" style="border-radius: 10px;">
-                    <div class="btn-group" *ngFor="let item of this.pad_numerico">
-                        <button *ngFor="let fila of item" type="button"
-                            class="btn py-3 num-custom-width"
-                            (click)="agregar(fila)">{{fila.lower_key}}</button>
+                    <div class="btn-group" *ngFor="let fila of this.pad_numerico">
+                        <button *ngFor="let tecla of fila" type="button" style="{{tecla.class}}"
+                            class="btn py-3 num-custom-width" 
+                            (click)="agregar(tecla)">{{tecla.lower_key}}</button>
                     </div>
-        
-                    <!--<div class="btn-group ">
-                        <button type="button" class="btn btn-outline-secondary  py-3 num-custom-width"
-                            style="border-bottom-left-radius:10px ;" (click)="quitar()">&lt;</button>
-                        <button type="button" class="btn btn-outline-secondary py-3 num-custom-width"
-                            (click)="agregar('0')">0&nbsp;</button>
-                        <button type="button" class="btn btn-outline-secondary py-3 num-custom-width"
-                            style="border-bottom-right-radius:10px ;" (click)="agregar('.')">&nbsp;.&nbsp;</button>
-                    </div>-->
-
                     <div class="btn-group py-3">
                         <button type="button" class="btn btn-primary py-3 ok" [disabled]="this.inputValue == '' " style="color: white;">
                             <svg width="22" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -90,10 +74,8 @@
                                 </defs>
                             </svg>
                         </button>
-        
                     </div>
                 </div>
-        
             </div>
         </div>
     </div>

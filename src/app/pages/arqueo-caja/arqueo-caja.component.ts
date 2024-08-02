@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Procesos } from 'src/app/core/interfaces/shared';
 
 @Component({
   selector: 'app-arqueo-caja',
@@ -6,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./arqueo-caja.component.scss']
 })
 export class ArqueoCajaComponent {
-  proceso: string = 'ARQUEO';
+  proceso: string = Procesos.arqueo;
 }

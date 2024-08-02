@@ -22,24 +22,24 @@ export class TecladoNumericoComponent {
 
   pad_numerico: Array<Array<Tecla>> = [
     [
-      { lower_key:'1', upper_key: '1', spec_key: '1', width: 'normal', command: 'transparent' },
-      { lower_key:'2', upper_key: '2', spec_key: '2', width: 'normal', command: 'transparent' },
-      { lower_key:'3', upper_key: '3', spec_key: '3', width: 'normal', command: 'transparent' }
+      { lower_key:'1', upper_key: '1', spec_key: '1', command: 'transparent', class: 'border-top-left-radius:10px' },
+      { lower_key:'2', upper_key: '2', spec_key: '2', command: 'transparent', class: '' },
+      { lower_key:'3', upper_key: '3', spec_key: '3', command: 'transparent', class: 'border-top-right-radius:10px'}
     ],
     [
-      { lower_key:'4', upper_key: '4', spec_key: '4', width: 'normal', command: 'transparent' },
-      { lower_key:'5', upper_key: '5', spec_key: '5', width: 'normal', command: 'transparent' },
-      { lower_key:'6', upper_key: '6', spec_key: '6', width: 'normal', command: 'transparent' }
+      { lower_key:'4', upper_key: '4', spec_key: '4', command: 'transparent', class: '' },
+      { lower_key:'5', upper_key: '5', spec_key: '5', command: 'transparent', class: '' },
+      { lower_key:'6', upper_key: '6', spec_key: '6', command: 'transparent', class: '' }
     ],
     [
-      { lower_key:'7', upper_key: '7', spec_key: '7', width: 'normal', command: 'transparent' },
-      { lower_key:'8', upper_key: '8', spec_key: '8', width: 'normal', command: 'transparent' },
-      { lower_key:'9', upper_key: '9', spec_key: '9', width: 'normal', command: 'transparent' }
+      { lower_key:'7', upper_key: '7', spec_key: '7', command: 'transparent', class: '' },
+      { lower_key:'8', upper_key: '8', spec_key: '8', command: 'transparent', class: '' },
+      { lower_key:'9', upper_key: '9', spec_key: '9', command: 'transparent', class: '' }
     ],
     [
-      { lower_key:'<', upper_key: '<', spec_key: '<', width: 'normal', command: 'borrar' },
-      { lower_key:'0', upper_key: '0', spec_key: '0', width: 'normal', command: 'transparent' },
-      { lower_key:'.', upper_key: '.', spec_key: '.', width: 'normal', command: 'transparent' }
+      { lower_key:'<', upper_key: '<', spec_key: '<', command: 'borrar', class: 'border-bottom-left-radius:10px' },
+      { lower_key:'0', upper_key: '0', spec_key: '0', command: 'transparent', class: '' },
+      { lower_key:'.', upper_key: '.', spec_key: '.', command: 'transparent', class: 'border-bottom-right-radius:10px' }
     ]
   ]
 
@@ -49,7 +49,7 @@ export class TecladoNumericoComponent {
     if (changes['denominacionBilletes']) {
         this.inputValue = "";
     }
-    this.valor.emit([this.inputValue, this.denominacion]);
+    this.valor.emit([this.inputValue, this.denominacion, false]);
   }
 
   agregar(tecla: Tecla) {
@@ -57,14 +57,15 @@ export class TecladoNumericoComponent {
       this.quitar()
     }else{
       this.inputValue += tecla.lower_key;
-      this.valor.emit([this.inputValue, this.denominacion]);
+      this.valor.emit([this.inputValue, this.denominacion, false]);
     }
     
   }
 
   quitar() {
     this.inputValue = this.inputValue.slice(0, -1);
-    this.valor.emit([this.inputValue, this.denominacion]);
+    let isUltimo = (this.inputValue == '') ? true : false;
+    this.valor.emit([this.inputValue, this.denominacion, isUltimo]);
   }
 
   direccion(valor: string) {
@@ -81,7 +82,7 @@ export class TecladoNumericoComponent {
 
   limpiarInput(){
     this.inputValue = ''
-    this.valor.emit([this.inputValue, this.denominacion]);
+    this.valor.emit([this.inputValue, this.denominacion, false]);
   }
 
 }

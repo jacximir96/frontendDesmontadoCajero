@@ -18,9 +18,10 @@ import {
 } from '../interfaces/shared';
 
 import { RequestConsolidarCompromisoBillete } from '../interfaces/arqueo';
+import bigDecimal from 'js-big-decimal';
 
 
-export class TarjetaFormaPagoComponenteLogica {
+export class TarjetaFormaPagoComponenteController {
     
     cajonAperturado: boolean;
     transaccionesDetalleAll: TransaccionEstacion[];
@@ -30,6 +31,7 @@ export class TarjetaFormaPagoComponenteLogica {
     arrayBilletes!: DenominacionesBilletes[];
     billetesConfirmados: DenominacionBilleteConfirmado[] = [];
     dineroComprometidoActual: number = 0;
+    infoTotales!: TotalVentaEstacion;
 
 
 
@@ -47,7 +49,9 @@ export class TarjetaFormaPagoComponenteLogica {
 
     /**Metodos de consumo de los endpoints */
     public async obtenerTotales() {
-      throw new Error('Method not implemented.');
+      let totales = await this.billetesServicio.obtenerTotales(environment.ip_estacion);
+      this.infoTotales = totales.resolucion[0];
+      this.infoTotales.valorDeclarado = 0.00;
     }
 
     public async obtenerDenominacionesBilletes(){
@@ -59,19 +63,16 @@ export class TarjetaFormaPagoComponenteLogica {
           break;
         case Procesos.retiros:
           billetes = await this.billetesServicio.obtenerDenominaciones();
-          //billetes = await this.billetesServicio.obtenerDenominaciones();
           break;
         default:
           billetes = await this.billetesServicio.obtenerDenominaciones();
           break;
       }
-      //let billetes = await this.billetesServicio.obtenerDenominaciones(environment.ip_estacion)
       billetes.resolucion.forEach(billeteDenominacion => {
           billeteDenominacion.valorDeclarado = '0.00'
       })
       HelperClass.ordenarArray(billetes.resolucion, 'Billete_Denominacion_btd_Tipo');
       this.arrayBilletes = billetes.resolucion;
-      //return billetes;
     }
 
 
@@ -117,9 +118,9 @@ export class TarjetaFormaPagoComponenteLogica {
         grupoActual.consolidado.diferencia = 0;
 
         data.resolucion.forEach(transaccion => {
-          grupoActual.nombre = 'TARJETAS DATAFAST';
-          grupoActual.consolidado.Formapago_fmp_descripcion = 'TARJETAS DATAFAST';
-          grupoActual.consolidado.Formapago_IDFormapago = 'TARJETAS DATAFAST';
+          grupoActual.nombre = environment.forma_de_pago_datafast;
+          grupoActual.consolidado.Formapago_fmp_descripcion = environment.forma_de_pago_datafast;
+          grupoActual.consolidado.Formapago_IDFormapago = environment.forma_de_pago_datafast;
           grupoActual.consolidado.imagen = HelperClass.generaImagen(grupoActual.nombre);
           total += transaccion.total_pagar;
           grupoActual.consolidado.numero_transacciones += transaccion.numero_transacciones;
@@ -186,7 +187,6 @@ export class TarjetaFormaPagoComponenteLogica {
             }
         }
       }
-      //this.addConsolidados();
       if(encontroOtras){
         this.grupoFormasDePago.push(grupoOtras!);
       }
@@ -437,6 +437,55 @@ export class TarjetaFormaPagoComponenteLogica {
       this.billetesConfirmados = [];
       this.obtenerDenominacionesBilletes()
       return this.dineroComprometidoActual;
+    }
+
+    confirmarMonto(detalleFormaPago: TransaccionEstacion, reverse: boolean) {
+      let valorDeclarado:bigDecimal = new bigDecimal(0); 
+      let diferenciaActual:bigDecimal = new bigDecimal(0);
+      let formaDePagoReturn:TransaccionEstacion;
+
+      this.grupoFormasDePago.forEach(formasDePago => {
+        formasDePago.transacciones.forEach(formaDePago => {
+          if(formaDePago.Formapago_fmp_descripcion == detalleFormaPago.Formapago_fmp_descripcion && 
+            formaDePago.Formapago_padre == detalleFormaPago.Formapago_padre
+          ){
+            //El detalle
+            formaDePago.diferencia = (reverse) ? (formaDePago.total_retirado - formaDePago.total_pagar) : 0;
+            formaDePago.monto_validado = (formaDePago.diferencia >= 0) ? true : false;
+
+            formaDePago.valorDeclarado = (reverse) 
+            ?  formaDePago.valorDeclarado! - (detalleFormaPago.total_pagar - detalleFormaPago.total_retirado)
+            : formaDePago.valorDeclarado! + (detalleFormaPago.total_pagar - detalleFormaPago.total_retirado)
+            //La forma principal
+            diferenciaActual.setValue(formasDePago.consolidado.diferencia);
+            valorDeclarado.setValue(detalleFormaPago.total_pagar! - detalleFormaPago.total_retirado);
+            console.log(diferenciaActual);
+            console.log(valorDeclarado);
+            formasDePago.consolidado.diferencia = (reverse) 
+              ? parseFloat(diferenciaActual.subtract(valorDeclarado).round(2).getValue())
+              : parseFloat(diferenciaActual.add(valorDeclarado).round(2).getValue())
+
+              console.log(detalleFormaPago.total_pagar);
+
+            formasDePago.consolidado.valorDeclarado = (reverse) 
+            ? formasDePago.consolidado.valorDeclarado! - (detalleFormaPago.total_pagar - detalleFormaPago.total_retirado) 
+            : formasDePago.consolidado.valorDeclarado! + (detalleFormaPago.total_pagar - detalleFormaPago.total_retirado);
+
+            formasDePago.consolidado.monto_validado = (formasDePago.consolidado.diferencia >= 0) ? true : false;
+            //Totales
+            this.infoTotales.total_diferencia_formas_pago = (reverse) 
+            ? this.infoTotales.total_diferencia_formas_pago - detalleFormaPago.total_pagar
+            : this.infoTotales.total_diferencia_formas_pago + detalleFormaPago.total_pagar;
+
+            this.infoTotales.valorDeclarado = (reverse) 
+            ? this.infoTotales.valorDeclarado! - detalleFormaPago.total_pagar
+            : this.infoTotales.valorDeclarado! + detalleFormaPago.total_pagar;
+
+            formaDePagoReturn = formaDePago;            
+          }
+        })
+      })
+      return formaDePagoReturn!;
     }
 
 }

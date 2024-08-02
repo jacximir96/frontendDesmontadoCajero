@@ -6,6 +6,7 @@ export const  environment = {
  descripcion_dinero: 'EFECTIVO',
  local_id: 'ES-ec',
  forma_de_pago_primera: 'EFECTIVO',
- forma_de_pago_ultima: 'OTRAS'
+ forma_de_pago_ultima: 'OTRAS',
+ forma_de_pago_datafast: 'TARJETAS DATAFAST'
 
 }

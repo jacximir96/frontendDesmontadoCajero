@@ -1,9 +1,3 @@
-// To parse this data:
-//
-//   import { Convert, ConsolidarTransaccionesAgregadoresEstacion } from "./file";
-//
-//   const consolidarTransaccionesAgregadoresEstacion = Convert.toConsolidarTransaccionesAgregadoresEstacion(json);
-
 export interface ConsolidarTransaccionesAgregadoresEstacion {
     error:      boolean;
     resolucion: TransaccionesAgregadoresEstacion[];

@@ -33,22 +33,37 @@ export class TablaBilletesComponent implements OnInit{
   arrayIds: any[] = [];
   placeholder: string = "Presione aquí";
   aperturoCajon: boolean = false;
+  inputIndexAnterior!: HTMLInputElement;
 
   denominacionBilleteActual!: DenominacionesBilletes;
 
   @ViewChild('tablaBilletes') tablaBilletes: ElementRef | undefined;
 
-  confirmarValor(){
+  confirmarValor(borrar: boolean = false){
     this.denominacionBilleteConfirmado.valorImputRecibido = this.inputRecibido;
-    this.total.emit([this.denominacionBilleteConfirmado]);
+    if(this.denominacionBilleteConfirmado.valorImputRecibido != '')
+      this.total.emit([this.denominacionBilleteConfirmado]);
+    /*else if(borrar){
+
+    }*/
+      
+  }
+
+  validarCurrenInputVacio(){
+    const rowsInputBilletes = this.getRowsInputBillete();
+    for (let i = 0; i < rowsInputBilletes.length; i++) {
+      if(rowsInputBilletes[i].value = ''){
+        rowsInputBilletes[i].placeholder = this.placeholder
+      }
+    }
   }
 
   recibirMensaje(valor: any) {
     this.inputRecibido = valor[0];
-    this.cambiarValor(valor[1]);
-    this.confirmarValor();
+    this.cambiarValor(valor[1], valor[2]);
+    this.confirmarValor(valor[2]);
   }
-  cambiarValor(id: string) {
+  cambiarValor(id: string, isUltimo: boolean) {
     const inputElement = document.getElementById(`${id}-${this.tipoDenominacion.trim()}`) as HTMLInputElement;
     if (inputElement) {
       inputElement.value = this.inputRecibido;
@@ -176,6 +191,7 @@ export class TablaBilletesComponent implements OnInit{
         }
       }
     }
+    this.inputIndexAnterior = rowsInputs[focusCurrentIndex];
     return focusCurrentIndex;
   }
 

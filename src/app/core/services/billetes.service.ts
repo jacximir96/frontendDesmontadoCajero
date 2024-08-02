@@ -3,8 +3,6 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment.local';
 import { routes } from '../config/routes.enum';
 import { CalcularTotalVentasEstacion } from '../../interfaces/arqueo-caja/arqueo-caja.interface';
-import { ConsolidarTransaccionesAgregadoresEstacion } from '../../interfaces/transacciones-agregadores.interface';
-import { ConsolidarTransaccionesEstacion } from '../../interfaces/transacciones-estacion.interface';
 import { DenominacionBilleteResponse } from '../interfaces/shared/response/denominacion-billete-response.interface';
 import { AperturaCajaResponse } from '../../interfaces/arqueo-caja/apertura-caja-response.interface';
 import { ResponseDataFast } from '../../interfaces/transacciones-datafast.interface';
@@ -12,6 +10,7 @@ import { ResponseDataFast } from '../../interfaces/transacciones-datafast.interf
 @Injectable({
   providedIn: 'root'
 })
+
 export class BilletesService {
 
  constructor ( private http:HttpClient) { }
@@ -26,6 +25,7 @@ export class BilletesService {
         });
     });
   }
+
   obtenerTransaccionesEstacion(ip:string):Promise<any>{
     return new Promise<any>((resolve, reject) => {
       this.http.post<any>(environment.apiural + routes.POST_ADE_CONSOLIDAR_TRANSACCIONES_ESTACION, {"ipEstacion": environment.ip_estacion})
@@ -35,6 +35,7 @@ export class BilletesService {
         });
     });
   }
+
   obtenerTransaccionesDataFast(ip:string):Promise<ResponseDataFast>{
     return new Promise<ResponseDataFast>((resolve, reject) => {
       this.http.post<ResponseDataFast>(environment.apiural + routes.POST_ADE_CONSOLIDAR_TRANSACCIONES_DATAFAST,{"ipEstacion":ip})
@@ -44,15 +45,7 @@ export class BilletesService {
         });
     });
   }
-  /*obtenerTransaccionesEstacion(ip:string):Promise<ConsolidarTransaccionesEstacion>{
-    return new Promise<ConsolidarTransaccionesEstacion>((resolve, reject) => {
-      this.http.get<ConsolidarTransaccionesEstacion>(environment.apilocal + routes.POST_ADE_CONSOLIDAR_TRANSACCIONES_ESTACION)
-        .subscribe({
-          next: (response) => resolve(response),
-          error: (error) => reject(error)
-        });
-    });
-  }*/
+
   obtenerTotales(ip:string):Promise<CalcularTotalVentasEstacion>{
     return new Promise<CalcularTotalVentasEstacion>((resolve, reject) => {
       this.http.post<CalcularTotalVentasEstacion>(environment.apiural + routes.POST_CALCULAR_VENTAS_ESTACION, {'ipEstacion': ip})
